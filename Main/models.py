@@ -45,7 +45,7 @@ class Boots(Product):
 
 
 class BaseDoor(models.Model):
-    collection = models.ForeignKey(Collections, on_delete=models.CASCADE)
+    collection = models.ForeignKey(Collections, on_delete=models.CASCADE, index=True)
     door_type = models.CharField(max_length=127)
     door_image = models.ImageField(upload_to='Door/', verbose_name='Изображение')
     shape = models.CharField(max_length=127)
@@ -96,4 +96,3 @@ class CartItem(models.Model):
     classic_baguette = models.ForeignKey(ClassicBaguette, on_delete=models.CASCADE, null=True, blank=True)
     griglia_door = models.ForeignKey(GrigliaDoor, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
-
