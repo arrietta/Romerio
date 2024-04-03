@@ -26,8 +26,8 @@
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
       <object connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" object-ref="schemas/main/tables/auth_group_permissions" />
-      <object connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" object-ref="schemas/main/tables/Main_cart" />
       <object connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" object-ref="schemas/main/tables/django_migrations" />
+      <object connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" object-ref="schemas/main/tables/Main_cart" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
