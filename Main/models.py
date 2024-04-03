@@ -106,3 +106,4 @@ class CartItem(models.Model):
     classic_baguette = models.ForeignKey(ClassicBaguette, on_delete=models.CASCADE, null=True, blank=True)
     griglia_door = models.ForeignKey(GrigliaDoor, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
+
