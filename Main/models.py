@@ -50,7 +50,7 @@ class Boots(Product):
 
 
 class BaseDoor(models.Model):
-    collection = models.ForeignKey(Collections, on_delete=models.CASCADE, index=True)
+    collection = models.ForeignKey(Collections, on_delete=models.CASCADE)
     door_type = models.CharField(max_length=127)
     door_image = models.ImageField(upload_to='Door/', verbose_name='Изображение')
     icon = models.ImageField(upload_to='icon/Door/', verbose_name='Изображение')
