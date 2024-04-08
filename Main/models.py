@@ -26,34 +26,34 @@ class Product(models.Model):
 
 class Portal(Product):
     image = models.ImageField(upload_to='Portal/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Portal/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Portal/', verbose_name='Изображение', default="none.png")
 
 
 class Carnice(Product):
     image = models.ImageField(upload_to='Carnice/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Carnice/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Carnice/', verbose_name='Изображение', default="none.png")
 
 
 class Podium(Product):
     image = models.ImageField(upload_to='Podium/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Podium/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Podium/', verbose_name='Изображение', default="none.png")
 
 
 class Socket(Product):
     image = models.ImageField(upload_to='Socket/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Socket/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Socket/', verbose_name='Изображение', default="none.png")
 
 
 class Boots(Product):
     image = models.ImageField(upload_to='Boots/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Boots/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Boots/', verbose_name='Изображение', default="none.png")
 
 
 class BaseDoor(models.Model):
     collection = models.ForeignKey(Collections, on_delete=models.CASCADE)
     door_type = models.CharField(max_length=127)
     door_image = models.ImageField(upload_to='Door/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Door/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Door/', verbose_name='Изображение', default="none.png")
     shape = models.CharField(max_length=127)
     shape_price = models.FloatField()
     portal = models.ForeignKey(Portal, on_delete=models.CASCADE)
@@ -81,20 +81,20 @@ class Doors(BaseDoor):
 
 class ClassicDoor(BaseDoor):
     Bevel = models.CharField(max_length=127)
-    icon = models.ImageField(upload_to='icon/Bevel/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Bevel/', verbose_name='Изображение', default="none.png")
 
 
 class ClassicBaguette(BaseDoor):
     Molding = models.CharField(max_length=127)
     Molding_image = models.ImageField(upload_to='Molding/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Molding/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Molding/', verbose_name='Изображение', default="none.png")
 
 
 class GrigliaDoor(BaseDoor):
     Grid = models.CharField(max_length=127)
     Grid_image = models.ImageField(upload_to='Grid/', verbose_name='Изображение')
-    icon = models.ImageField(upload_to='icon/Grid/', verbose_name='Изображение')
-    Bevel_icon = models.ImageField(upload_to='icon/Bevel/', verbose_name='Изображение')
+    icon = models.ImageField(upload_to='icon/Grid/', verbose_name='Изображение', default="none.png")
+    Bevel_icon = models.ImageField(upload_to='icon/Bevel/', verbose_name='Изображение' , default="none.png")
     Bevel = models.CharField(max_length=127)
 
 
@@ -109,4 +109,3 @@ class CartItem(models.Model):
     classic_baguette = models.ForeignKey(ClassicBaguette, on_delete=models.CASCADE, null=True, blank=True)
     griglia_door = models.ForeignKey(GrigliaDoor, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=1)
-
