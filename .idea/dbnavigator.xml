@@ -16,14 +16,20 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
+<<<<<<< HEAD
     <connection id="150a827a-28af-4919-a2ae-30ac9a2ee948">
       <console name="Connection 1" type="STANDARD" schema="" session="Main" />
+=======
+    <connection id="6859d3d1-1b52-437a-bce5-73b58f8e5e86">
+      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[select * from main."Main_collections"]]></console>
+>>>>>>> 0da0b6b2f05075b75b917c4af1a0cef6aa65ceaf
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
+<<<<<<< HEAD
     <open-files>
       <object connection-id="150a827a-28af-4919-a2ae-30ac9a2ee948" object-ref="schemas/main/tables/Main_doors" />
     </open-files>
@@ -33,6 +39,27 @@
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="150a827a-28af-4919-a2ae-30ac9a2ee948" dataset="main.Main_doors" active-filter-id="EMPTY_FILTER" />
+=======
+    <open-files />
+  </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.auth_user" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_boots" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.django_migrations" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_podium" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.auth_group" active-filter-id="" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_carnice" active-filter-id="EMPTY_FILTER">
+      <filter id="2a1c6764-0415-421d-9174-24c31e3a9047" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="name" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.auth_group_permissions" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_grigliadoor" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_cart" active-filter-id="EMPTY_FILTER" />
+>>>>>>> 0da0b6b2f05075b75b917c4af1a0cef6aa65ceaf
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -51,9 +78,15 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
+<<<<<<< HEAD
       <connection id="150a827a-28af-4919-a2ae-30ac9a2ee948" active="true" signed="true">
         <database>
           <name value="Connection 1" />
+=======
+      <connection id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" active="true" signed="true">
+        <database>
+          <name value="Connection" />
+>>>>>>> 0da0b6b2f05075b75b917c4af1a0cef6aa65ceaf
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -68,7 +101,11 @@
           <tns-folder value="" />
           <tns-profile value="" />
           <files>
+<<<<<<< HEAD
             <file path="C:\Users\mukan\Desktop\BACKEND\Romerio-main\Romerio-main\db.sqlite3" schema="main" />
+=======
+            <file path="C:\Users\Arfeil\Desktop\Romerio\db.sqlite3" schema="main" />
+>>>>>>> 0da0b6b2f05075b75b917c4af1a0cef6aa65ceaf
           </files>
           <type value="NONE" />
           <user value="" />
