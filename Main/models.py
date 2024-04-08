@@ -65,6 +65,9 @@ class BaseDoor(models.Model):
 
     class Meta:
         abstract = True
+        indexes = [
+            models.Index(fields=['collection'])
+        ]
 
     def save(self, *args, **kwargs):
         self.door_price = (self.portal.price + self.carnice.price + self.podium.price +
