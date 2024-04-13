@@ -25,18 +25,23 @@ class Shape(models.Model):
     Grid_icon = models.ImageField(upload_to='icon/Grid/', verbose_name='Grid Icon', default="none.png")
     Bevel_icon = models.ImageField(upload_to='icon/Bevel/', verbose_name='Bevel icon', default="none.png")
 
-
     class Meta:
         indexes = [
             models.Index(fields=['collections'])
         ]
 
 
-class Product(models.Model):
-    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
+class Decore(models.Model):
     name = models.CharField(max_length=127, primary_key=True)
     price = models.FloatField()
+
+    class Meta:
+        abstract = True
+
+
+class Product(Decore):
+    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
+    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
 
     class Meta:
         abstract = True
@@ -46,11 +51,15 @@ class Product(models.Model):
 
 
 class Portal(Product):
+    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
+    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='Portal/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Portal/', verbose_name='icon')
 
 
 class Molding(Product):
+    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
+    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='Molding/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Molding/', verbose_name='icon')
 
