@@ -16,7 +16,7 @@ class Collections(models.Model):
 class Shape(models.Model):
     collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
     door_type = models.CharField(max_length=127)
-    name = models.CharField(max_length=255, primary_key=True)
+    name = models.CharField(max_length=255)
     price = models.FloatField()
     bevel = models.CharField(max_length=127, null=True, blank=True)
     image = models.ImageField(upload_to='Shape/', verbose_name='Photo')
