@@ -17,13 +17,13 @@ class Shape(models.Model):
     collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
     door_type = models.CharField(max_length=127)
     name = models.CharField(max_length=127, primary_key=True)
-
+    door_name = models.CharField(max_length=127)
     price = models.FloatField()
     image = models.ImageField(upload_to='Shape/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Shape/', verbose_name='icon')
-    Grid_image = models.ImageField(upload_to='Grid/', verbose_name='Grid Photo', default="none.png")
-    Grid_icon = models.ImageField(upload_to='icon/Grid/', verbose_name='Grid Icon', default="none.png")
-    Bevel_icon = models.ImageField(upload_to='icon/Bevel/', verbose_name='Bevel icon', default="none.png")
+    Grid_image = models.ImageField(upload_to='Grid/', verbose_name='Grid Photo', null=True, blank=True)
+    Grid_icon = models.ImageField(upload_to='icon/Grid/', verbose_name='Grid Icon', null=True, blank=True)
+    Bevel_icon = models.ImageField(upload_to='icon/Bevel/', verbose_name='Bevel icon', null=True, blank=True)
 
     class Meta:
         indexes = [
