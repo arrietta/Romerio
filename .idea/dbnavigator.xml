@@ -24,7 +24,10 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" object-ref="schemas/main/tables/Main_classicbaguette" />
+      <object connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" object-ref="schemas/main/tables/Main_doors" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" />
@@ -34,6 +37,7 @@
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_boots" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.django_migrations" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_podium" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_doors" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.auth_group" active-filter-id="" />
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_carnice" active-filter-id="EMPTY_FILTER">
       <filter id="2a1c6764-0415-421d-9174-24c31e3a9047" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
@@ -41,6 +45,7 @@
       </filter>
     </filter-actions>
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.auth_group_permissions" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_classicbaguette" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_grigliadoor" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="6859d3d1-1b52-437a-bce5-73b58f8e5e86" dataset="main.Main_cart" active-filter-id="EMPTY_FILTER" />
   </component>
