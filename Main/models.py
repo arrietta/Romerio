@@ -5,7 +5,6 @@ from django.db import models
 
 class Collections(models.Model):
     name = models.CharField(max_length=127, primary_key=True)
-    type = models.CharField(max_length=127)
 
     class Meta:
         indexes = [
@@ -39,47 +38,38 @@ class Decore(models.Model):
         abstract = True
 
 
-class Product(Decore):
+class Portal(Decore):
+    image = models.ImageField(upload_to='Portal/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Portal/', verbose_name='icon')
+
+
+class Molding(models.Model):
     collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='Molding/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Molding/', verbose_name='icon')
 
     class Meta:
-        abstract = True
         indexes = [
             models.Index(fields=['collections'])
         ]
 
 
-class Portal(Product):
-    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='Portal/', verbose_name='Photo')
-    icon = models.ImageField(upload_to='icon/Portal/', verbose_name='icon')
-
-
-class Molding(Product):
-    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='Molding/', verbose_name='Photo')
-    icon = models.ImageField(upload_to='icon/Molding/', verbose_name='icon')
-
-
-class Carnice(Product):
+class Carnice(Decore):
     image = models.ImageField(upload_to='Carnice/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Carnice/', verbose_name='icon')
 
 
-class Podium(Product):
+class Podium(Decore):
     image = models.ImageField(upload_to='Podium/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Podium/', verbose_name='icon')
 
 
-class Socket(Product):
+class Socket(Decore):
     image = models.ImageField(upload_to='Socket/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Socket/', verbose_name='icon')
 
 
-class Boots(Product):
+class Boots(Decore):
     image = models.ImageField(upload_to='Boots/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Boots/', verbose_name='icon')
 
