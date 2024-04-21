@@ -12,30 +12,53 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <link rel="stylesheet" href="style.css">
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/Constructor/style.css' %}">
 </head>
 <body style="background-color: black;">
-    
-        
-            
-        
+
+
+
+
         <main class="d-md-flex">
+            {% csrf_token %}
             <section  id="door">
                 <div id="door_top" class="d-flex justify-content-between px-4 py-3">
                     <h5 class="font-Playfair">Romerio</h5>
-                    <img src="main_logo.png" height="40px" alt="">
+                    <img src="{% static 'image/main_logo.png'%}" height="40px" alt="">
                 </div>
+                
+                
+                <img src="/media/Shape/CLASSIC_AFINA-1.png" alt="" id="door_image">
+                
+
+                <img src="/media/Portal/PORTALCURVE01.png" alt="" id="portal_image">
+                <img src="" alt="" id="molding_image">
+                <img src="" alt="" id="boots_image">
+                <img src="" alt="" id="carnice_image">
+                <img src="" alt="" id="podium_image">
+                <img src="" alt="" id="socket_image">
+
+                <span id="door_mask" class="mask"></span>
+                <span id="portal_mask" class="mask"></span>
+                <div id="molding_mask" class="mask"></div>
+                <!-- <div id="boots_mask" class="mask"></div> -->
+                <div id="podium_mask" class="mask"></div>
+                <div id="carnice_mask" class="mask"></div>
+                <!-- <div id="socket_mask" class="mask"></div> -->
                 <div id="door_bottom" class="p-4">
-                    <h3 class="font-Playfair">Classic</h3>
-                    <div class="fs-5 fw-light" id="price">25000 рублей</div>
+                    <h3 class="font-Playfair" id="shape_name">Classic</h3>
+                    <div class="fs-5 fw-light" ><span id="price"></span> рублей</div>
                 </div>
+
+
+
             </section>
 
             <section id="panel">
                 <div class="bg-white d-flex py-3 px-4 ">
-                    <img src="Arrow.png" height="18px" alt="" class="my-auto mx-1">
-                    <a href="#" class="text-dark fs-5 mx-2">В каталог</a>
+                    <img src="{% static 'image/Arrow.svg'%}" height="18px" alt="" class="my-auto mx-1">
+                    <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
                 </div>
                 <div id="type_selector">
                     <button class="btn text-light right-line fs-5" color="gray">Глухая</button>
@@ -45,122 +68,417 @@
                     <div id="Color" class="panel">
                         <div class="panel_head">Цвет</div>
                         <div class="color_body">
-                            <button class="block btn" id="color-1" style="background-color: white;">
+                            <button class="block btn" onclick="edit_color(this)" id="color-1" style="background-color: white;">
                                 <div class="text-dark bg-white">Белый</div>
                             </button>
-                            <button class="block btn" id="color-2" style="background-color: #373C3F;">
+                            <button class="block btn" onclick="edit_color(this)" id="color-2" style="background-color: #373C3F;">
                                 <div>Антрацит</div>
                             </button>
-                            <button class="block btn" style="background-color: #9BA2AA;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #9BA2AA;">
                                 <div>Ral 7040</div>
                             </button>
-                            <button class="block btn" style="background-color: #EFECE5;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #EFECE5;">
                                 <div>Ral 9010</div>
                             </button>
-                            <button class="block btn" style="background-color: #DBD2BE;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #DBD2BE;">
                                 <div>Ral 1013</div>
                             </button>
-                            <button class="block btn" style="background-color: #C7C8CC;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #C7C8CC;">
                                 <div>Cs 006</div>
                             </button>
-                            <button class="block btn" style="background-color: #5B6066;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #5B6066;">
                                 <div>Ral 7011</div>
                             </button>
-                            <button class="block btn" style="background-color: #C6C6C8;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #C6C6C8;">
                                 <div>Ral 7047</div>
                             </button>
-                            <button class="block btn" style="background-color: #D2D3CD;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #D2D3CD;">
                                 <div>Cs 010</div>
                             </button>
-                            <button class="block btn" style="background-color: #949496;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #949496;">
                                 <div>Ral 7036</div>
                             </button>
-                            <button class="block btn" style="background-color: #EFEBDD;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #EFEBDD;">
                                 <div>Ral 9001</div>
                             </button>
-                            <button class="block btn" style="background-color: #F6F8F5;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #F6F8F5;">
                                 <div>Ral 9003</div>
                             </button>
-                            <button class="block btn" style="background-color: #D2D3CD;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #D2D3CD;">
                                 <div>Каштановый</div>
                             </button>
-                            <button class="block btn" style="background-color: #949496;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #949496;">
                                 <div>Джеральдин</div>
                             </button>
                         </div>
-                        
+
 
 
                     </div>
-                    <div id="Portal" class="panel">
-                        <div class="panel_head">Портал</div>
-                        <div class="panel_body">
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                            <button class="block btn" >
-                                <div>Ral 7040</div>
-                            </button>
-                        </div>
+                    <div class="panel">
+                        <div class="panel_head">Форма двери</div>
+                        <div class="panel_body" id="shape"></div>
                     </div>
+                    
+                    
+                    
+                    
+                    
                 </div>
                 <div id="Order">
-                    <div></div>
+                    <div class="d-flex p-3 justify-content-between">
+                        <div>
+                            <div >Цвет :<span id="d_color">Option</span></div>
+                            <div>Форма двери :<span id="d_shape">Option</span></div>
+                            <div>Портал :<span id="d_portal">Option</span></div>
+                        </div>
+                        <div>
+                            <div>Багет :<span id="d_molding">Option</span></div>
+                            <div>Возвышение :<span id="d_porium">Option</span></div>
+                            <div>Карниз :<span id="d_carnice">Option</span></div>
+                        </div>
+                        <div>
+                            <form action="/api/" id="form" method="post">
+                                {% csrf_token %}
+                                <input  class="btn" type="submit" onclick="send()" value="В корзину">
+                            </form>
+                            
+                        </div>
+                    </div>
                 </div>
             </section>
             
         </main>
-       
-        <script>
+    <script>
+
+    const uniqueNames = new Set();
+
+    const shape_data = JSON.parse('{{ shape_data|safe }}');
+    const portal_data = JSON.parse('{{ portal_data|safe }}');
+    const molding_data = JSON.parse('{{ molding_data|safe }}');
+    const boots_data = JSON.parse('{{ boots_data|safe }}');
+    const socket_data = JSON.parse('{{ socket_data|safe }}');
+    const carnice_data = JSON.parse('{{ carnice_data|safe }}');
+    const podium_data = JSON.parse('{{ podium_data|safe }}');
+    
+    const boots_field = { "SIZE1": {}, "SIZE2": {} };
+    const socket_field = { "SIZE1": {}, "SIZE2": {} };
+    const carnice_field = { "SIZE1": {}, "SIZE2": {} };
+    const podium_field = { "SIZE1": {}, "SIZE2": {} };
+    const portal_field = {}
+
+    portal_data.forEach( item =>{
+        const obj = {
+                    name: item.name,
+                    display: item.name,
+                    icon: item.icon,
+                    price: item.price,
+                    image : item.image
+                };
+                portal_field[item.name] = obj;
+    });
+
+    const Collection = shape_data[0]["collections_id"]
+
+
+    function createField(data, fieldObject) {
+        const uniqueNames = new Set();
+        const field1 = "SIZE1";
+        const field2 = "SIZE2";
+        
+        data.forEach(item => {
+            const nameWithoutSize = item.name.replace(`_${field1}`, "").replace(`_${field2}`, "");
+            const fieldName = item.name.includes(field1) ? field1 : field2;
             
-            document.addEventListener('DOMContentLoaded', function () {
-                const sr = ScrollReveal({
-                    origin: 'top',
-                    distance: '50px',
-                    duration: 2000,
-                    reset: true
-                });
+            if (!uniqueNames.has(nameWithoutSize)) {
+                uniqueNames.add(item.name);
+                const obj = {
+                    name: item.name,
+                    display: nameWithoutSize,
+                    icon: item.icon,
+                    price: item.price,
+                    image : item.image
+                };
+                fieldObject[fieldName][nameWithoutSize]=obj;
+            }
+        });
+    }
+    createField(boots_data, boots_field);
+    createField(socket_data, socket_field);
+    createField(carnice_data, carnice_field);
+    createField(podium_data, podium_field);
 
-                sr.reveal('#details .headline', { delay: 100 });
+    var panelsData = [
+        { head: "Портал", id: "portal", data: portal_field },
+        { head: "Багет", id: "molding", data: molding_data},
+        { head: "Сопожки", id: "boots", data: boots_field["SIZE1"]  },
+        { head: "Розетки", id: "socket", data: socket_field["SIZE1"]},
+        { head: "Карниз", id: "carnice", data: carnice_field["SIZE1"]  },
+        { head: "Возвышение", id: "podium", data: podium_field["SIZE1"] }
+    ];
 
+    
+    let shape_ = {
+        "Classic":{},
+        "DO":{}
+    };
+
+
+    
+
+    shape_data.forEach(item => {
+        if (!uniqueNames.has(item.name)) {
+            uniqueNames.add(item.name);
+            shape_[item.door_type][item.name] = shape_[item.door_type][item.name] || {};
+            shape_[item.door_type][item.name]["icon"] = item.icon;
+            shape_[item.door_type][item.name]["display"] = item.display;
+            shape_[item.door_type][item.name]["image"] = item.image;
+            shape_[item.door_type][item.name]["price"] = item.price;
+
+            shape_[item.door_type][item.name]["display"] = item.name.replace((Collection.toUpperCase()+"_"), "");
+        }
+    });
+
+
+
+    createButtons(shape_["Classic"],"shape")
+
+    let My_door= {
+            "type":"Classic",
+            "color": "WHITE",
+            "shape" : shape_data[0]["name"],
+            "image":"/media/"+shape_data[0]["image"],
+            "portal" : portal_data[0]["name"],
+            "molding" : null,
+            "bevel" : shape_data[0]["bevel"],
+            "boots" : null,
+            "socket" : null,
+            "carnice" : null,
+            "podium" : null,
+            "size":"SIZE1",
+            "price":0
+
+    }   
+    const form = document.getElementById("form");
+    for (const key in My_door) {
+        if (Object.hasOwnProperty.call(My_door, key)) {
+            const value = My_door[key];
+
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', key);
+            input.setAttribute('value', value);
+            input.setAttribute('id', "set_"+key);
+
+            form.appendChild(input);
+        }
+    }
+
+    const bevel_data = {};
+
+    if (shape_data[0].bevel) {
+        
+        shape_data.forEach(item => {
+            if (item.bevel) {
                 
+               
 
-                
-            });
-        </script>
+                bevel_data[item.name] = bevel_data[item.name] || {};
+                bevel_data[item.name][item.bevel] = bevel_data[item.bevel] || {};
+                bevel_data[item.name][item.bevel]["icon"] = item.Bevel_icon;
+                bevel_data[item.name][item.bevel]["image"] = item.image;
+                bevel_data[item.name][item.bevel]["price"] = item.price;
+            }
+        });
+        panelsData.splice(1, 0, { head: "Фреза", id: "bevel", data: bevel_data[My_door.shape] });
+    }
+    
+
+    function createButtons(data, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container || !data || Object.keys(data).length === 0) return;
+
+    Object.keys(data).forEach(key => {
+        const item = data[key];
+        const display = item.display ? item.display : key;
+
+        const button = document.createElement("button");
+        button.className = "block btn";
+        button.setAttribute("value", key);
+        button.setAttribute("type", containerId);
+        button.setAttribute("onclick", "edit_conf(this)");
+
+        const image = document.createElement("img");
+        image.src = "/media/" + item.icon;
+        image.alt = "";
+        button.appendChild(image);
+
+        const div = document.createElement("div");
+        div.textContent = display;
+        button.appendChild(div);
+
+        container.appendChild(button);
+    });
+}
+
+function createPanels(panelData) {
+    if (panelData.data && Object.keys(panelData.data).length > 0) {
+        const panelDiv = document.createElement("div");
+        panelDiv.className = "panel";
+
+        const panelHeadDiv = document.createElement("div");
+        panelHeadDiv.className = "panel_head";
+        panelHeadDiv.textContent = panelData.head;
+
+        const panelBodyDiv = document.createElement("div");
+        panelBodyDiv.className = "panel_body";
+        panelBodyDiv.id = panelData.id;
+
+        panelDiv.appendChild(panelHeadDiv);
+        panelDiv.appendChild(panelBodyDiv);
+
+        document.getElementById("Scroll_Panel").appendChild(panelDiv);
+
+        createButtons(panelData.data, panelData.id);
+    }
+}
+
+    function edit_color (obj){
+        My_door.color = obj.style.backgroundColor;
+        edit_view();
+    }
+    function edit_conf(obj){
+        My_door[obj.attributes.type.value] = obj.value
+        if(obj.value == "PORTAL11"||obj.value == "PORTAL12"||obj.value == "PORTAL13"){
+            My_door.size = "SIZE2";
+        }else if (obj.value.includes("PORTAL")){
+            My_door.size = "SIZE1";
+        }
+
+        edit_view();
+    }
+
+    function edit_view(){
+        document.getElementById("d_color").innerHTML = My_door.color;
+        document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase()+"_"), "");
+        document.getElementById("d_portal").innerHTML = My_door.portal;
+        document.getElementById("d_molding").innerHTML = My_door.molding;
+        document.getElementById("d_porium").innerHTML = My_door.podium;
+        document.getElementById("d_carnice").innerHTML = My_door.carnice;
+
+        
+
+        price = 0;
+        
+        if(shape_data[0].bevel){
+            edit_image("door",bevel_data[My_door.shape][My_door.bevel]["image"],My_door.color);
+            price += bevel_data[My_door.shape][My_door.bevel]["price"];
+        }else{
+            edit_image("door",shape_[My_door.type][My_door.shape]["image"],My_door.color);
+            price += shape_[My_door.type][My_door.shape]["price"]
+        }
+
+        edit_image("portal",portal_field[My_door.portal]["image"],My_door.color);
+
+        price += portal_field[My_door.portal]["price"];
+        
+        podium_field[My_door.size][My_door.podium] ? price += podium_field[My_door.size][My_door.podium]["price"]:"";
+        carnice_field[My_door.size][My_door.carnice] ? price += carnice_field[My_door.size][My_door.carnice]["price"]: "";
+        socket_field[My_door.size][My_door.socket] ? price += socket_field[My_door.size][My_door.socket]["price"]:"";
+        boots_field[My_door.size][My_door.boots] ? price += boots_field[My_door.size][My_door.boots]["price"]:"";
+        
+        
+        podium_field[My_door.size][My_door.podium] ? edit_image("podium",podium_field[My_door.size][My_door.podium]["image"],My_door.color): "";
+        carnice_field[My_door.size][My_door.carnice] ? edit_image("carnice",carnice_field[My_door.size][My_door.carnice]["image"],My_door.color): "";
+        socket_field[My_door.size][My_door.socket] ? edit_image("socket",socket_field[My_door.size][My_door.socket]["image"],My_door.color): "";
+        boots_field[My_door.size][My_door.boots] ? edit_image("boots",boots_field[My_door.size][My_door.boots]["image"],My_door.color): "";
+        
+        My_door["price"] = price;
+        document.getElementById("price").innerHTML = price;
+        
+
+        for (const key in My_door) {
+        if (Object.hasOwnProperty.call(My_door, key)) {
+            document.getElementById("set_"+key).setAttribute('value',My_door[key])
+        }
+    }
+
+       
+
+    }
+
+    function edit_image(obj,img,color){
+        document.getElementById(obj+"_image").attributes.src.value = "/media/"+img;
+        const element = document.getElementById(obj+"_mask");
+
+        if (!element) {
+            
+            return;
+        }
+        
+        element.style.backgroundColor = color;
+
+        element.style.webkitMask = `url('${"/media/"+img}') `;
+        element.style.mask = `url('${"/media/"+img}') `;
+    }
+
+    
+
+    panelsData.forEach(createPanels);
+    edit_view();
+
+    function sendDataToServer(data) {
+        // Получение CSRF токена из куки
+        const csrftoken = getCookie('csrftoken');
+
+        // Отправка данных на сервер с использованием fetch API
+        fetch('/api/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Разбор JSON ответа
+        })
+        .then(data => {
+            console.log('Response from server:', data);
+            // Перенаправление на страницу корзины
+            window.location.href = '/cart/'; // Здесь '/cart/' - это URL вашей страницы корзины
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+
+
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+
+
+
+    function send(){
+        const url = '/api/';
+        sendDataToServer(My_door);
+    }
+    
+
+
+
+</script>
+
+       
+
        
 </body>
 </html>

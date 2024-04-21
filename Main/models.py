@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from django.db import models
 
 
@@ -74,44 +72,22 @@ class Boots(Decore):
     icon = models.ImageField(upload_to='icon/Boots/', verbose_name='icon')
 
 
-# class BaseDoor(models.Model):
-#     collection = models.ForeignKey(Collections, on_delete=models.CASCADE)
-#     door_type = models.CharField(max_length=127)
-#     door_image = models.ImageField(upload_to='Door/', verbose_name='Изображение')
-#     icon = models.ImageField(upload_to='icon/Door/', verbose_name='Изображение', default="none.png")
-#     shape = models.CharField(max_length=127)
-#     shape_price = models.FloatField()
-#     portal = models.ForeignKey(Portal, on_delete=models.CASCADE)
-#     carnice = models.ForeignKey(Carnice, on_delete=models.CASCADE)
-#     podium = models.ForeignKey(Podium, on_delete=models.CASCADE)
-#     socket = models.ForeignKey(Socket, on_delete=models.CASCADE)
-#     boots = models.ForeignKey(Boots, on_delete=models.CASCADE)
-#     door_price = models.FloatField()
-
-# class Meta:
-#     abstract = True
-#     indexes = [
-#         models.Index(fields=['collection'])
-#     ]
-
-# def save(self, *args, **kwargs):
-#     self.door_price = (self.portal.price + self.carnice.price + self.podium.price +
-#                        self.socket.price + self.boots.price + self.shape_price)
-#     super().save(*args, **kwargs)
-
-
-class Cart(models.Model):
-    user_token = models.UUIDField(default=uuid4, editable=False, unique=True)
+class UniqueKey(models.Model):
+    key = models.CharField(max_length=108, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    shape = models.ForeignKey(Shape, on_delete=models.CASCADE)
-    molding = models.ForeignKey(Molding, on_delete=models.CASCADE)
-    portal = models.ForeignKey(Portal, on_delete=models.CASCADE)
-    carnice = models.ForeignKey(Carnice, on_delete=models.CASCADE)
-    podium = models.ForeignKey(Podium, on_delete=models.CASCADE)
-    socket = models.ForeignKey(Socket, on_delete=models.CASCADE)
-    boots = models.ForeignKey(Boots, on_delete=models.CASCADE)
+    Key = models.CharField(max_length=128, null=True, blank=True)
+    shape = models.CharField(max_length=128, null=True, blank=True)
+    bevel = models.CharField(max_length=128, null=True, blank=True)
+    molding = models.CharField(max_length=64, null=True, blank=True)
+    portal = models.CharField(max_length=64, null=True, blank=True)
+    image = models.CharField(max_length=64, null=True, blank=True)
+    carnice = models.CharField(max_length=64, null=True, blank=True)
+    podium = models.CharField(max_length=64, null=True, blank=True)
+    socket = models.CharField(max_length=64, null=True, blank=True)
+    boots = models.CharField(max_length=64, null=True, blank=True)
     door_price = models.FloatField()
+    size = models.CharField(max_length=16)
     quantity = models.PositiveIntegerField(default=1)

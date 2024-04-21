@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Romerio Order Form</title>
+    <title>Romerio</title>
 
     <link href="https://fonts.googleapis.com/css?family=Playfair Display" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/felidae" rel="stylesheet">
@@ -13,7 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
-    <link rel="stylesheet" href="style.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main/style.css'%}">
 </head>
 <body style="background-color: black;">
     
@@ -55,7 +56,7 @@
                 <div class="container-fluid headline h2"> 
                     <a href="{% url 'catalog' %}">
                         В каталог
-                    <img src="Arrow.svg" class="bx bxs-like bx-fade-right" alt="">
+                    <img src="{% static 'image/main/Arrow.svg' %}" class="bx bxs-like bx-fade-right" alt="">
                     </a>
                 </div>
             </section>
@@ -119,7 +120,7 @@
             <section>
                 <div id="map" class="p-5">
                     <div class="start h2 w-md-25">Убедитесь в нашей  компитентности у нас в салоне</div>
-                    <div class=" text-center h2" id="map_link"><a href="https://ya.ru/search/touch/?text=interroomdoors&lr=118095&mda=0&search_source=yaru_touch_common&search_domain=yaru">Карта <img src="Arrow.svg" class="bx bxs-like bx-fade-right"  alt=""></a></div>
+                    <div class=" text-center h2" id="map_link"><a href="https://ya.ru/search/touch/?text=interroomdoors&lr=118095&mda=0&search_source=yaru_touch_common&search_domain=yaru">Карта <img src="{% static 'image/main/Arrow.svg' %}" class="bx bxs-like bx-fade-right"  alt=""></a></div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="lh-2">interroom21@mail.ru</div>
