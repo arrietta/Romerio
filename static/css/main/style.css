@@ -1,0 +1,257 @@
+
+
+
+::-webkit-scrollbar {
+    width: 6px; 
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fef; 
+    border-radius: 2px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #A0A0A0; 
+}
+.container-fluid{
+    margin: auto;
+}
+
+*{
+    color: #ffffff;
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 400!important;
+    line-height: 110%; 
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+nav{
+    background-color: black;
+}
+
+a{
+    color: #fff;
+    text-decoration-line: none;
+}
+a:hover{
+    color: #8d8d8d;
+}
+
+.navbar-brand{
+    font-family: Playfair Display;
+    font-size: 1.6rem;
+    padding: 1rem;
+}
+.nav-item{
+    font-size: 1rem;
+    padding: 0 1rem;
+}
+.underline{
+    border-bottom: #fff solid 2px;
+}
+#enter{
+    background-image: url("main_bg.png");
+    background-position: 50% 0px;
+    background-position-y: -88px;
+    background-size: cover;
+    width: 100%;
+    height: calc(100vh - 78px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#enter > div{
+    text-align: left;
+    width: 35%;
+    margin-left: 2rem;
+    
+} 
+
+#Catalog_link{
+
+    background-color: #0C9CE9;
+    border-top:#fff solid 2px ;
+
+}
+#details{
+
+    position: relative;
+   
+}
+.background{
+    position: absolute;
+    background-image: url('main_door.png');
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+.headline{
+    padding: 1.5rem 2rem;
+    border-bottom: #fff solid 2px;
+}
+.row > div[line='true']{
+    border-right: #fff solid 2px;
+}
+.row > div[line='truee']{
+    border-right: #fff solid 2px;
+}
+.box{
+    line-height: 125%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.col-md-6 > .box{
+
+   height: calc(100vh - 85px);
+   font-size: 1.3rem;
+   padding: 7rem;
+   
+}
+.col-md-4 > .box{
+    height: calc(100vh - 87px - 4rem);
+    padding-left: 4rem;
+    padding-right: 12rem;
+    font-size: 1rem;
+}
+.row{
+    --bs-gutter-x: auto;
+}
+.under_text{
+    height: 4rem;
+    border-top:  #fff solid 2px;
+}
+.under_text > div{
+    line-height: 4rem;
+}
+.under_text > div[color="blue"]{
+    background-color: #0C9CE9;
+}
+#map{
+    width: 100%;
+    position: relative;
+    height: 100vh;
+    background-image: url("map.png") ;
+    background-size:cover ;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
+}
+#map_link{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+
+}
+
+.lh-2{
+    line-height: 2rem;
+}
+.lh-4{
+    padding: 1rem 0; 
+    text-align: end;
+}
+footer{
+    padding: 2rem;
+    background-color: black;
+}
+
+
+
+@media (max-width: 1450px){
+    #enter{
+        
+        background-position-y: 0;
+    }
+}
+@media (max-width: 768px) {
+    .row > div[line='true']{
+        border-right: none;
+        border-bottom: #fff solid 2px;
+    }
+    .lined{
+        border-bottom: #918c8c solid 1px;
+    }
+    #enter{
+        justify-content: start;
+        text-align: center;
+        background-position-y: 0;
+        
+    }
+    #enter > div{
+        font-size: 1.15rem;
+        text-align: center;
+        margin: 49px auto ;
+        width: 100%;
+
+    }
+    .background{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+    
+    .underline .col-md-4{
+        height: 100vh;
+    }
+    .underline .col-md-6{
+        height: 100vh;
+        
+    }
+    footer .col-md-4{
+        margin-bottom: 5rem;
+    }
+    .col-md-6 > .box{
+
+        height: calc(100vh );
+        padding: 5rem;
+     }
+     .col-md-4 > .box{
+        height: calc(100vh  - 4rem);
+        padding-right: 4rem;
+     }
+}
+
+
+
+
+
+
+
+/* .navbar-brand{
+    font-size: 2.5rem;
+    font-weight: 700;
+    
+} */
+/* .nav-link{
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: black!important;
+    line-height: 130%;
+    display:flex ;
+    flex-direction: column;
+    justify-content: center;
+} */
+/* 
+@font-face {
+    font-family: "bahnschrift";
+    src: url("font/bahnschrift.ttf");
+} */

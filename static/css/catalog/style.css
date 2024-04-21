@@ -1,0 +1,102 @@
+
+
+
+::-webkit-scrollbar {
+    width: 6px; 
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fef; 
+    border-radius: 2px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #A0A0A0; 
+}
+.container-fluid{
+    margin: auto;
+}
+
+*{
+    color: #ffffff;
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 400!important;
+    line-height: 110%; 
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+nav{
+    background-color: black;
+}
+
+a{
+    color: #fff;
+    
+}
+a:hover{
+    color: #8d8d8d;
+}
+
+.navbar-brand{
+    font-family: Playfair Display;
+    font-size: 1.6rem;
+    padding: 1rem;
+}
+.nav-item{
+    font-size: 1rem;
+    padding: 0 1rem;
+}
+.underline{
+    border-bottom: #fff solid 2px;
+}
+#top{
+    text-align: center;
+    padding: 2rem;
+    padding-bottom: 3rem;
+    
+}
+#top a {
+    text-decoration-line:none ;
+    margin: 0.5rem;
+}
+#letter{
+    padding-left:6rem ;
+}
+
+#collections {
+    text-align: center;
+    padding: 1rem;
+    
+}
+#collections a{
+    text-decoration-thickness:4px;
+    line-height: 120%;
+    text-underline-offset: 0.8rem;
+    font-size: 5.4rem;
+    font-family: "Felidae", sans-serif;
+    text-align: center;
+    margin: 1.5rem;
+}
+
+
+
+@media (max-width: 1450px){
+    
+}
+@media (max-width: 768px) {
+   
+}
+
+
+
+
+

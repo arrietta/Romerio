@@ -1,0 +1,185 @@
+
+
+
+::-webkit-scrollbar {
+    width: 6px; 
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fef; 
+    border-radius: 2px; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #A0A0A0; 
+}
+.container-fluid{
+    margin: auto;
+}
+
+*{
+    color: #ffffff;
+    font-family: Manrope;
+    font-style: normal;
+    font-weight: 400!important;
+    line-height: 110%; 
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+nav{
+    background-color: #0B0B0B;
+}
+
+a{
+    color: #fff;
+    
+}
+a:hover{
+    color: #8d8d8d;
+}
+
+.navbar-brand{
+    font-family: Playfair Display;
+    font-size: 1.6rem;
+    padding: 1rem;
+}
+.nav-item{
+    font-size: 1rem;
+    padding: 0 1rem;
+}
+.underline{
+    border-bottom: #fff solid 2px;
+}
+.rightline{
+    border-right: #fff solid 2px;
+}
+main{
+    min-height: 96vh;
+}
+section{
+    position: relative;
+}
+
+.custom-checkbox {
+    display: inline-block;
+    position: relative;
+    padding: 0.5rem;
+    padding-left: 30px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark {
+    position: absolute;
+    left: 0;
+    height: 1rem;
+    width: 1rem;
+    background-color: #0B0B0B;
+    border: 2px solid white;
+    border-radius: 0;
+    
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+.custom-checkbox .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: #000000;
+}
+.custom-checkbox .checkmark:after {
+    left: 4px;
+   
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+  
+.btns{
+    align-self: center;
+    height: 2rem;
+    
+    border: gray 2px solid;
+   
+}
+.btns div {
+    line-height: 2rem;
+    width: 2rem;
+    text-align: center;
+    border-right:gray 2px solid ;
+    border-left:gray 2px solid ;
+}
+.btns button {
+    background-color: #0B0B0B;
+    color: #fff;
+    width: 2rem;
+    border: none;
+}
+.btns  :nth-child(3){
+    background-color: #fff;
+    color: #0B0B0B;
+    border: none;
+}
+
+input[type="text"]{
+    width: 100%;
+    background-color: #0B0B0B;
+    border: #8d8d8d 1px solid;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 1.25rem;
+}
+.bottom{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.btn-black{
+    background-color: #0B0B0B;
+    border-radius: 0;
+    width: 100%;
+    color: #fff;
+    border-top:#fff 2px solid;
+    border-bottom: #fff 2px solid;
+    font-size: 1.5rem;
+    padding: 1.5rem;
+}
+.btn-white{
+    background-color: #ffffff;
+    border-radius: 0;
+    width: 100%;
+    color: #000000;
+    font-size: 1.5rem;
+    padding: 1.5rem;
+}
+@media (max-width: 1450px){
+    
+}
+@media (max-width: 768px) {
+}
+
+
+
+
+

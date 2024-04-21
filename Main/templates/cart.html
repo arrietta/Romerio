@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalog</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Playfair Display" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link href="https://fonts.cdnfonts.com/css/felidae" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/manrope" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: #0B0B0B;">
+    
+        
+            
+    <Header class="underline">
+        <nav class="navbar navbar-expand-lg  navbar-dark bg-black ">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'main' %}">Romerio</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end " id="navbarNav">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item lined">
+                        <a class="nav-link "  id="link_main"  href="{% url 'main' %}">Главная</a>
+                      </li>
+                      <li class="nav-item lined">
+                        <a class="nav-link active" id="link_catalog" href="{% url 'catalog' %}">Каталог</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="link_cart"  href="{% url 'cart'%}">Корзина</a>
+                      </li>
+                      
+                    </ul>
+                    </div>
+                </div>
+            </nav>
+    </Header>
+    <main class="d-md-flex underline">
+        <section id="list" class="w-50 rightline">
+            <div class="underline w-100  d-flex">
+                <div class="col-2 rightline"></div>
+                <div class="col-10 p-4 ">
+                    <div class="d-flex justify-content-between">
+                        <h3>Classic</h3>
+                        <h3>25000</h3>
+
+                    </div>
+                    <div class="d-flex justify-content-between ">
+                        <div>
+                            <div class="text-secondary">выбранные опции</div>
+                            <div class="text-secondary">выбранные опции</div>
+                            <div class="text-secondary">выбранные опции</div>
+                        </div>
+                        <div>
+                            <div class="text-secondary">выбранные опции</div>
+                            <div class="text-secondary">выбранные опции</div>
+                            <div class="text-secondary">выбранные опции</div>
+                        </div>
+                        <div class="d-flex btns">
+                            <button class="">-</button>
+                            <div>1</div>
+                            <button class="">+</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="order" class="w-50 ">
+            <h3 class="p-4 ">Оформление <br> заявки для заказа:</h3>
+            <form action="" id="myForm">
+                <input type="text" name="name" id="name" placeholder="ФИО*" required>
+                <input type="text" name="phone" id="phone" placeholder="Телефон*" required>
+                <div class="d-flex m-3">
+                    <span class="p-2 text-secondary">* - Обязательный пункт</span>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="delivery" id="delivery" required>
+                        <span class="checkmark"></span>
+                        Доставка
+                    </label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="measurement" id="measurement" required>
+                        <span class="checkmark"></span>
+                        Бесплатный замер проемов
+                    </label>
+                </div>
+                <div id="error-message" class="text-danger p-3" style="display: none;">Выберите оба пункта</div>
+                <div class="bottom">
+                    <div class="d-flex justify-content-between px-3 py-1">
+                        <h3>ИТОГО (Без услуг):</h3>
+                        <h3>100 000руб.</h3>
+                    </div>
+                    <input type="submit" value="Заказать**" class="btn-black" id="submitButton">
+                    <button class="btn-white mt-4">Заказать в рассрочку**</button>
+                    <div class="text-secondary m-3">** - Оплата доступна только на месте доставки или в салоне</div>
+                    <div class="m-3"><a href="#" class="text-secondary ">политика конфиденциальности</a></div>
+                </div>
+            </form>
+            
+            
+        </section>
+        <script>
+            $(document).ready(function(){
+                $('#submitButton').click(function() {
+                    var deliveryCheckbox = $('#delivery');
+                    var measurementCheckbox = $('#measurement');
+            
+                    if (!deliveryCheckbox.is(':checked') || !measurementCheckbox.is(':checked')) {
+                        $('#error-message').show(); 
+                    } else {
+                        $('#error-message').hide(); 
+                    }
+                });
+            });
+            </script>
+
+    </main>
+    <footer class="d-md-flex pt-3">
+        <section class="col-md-4">
+            <h2>Контакты</h2>
+            <div class="mt-4">
+                <div class="lh-2">
+                    8(985) 222 01-08
+                </div>
+                <div class="lh-2">
+                    interroom21@mail.ru
+                </div>
+                <div>
+
+                    Индивидуальный Предприниматель<br>Вороновская Ольга Витальевна<br>ИНН: 772392666702<br>ОГРН: 321508100092737<br>БИК: 044525225<br>Банк ПАО СБЕРБАНК<br>Кор.счет: 30101810400000000225<br>Расчетный счет: 40802810540000162884 <br>Шрифт Felidae разработан Дарьей Казаковой <br>в Школе дизайна НИУ ВШЭ
+                </div>
+            </div>
+        </section>
+        <section  class="col-md-4">
+            <h2>Мы в соц.сетях</h2>
+            <div class="mt-4">
+                <h3> <a href="https://dzen.ru/interroom">Дзен</a></h3>
+                <h3><a href="https://vk.com/interroom21">Вконтакте</a></h3>
+                <h3> <a href="№">Youtube</a></h3>
+               
+                
+               
+            </div>
+        </section>
+        <section  class="col-md-4">
+            <h2>Адрес</h2>
+            <div class="mt-4">
+                Ш. Автомагистраль Москва – <br>
+                Нижний Новгород, вл. 19Bc1, Реутов
+            </div>
+        </section>
+    </footer>
+       
+</body>
+</html>

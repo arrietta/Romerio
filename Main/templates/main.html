@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romerio Order Form</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Playfair Display" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/felidae" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/manrope" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: black;">
+    
+        
+            <Header class="underline">
+                <nav class="navbar navbar-expand-lg  navbar-dark bg-black ">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="{% url 'main' %}">Romerio</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-end " id="navbarNav">
+                            <ul class="navbar-nav ">
+                                <li class="nav-item lined">
+                                <a class="nav-link active" aria-current="page" id="link_main"  href="{% url 'main' %}">Главная</a>
+                              </li>
+                              <li class="nav-item lined">
+                                <a class="nav-link" id="link_catalog" href="{% url 'catalog' %}">Каталог</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="link_cart"  href="{% url 'cart'%}">Корзина</a>
+                              </li>
+                              
+                            </ul>
+                            </div>
+                        </div>
+                    </nav>
+            </Header>
+        
+        <main>
+            <section id="enter">
+                <div class="container h2 " id="welcome">
+                    Подберите себе двери с 
+                    помощью нашего удобного
+                    конструктора
+                </div>
+            </section>
+            <section id="Catalog_link">
+                <div class="container-fluid headline h2"> 
+                    <a href="{% url 'catalog' %}">
+                        В каталог
+                    <img src="Arrow.svg" class="bx bxs-like bx-fade-right" alt="">
+                    </a>
+                </div>
+            </section>
+            <section id="details">
+                <s class="background"></s>
+                <div class="headline container-fluid h2">
+                    О Нас:
+                </div>
+                <div class="row underline">
+                    <div class="col-md-6" line="true">
+                        <div class="box">
+                            Компания Romerio занимается продажей межкомнатных дверей. Полотна изготовлены из качественных современных материалов по новейшим технологиям и, благодаря великолепной отделке и продуманному дизайну, способны стать настоящим украшением интерьера.
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box">
+                            Убедитесь в этом, придя к нам в салон.  Мы уверены, что Вы найдете именно ту дверь, которую давно искали. А наши продавцы помогут определиться с выбором. Работы по установке дверей выполняют высококвалифицированные специалисты. Нам важно, чтобы покупка в нашем магазине была для Вас приятной и оставила только положительные эмоции. 
+                        </div>
+                    </div>
+                </div>
+                <div class="headline container-fluid h2">
+                    Наши услуги:
+                </div>
+                <div class="row  underline">
+                    <div class="col-md-4" line="true">
+                        <div class="box">
+                            <h2 class="pb-4">Замер</h2>
+                            Замер проемов на вашем объекте. При заказе в нашем магазине  у вас имеется возможность вернуть деньги за данную услугу. 
+                        </div>
+                        <div class="row text-center under_text">
+                            <div class="col" line="truee"><a>1000 ₽</a></div>
+                            <div class="col" color="blue"><a>Позвонить</a></div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4" line="true">
+                        <div class="box">
+                            <h2 class="pb-4">Установка</h2>
+                            Для полной информации о цене на ваш заказ уточните у квалифицированного дилера.
+                        </div>
+                        <div class="row text-center under_text">
+                            <div class="col" line="truee"><a>Договорная</a></div>
+                            <div class="col" color="blue"><a>Позвонить</a></div>
+                        </div>
+                         
+                    </div>
+                    <div class="col-md-4">
+                        <div class="box">
+                            <h2 class="pb-4">Доставка</h2>
+                            + 50 ₽/КМ если доставка за пределы МКАД.
+                        </div>
+                        <div class="row text-center under_text">
+                            <div class="col" line="truee"><a>2500 ₽</a></div>
+                            <div class="col" color="blue"><a>Позвонить</a></div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div id="map" class="p-5">
+                    <div class="start h2 w-md-25">Убедитесь в нашей  компитентности у нас в салоне</div>
+                    <div class=" text-center h2" id="map_link"><a href="https://ya.ru/search/touch/?text=interroomdoors&lr=118095&mda=0&search_source=yaru_touch_common&search_domain=yaru">Карта <img src="Arrow.svg" class="bx bxs-like bx-fade-right"  alt=""></a></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="lh-2">interroom21@mail.ru</div>
+                            <div class="lh-2">8-(985)-222-01-08</div>
+                        </div>
+                        <div class="text-md-end col-md-6 m-auto">
+                            Ш. Автомагистраль Москва –<br> Нижний Новгород, вл. 19Bc1, Реутов
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="row">
+            <section class="col-md-4">
+                <h2>Контакты</h2>
+                <div class="mt-4">
+                    <div class="lh-2">
+                        8(985) 222 01-08
+                    </div>
+                    <div class="lh-2">
+                        interroom21@mail.ru
+                    </div>
+                    <div>
+
+                        Индивидуальный Предприниматель<br>Вороновская Ольга Витальевна<br>ИНН: 772392666702<br>ОГРН: 321508100092737<br>БИК: 044525225<br>Банк ПАО СБЕРБАНК<br>Кор.счет: 30101810400000000225<br>Расчетный счет: 40802810540000162884 <br>Шрифт Felidae разработан Дарьей Казаковой <br>в Школе дизайна НИУ ВШЭ
+                    </div>
+                </div>
+            </section>
+            <section  class="col-md-4">
+                <h2>Мы в соц.сетях</h2>
+                <div class="mt-4">
+                    <h3> <a href="https://dzen.ru/interroom">Дзен</a></h3>
+                    <h3><a href="https://vk.com/interroom21">Вконтакте</a></h3>
+                    <h3> <a href="№">Youtube</a></h3>
+                   
+                    
+                   
+                </div>
+            </section>
+            <section  class="col-md-4">
+                <h2>Адрес</h2>
+                <div class="mt-4">
+                    Ш. Автомагистраль Москва – <br>
+                    Нижний Новгород, вл. 19Bc1, Реутов
+                </div>
+            </section>
+        </footer>
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function () {
+                const sr = ScrollReveal({
+                    origin: 'top',
+                    distance: '50px',
+                    duration: 2000,
+                    reset: true
+                });
+
+                sr.reveal('#details .headline', { delay: 100 });
+
+                sr.reveal('#details div', { delay: 140 });                
+
+                sr.reveal('#map', { delay: 100 });
+                
+                sr.reveal('#welcome', { delay: 100 });
+                
+
+                
+            });
+        </script>
+       
+</body>
+</html>
