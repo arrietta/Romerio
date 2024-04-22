@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Collections, Portal, Carnice, Podium, Socket, Boots, CartItem, Shape, Molding,Shpon_Boots,Shpon_Podium,Shpon_Socket,Shpon_Carnice,Shpone
+from .models import Collections, Portal, Carnice, Podium, Socket, Boots, CartItem, Shape, Molding,Shpon_Boots,Shpon_Socket,Shpon_Carnice,Shpone
 
 admin.site.register(Collections)
 admin.site.register(Shape)
