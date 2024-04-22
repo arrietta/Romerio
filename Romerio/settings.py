@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-w%q3jp9v4l2i%foty#h7j0&bhjfjm^n&gczfk#wed8hrl2!-e5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['romerio.ru','www.romerio.ru','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['romerio.ru','www.romerio.ru','localhost','127.0.0.1',"romerio-production.up.railway.app"]
 
 
 # Application definition
