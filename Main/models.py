@@ -116,11 +116,6 @@ class Shpon_Carnice(Decore):
     color = models.CharField(max_length=127)
 
 
-class Shpon_Podium(Decore):
-    image = models.ImageField(upload_to='Podium/', verbose_name='Photo')
-    icon = models.ImageField(upload_to='icon/Podium/', verbose_name='icon')
-    color = models.CharField(max_length=127)
-
 class Shpon_Socket(Decore):
     image = models.ImageField(upload_to='Socket/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Socket/', verbose_name='icon')

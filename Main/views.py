@@ -32,10 +32,10 @@ def cart(request):
 
 
 def constructor(request, key):
+    unique_id = identification(request)
 
-    if 'shpon' in key:
-        print("spon")
     collections = Collections.objects.get(name=key)
+
     shape = Shape.objects.filter(collections=collections.pk)
     portal = Portal.objects.all()
     carnice = Carnice.objects.all()
