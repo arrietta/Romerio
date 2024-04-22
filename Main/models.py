@@ -91,3 +91,42 @@ class CartItem(models.Model):
     door_price = models.FloatField()
     size = models.CharField(max_length=16)
     quantity = models.PositiveIntegerField(default=1)
+
+
+
+class Shpone(models.Model):
+    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
+    door_type = models.CharField(max_length=127)
+    name = models.CharField(max_length=255)
+    price = models.FloatField()
+    color = models.CharField(max_length=127)
+    portal = models.CharField(max_length=127)
+    portal_image = models.ImageField(upload_to='Portals/')
+    image = models.ImageField(upload_to='Shape/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Shape/', verbose_name='icon')
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['collections'])
+        ]
+
+class Shpon_Carnice(Decore):
+    image = models.ImageField(upload_to='Carnice/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Carnice/', verbose_name='icon')
+    color = models.CharField(max_length=127)
+
+
+class Shpon_Podium(Decore):
+    image = models.ImageField(upload_to='Podium/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Podium/', verbose_name='icon')
+    color = models.CharField(max_length=127)
+
+class Shpon_Socket(Decore):
+    image = models.ImageField(upload_to='Socket/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Socket/', verbose_name='icon')
+    color = models.CharField(max_length=127)
+
+class Shpon_Boots(Decore):
+    image = models.ImageField(upload_to='Boots/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Boots/', verbose_name='icon')
+    color = models.CharField(max_length=127)
