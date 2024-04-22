@@ -2,20 +2,20 @@
 
 
 ::-webkit-scrollbar {
-    width: 6px; 
+    width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent; 
+    background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #fef; 
-    border-radius: 2px; 
+    background: #fef;
+    border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #A0A0A0; 
+    background: #A0A0A0;
 }
 .container-fluid{
     margin: auto;
@@ -26,7 +26,7 @@
     font-family: Manrope;
     font-style: normal;
     font-weight: 400!important;
-    line-height: 110%; 
+    line-height: 110%;
     box-sizing: border-box;
 }
 
@@ -50,7 +50,7 @@ a:hover{
 
 .font-Playfair{
     font-family: Playfair Display;
-    
+
 }
 .rotate-180{
     transform: rotate(180deg);
@@ -78,6 +78,17 @@ a:hover{
     object-fit: cover;
     object-position: 50% 90%;
 }
+#door_top{
+    position:absolute;
+    width:100%;
+}
+#door_bottom{
+    position:absolute;
+    width:100%;
+    bottom:0;
+
+}
+
 
 #panel{
     height: 100vh;
@@ -148,18 +159,25 @@ a:hover{
     border: gray 1px solid;
     border-radius: 0;
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 .block > div{
+    word-wrap: break-word;
     position: absolute;
     width: 100%;
     bottom: 0;
     left: 0;
     padding: 0.5rem 1rem ;
-    font-size: 1.2rem;
     border-top: gray 2px solid;
-    text-align: start;
+    text-align: center;
     color: gray;
     background-color: #000;
+}
+.block > img{
+    position: absolute;
+    max-width:80%;
+    top:20%;
 }
 #color-1{
     grid-column-start: 1;
@@ -170,7 +188,17 @@ a:hover{
     grid-column-start: 3;
     grid-column-end: 5;
 }
-
+.mask{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: white; /* Change color as needed */
+    mix-blend-mode: multiply; /* Apply blending mode */
+    mask-size: cover !important;
+    mask-position: 50% 90% !important;
+}
 
 
 #Order{
@@ -209,21 +237,21 @@ input.btn{
     background-color: #0C9CE9;
 }
 @media (max-width: 1450px){
-   
+
 }
 @media (max-width: 768px) {
     #door{
 
-       
+
         width: 100%;
-    
-        
+
+
     }
-    
+
     #panel{
-        
+
         width: 100%;
-        
+
     }
 }
 
