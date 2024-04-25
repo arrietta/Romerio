@@ -179,6 +179,10 @@ a:hover{
     max-width:80%;
     top:20%;
 }
+.pressed > div{
+    background-color: #fff;
+    color: #000;
+}
 #color-1{
     grid-column-start: 1;
     grid-column-end: 3;
@@ -230,6 +234,7 @@ a:hover{
 img[src=""]{
     display:none;
 }
+
 input.btn{
     border-radius: 25px!important;
     color: #fff;

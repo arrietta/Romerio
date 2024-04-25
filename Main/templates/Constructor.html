@@ -21,13 +21,11 @@
 
 
         <main class="d-md-flex">
-            {% csrf_token %}
             <section  id="door">
                 <div id="door_top" class="d-flex justify-content-between px-4 py-3">
                     <h5 class="font-Playfair">Romerio</h5>
                     <img src="{% static 'image/main_logo.png'%}" height="40px" alt="">
                 </div>
-                
                 
                 <img src="/media/Shape/CLASSIC_AFINA-1.png" alt="" id="door_image">
                 
@@ -42,10 +40,8 @@
                 <span id="door_mask" class="mask"></span>
                 <span id="portal_mask" class="mask"></span>
                 <div id="molding_mask" class="mask"></div>
-                <!-- <div id="boots_mask" class="mask"></div> -->
                 <div id="podium_mask" class="mask"></div>
                 <div id="carnice_mask" class="mask"></div>
-                <!-- <div id="socket_mask" class="mask"></div> -->
                 <div id="door_bottom" class="p-4">
                     <h3 class="font-Playfair" id="shape_name">Classic</h3>
                     <div class="fs-5 fw-light" ><span id="price"></span> рублей</div>
@@ -61,20 +57,20 @@
                     <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
                 </div>
                 <div id="type_selector">
-                    <button class="btn text-light right-line fs-5" color="gray">Глухая</button>
-                    <Button class="btn text-light fs-5">Остекленная</Button>
+                    <button class="btn text-light right-line fs-5"  onclick="set_type('Classic')">Глухая</button>
+                    <Button class="btn text-light fs-5" onclick="set_type('DO')">Остекленная</Button>
                 </div>
                 <div id="Scroll_Panel">
                     <div id="Color" class="panel">
                         <div class="panel_head">Цвет</div>
                         <div class="color_body">
-                            <button class="block btn" onclick="edit_color(this)" id="color-1" style="background-color: white;">
-                                <div class="text-dark bg-white">Белый</div>
+                            <button class="block btn pressed" onclick="edit_color(this)" id="color-1" style="background-color: white;" >
+                                <div >Белый</div>
                             </button>
-                            <button class="block btn" onclick="edit_color(this)" id="color-2" style="background-color: #373C3F;">
+                            <button class="block btn" onclick="edit_color(this)" id="color-2" style="background-color: #3C3C3C;">
                                 <div>Антрацит</div>
                             </button>
-                            <button class="block btn" onclick="edit_color(this)" style="background-color: #9BA2AA;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #787f88;">
                                 <div>Ral 7040</div>
                             </button>
                             <button class="block btn" onclick="edit_color(this)" style="background-color: #EFECE5;">
@@ -104,10 +100,10 @@
                             <button class="block btn" onclick="edit_color(this)" style="background-color: #F6F8F5;">
                                 <div>Ral 9003</div>
                             </button>
-                            <button class="block btn" onclick="edit_color(this)" style="background-color: #D2D3CD;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #897D82;">
                                 <div>Каштановый</div>
                             </button>
-                            <button class="block btn" onclick="edit_color(this)" style="background-color: #949496;">
+                            <button class="block btn" onclick="edit_color(this)" style="background-color: #B37E85;">
                                 <div>Джеральдин</div>
                             </button>
                         </div>
@@ -165,18 +161,16 @@
     const socket_field = { "SIZE1": {}, "SIZE2": {} };
     const carnice_field = { "SIZE1": {}, "SIZE2": {} };
     const podium_field = { "SIZE1": {}, "SIZE2": {} };
-    const portal_field = {}
+    const portal_field = {};
 
-    portal_data.forEach( item =>{
-        const obj = {
-                    name: item.name,
-                    display: item.name,
-                    icon: item.icon,
-                    price: item.price,
-                    image : item.image
-                };
-                portal_field[item.name] = obj;
-    });
+    const additionals = [];
+
+    // Дополнительне
+    const bevel_data = {};
+    const greed_data = {};
+    // --------------------
+
+   
 
     const Collection = shape_data[0]["collections_id"]
 
@@ -203,6 +197,7 @@
             }
         });
     }
+
     createField(boots_data, boots_field);
     createField(socket_data, socket_field);
     createField(carnice_data, carnice_field);
@@ -211,7 +206,7 @@
     var panelsData = [
         { head: "Портал", id: "portal", data: portal_field },
         { head: "Багет", id: "molding", data: molding_data},
-        { head: "Сопожки", id: "boots", data: boots_field["SIZE1"]  },
+        { head: "Сапожки", id: "boots", data: boots_field["SIZE1"]  },
         { head: "Розетки", id: "socket", data: socket_field["SIZE1"]},
         { head: "Карниз", id: "carnice", data: carnice_field["SIZE1"]  },
         { head: "Возвышение", id: "podium", data: podium_field["SIZE1"] }
@@ -224,8 +219,6 @@
     };
 
 
-    
-
     shape_data.forEach(item => {
         if (!uniqueNames.has(item.name)) {
             uniqueNames.add(item.name);
@@ -237,6 +230,17 @@
 
             shape_[item.door_type][item.name]["display"] = item.name.replace((Collection.toUpperCase()+"_"), "");
         }
+    });
+
+    portal_data.forEach( item =>{
+        const obj = {
+                    name: item.name,
+                    display: item.name,
+                    icon: item.icon,
+                    price: item.price,
+                    image : item.image
+                };
+                portal_field[item.name] = obj;
     });
 
 
@@ -259,95 +263,118 @@
             "price":0
 
     }   
-    const form = document.getElementById("form");
-    for (const key in My_door) {
-        if (Object.hasOwnProperty.call(My_door, key)) {
-            const value = My_door[key];
 
-            const input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', key);
-            input.setAttribute('value', value);
-            input.setAttribute('id', "set_"+key);
+    function createForm(){
+        const form = document.getElementById("form");
+        for (const key in My_door) {
+            if (Object.hasOwnProperty.call(My_door, key)) {
+                const value = My_door[key];
 
-            form.appendChild(input);
+                const input = document.createElement('input');
+                input.setAttribute('type', 'hidden');
+                input.setAttribute('name', key);
+                input.setAttribute('value', value);
+                input.setAttribute('id', "set_"+key);
+
+                form.appendChild(input);
+            }
         }
     }
 
-    const bevel_data = {};
+   
+    
 
-    if (shape_data[0].bevel) {
+    
+
+    function additional_data(){
+        if (shape_data[0].bevel) {
         
-        shape_data.forEach(item => {
-            if (item.bevel) {
-                
-               
-
-                bevel_data[item.name] = bevel_data[item.name] || {};
-                bevel_data[item.name][item.bevel] = bevel_data[item.bevel] || {};
-                bevel_data[item.name][item.bevel]["icon"] = item.Bevel_icon;
-                bevel_data[item.name][item.bevel]["image"] = item.image;
-                bevel_data[item.name][item.bevel]["price"] = item.price;
-            }
-        });
-        panelsData.splice(1, 0, { head: "Фреза", id: "bevel", data: bevel_data[My_door.shape] });
+            shape_data.forEach(item => {
+                if (item.bevel) {
+                    
+                    bevel_data[item.name] = bevel_data[item.name] || {};
+                    bevel_data[item.name][item.bevel] = bevel_data[item.bevel] || {};
+                    bevel_data[item.name][item.bevel]["icon"] = item.Bevel_icon;
+                    bevel_data[item.name][item.bevel]["image"] = item.image;
+                    bevel_data[item.name][item.bevel]["price"] = item.price;
+                }
+            });
+            panelsData.splice(1, 0, { head: "Фреза", id: "bevel", data: bevel_data[My_door.shape] });
+            additionals[0] = "bevel";
+        }
     }
+    
+    createForm();
+    additional_data();
     
 
     function createButtons(data, containerId) {
-    const container = document.getElementById(containerId);
-    if (!container || !data || Object.keys(data).length === 0) return;
+        
+        const container = document.getElementById(containerId);
 
-    Object.keys(data).forEach(key => {
-        const item = data[key];
-        const display = item.display ? item.display : key;
+        if (!container || !data || Object.keys(data).length === 0 ) return;
 
-        const button = document.createElement("button");
-        button.className = "block btn";
-        button.setAttribute("value", key);
-        button.setAttribute("type", containerId);
-        button.setAttribute("onclick", "edit_conf(this)");
+        Object.keys(data).forEach(key => {
+            
+            const item = data[key];
+            if(key.includes("_P")){
+                return;
+            }
+            const display = item.display ? item.display : key;
 
-        const image = document.createElement("img");
-        image.src = "/media/" + item.icon;
-        image.alt = "";
-        image.setAttribute("loading","lazy")
-        button.appendChild(image);
+            const button = document.createElement("button");
+            button.className = "block btn";
+            button.setAttribute("value", key);
+            button.setAttribute("type", containerId);
+            button.setAttribute("onclick", "edit_conf(this)");
 
-        const div = document.createElement("div");
-        div.textContent = display;
-        button.appendChild(div);
+            const image = document.createElement("img");
+            image.src = "/media/" + item.icon;
+            image.alt = "";
+            image.setAttribute("loading","lazy")
+            button.appendChild(image);
 
-        container.appendChild(button);
-    });
-}
+            const div = document.createElement("div");
+            div.textContent = display;
+            button.appendChild(div);
 
-function createPanels(panelData) {
-    if (panelData.data && Object.keys(panelData.data).length > 0) {
-        const panelDiv = document.createElement("div");
-        panelDiv.className = "panel";
-
-        const panelHeadDiv = document.createElement("div");
-        panelHeadDiv.className = "panel_head";
-        panelHeadDiv.textContent = panelData.head;
-
-        const panelBodyDiv = document.createElement("div");
-        panelBodyDiv.className = "panel_body";
-        panelBodyDiv.id = panelData.id;
-
-        panelDiv.appendChild(panelHeadDiv);
-        panelDiv.appendChild(panelBodyDiv);
-
-        document.getElementById("Scroll_Panel").appendChild(panelDiv);
-
-        createButtons(panelData.data, panelData.id);
+            container.appendChild(button);
+        });
     }
-}
+
+    function createPanels(panelData) {
+        if (panelData.data && Object.keys(panelData.data).length > 0 ) {
+            const panelDiv = document.createElement("div");
+            panelDiv.className = "panel";
+
+            const panelHeadDiv = document.createElement("div");
+            panelHeadDiv.className = "panel_head";
+            panelHeadDiv.textContent = panelData.head;
+
+            const panelBodyDiv = document.createElement("div");
+            panelBodyDiv.className = "panel_body";
+            panelBodyDiv.id = panelData.id;
+
+            panelDiv.appendChild(panelHeadDiv);
+            panelDiv.appendChild(panelBodyDiv);
+
+            document.getElementById("Scroll_Panel").appendChild(panelDiv);
+
+            createButtons(panelData.data, panelData.id);
+        }
+    }
 
     function edit_color (obj){
+        var pressedElements = document.querySelectorAll('.pressed');
+
+        pressedElements.forEach(function(element) {
+            element.classList.remove('pressed');
+        });
+        obj.classList.add('pressed');
         My_door.color = obj.style.backgroundColor;
         edit_view();
     }
+
     function edit_conf(obj){
         My_door[obj.attributes.type.value] = obj.value
         if(obj.value == "PORTAL11"||obj.value == "PORTAL12"||obj.value == "PORTAL13"){
@@ -355,8 +382,37 @@ function createPanels(panelData) {
         }else if (obj.value.includes("PORTAL")){
             My_door.size = "SIZE1";
         }
+        if (additionals.includes("bevel")&& obj.attributes.type.value =="shape"){
+            button_update("bevel",bevel_data[My_door.shape]);
+            My_door["bevel"]=Object.keys(bevel_data[My_door.shape])[0];
+        }
+        if(My_door.podium !=null && My_door.carnice != null){
+            var word = My_door.carnice;
+            var index = My_door.carnice.indexOf("_");
+            if(index>1){
+                word = My_door.carnice.substring(0, index);
+            }
+            
+            My_door.carnice = word + "_" + My_door.podium.replace("2.1","2").replace("2.2","2").replace("1.1","1").replace("1.2","1");
+        }
 
         edit_view();
+    }
+
+    function button_update(id,data){
+        document.getElementById(id).innerHTML = "";
+        createButtons(data,id);
+    }
+
+    function set_type(type){
+        My_door.type = type;
+        button_update("shape",shape_[type]);
+        let myobj = document.createElement("button");
+        myobj.setAttribute("type","shape");
+        myobj.setAttribute("value",Object.keys(shape_[type])[0]);
+        edit_conf(myobj);
+
+        
     }
 
     function edit_view(){
@@ -367,11 +423,9 @@ function createPanels(panelData) {
         document.getElementById("d_porium").innerHTML = My_door.podium;
         document.getElementById("d_carnice").innerHTML = My_door.carnice;
 
-        
-
         price = 0;
         
-        if(shape_data[0].bevel){
+        if(bevel_data[My_door.shape]){
             edit_image("door",bevel_data[My_door.shape][My_door.bevel]["image"],My_door.color);
             price += bevel_data[My_door.shape][My_door.bevel]["price"];
         }else{
@@ -402,6 +456,8 @@ function createPanels(panelData) {
         if (Object.hasOwnProperty.call(My_door, key)) {
             document.getElementById("set_"+key).setAttribute('value',My_door[key])
         }
+
+
     }
 
        
@@ -409,7 +465,21 @@ function createPanels(panelData) {
     }
 
     function edit_image(obj,img,color){
-        document.getElementById(obj+"_image").attributes.src.value = "/media/"+img;
+
+        var newImage = new Image();
+        var mainImage = document.getElementById(obj+"_image");
+        mainImage.style.display = "none";
+
+        newImage.onload = function() {
+        
+            mainImage.src = newImage.src;
+            mainImage.style.display = "inline";
+            
+        };
+
+        newImage.src = "/media/"+img;
+
+        
         const element = document.getElementById(obj+"_mask");
 
         if (!element) {
