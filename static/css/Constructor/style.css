@@ -92,6 +92,7 @@ a:hover{
 
 #panel{
     height: 100vh;
+    overflow-y: hidden;
     width: 52%;
     position: relative;
 }
@@ -118,9 +119,8 @@ a:hover{
 .panel{
     position: relative;
     border: gray 2px solid;
-
-    margin: auto;
     width: 75%;
+    margin: auto;
     margin-bottom: 2rem;
 
     background-color: #000;
@@ -132,12 +132,14 @@ a:hover{
 }
 #Scroll_Panel{
 
-    max-height: 65vh;
+    max-height: calc(100vh - 200px);
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
-
+.btn{
+    border-radius: 0;
+}
 .panel_head{
     border-bottom:gray 2px solid ;
     padding: 0.5rem;
@@ -218,7 +220,6 @@ a:hover{
 #Order > div{
     border: #fff 2px solid;
     margin: auto;
-    width: 75%;
     height: 6rem;
     background-color: #000;
 }

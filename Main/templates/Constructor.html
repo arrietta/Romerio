@@ -30,11 +30,13 @@
                 <img src="/media/Shape/CLASSIC_AFINA-1.png" alt="" id="door_image">
                 
 
-                <img src="/media/Portal/PORTALCURVE01.png" alt="" id="portal_image">
+                
                 <img src="" alt="" id="molding_image">
-                <img src="" alt="" id="boots_image">
+                
                 <img src="" alt="" id="carnice_image">
                 <img src="" alt="" id="podium_image">
+                <img src="/media/Portal/PORTALCURVE01.png" alt="" id="portal_image">
+                <img src="" alt="" id="boots_image">
                 <img src="" alt="" id="socket_image">
 
                 <span id="door_mask" class="mask"></span>
@@ -53,15 +55,15 @@
 
             <section id="panel">
                 <div class="bg-white d-flex py-3 px-4 ">
-                    <img src="{% static 'image/Arrow.svg'%}" height="18px" alt="" class="my-auto mx-1">
+                    <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
                     <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
                 </div>
                 <div id="type_selector">
-                    <button class="btn text-light right-line fs-5"  onclick="set_type('Classic')">Глухая</button>
-                    <Button class="btn text-light fs-5" onclick="set_type('DO')">Остекленная</Button>
+                    <button class="btn text-light right-line fs-5"  onclick="set_type('Classic',this)">Глухая</button>
+                    <Button class="btn text-light fs-5" onclick="set_type('DO',this)">Остекленная</Button>
                 </div>
-                <div id="Scroll_Panel">
-                    <div id="Color" class="panel">
+                <div id="Scroll_Panel" >
+                    <div id="Color" class="panel ">
                         <div class="panel_head">Цвет</div>
                         <div class="color_body">
                             <button class="block btn pressed" onclick="edit_color(this)" id="color-1" style="background-color: white;" >
@@ -111,7 +113,7 @@
 
 
                     </div>
-                    <div class="panel">
+                    <div class="panel ">
                         <div class="panel_head">Форма двери</div>
                         <div class="panel_body" id="shape"></div>
                     </div>
@@ -122,7 +124,7 @@
                     
                 </div>
                 <div id="Order">
-                    <div class="d-flex p-3 justify-content-between">
+                    <div class="d-flex p-3 justify-content-between w-75 ">
                         <div>
                             <div >Цвет :<span id="d_color">Option</span></div>
                             <div>Форма двери :<span id="d_shape">Option</span></div>
@@ -250,6 +252,7 @@
     let My_door= {
             "type":"Classic",
             "color": "WHITE",
+            "color_name": "WHITE",
             "shape" : shape_data[0]["name"],
             "image":"/media/"+shape_data[0]["image"],
             "portal" : portal_data[0]["name"],
@@ -365,17 +368,25 @@
     }
 
     function edit_color (obj){
-        var pressedElements = document.querySelectorAll('.pressed');
+        var pressedElements = document.querySelectorAll('.pressed[onclick="edit_color(this)"]');
 
         pressedElements.forEach(function(element) {
             element.classList.remove('pressed');
         });
         obj.classList.add('pressed');
         My_door.color = obj.style.backgroundColor;
+        My_door.color_name = obj.innerHTML.replace("<div>","").replace("</div>","").replace("\n","");
+        document.getElementById("d_color").innerHTML = obj.innerHTML.replace("<div>","").replace("</div>","");
         edit_view();
     }
 
     function edit_conf(obj){
+
+        document.querySelectorAll('.block[type="'+obj.attributes.type.value+'"]').forEach(element =>{
+            element.classList.remove("pressed");
+        })
+        obj.classList.add("pressed");
+
         My_door[obj.attributes.type.value] = obj.value
         if(obj.value == "PORTAL11"||obj.value == "PORTAL12"||obj.value == "PORTAL13"){
             My_door.size = "SIZE2";
@@ -404,7 +415,11 @@
         createButtons(data,id);
     }
 
-    function set_type(type){
+    function set_type(type,obj){
+        document.querySelectorAll('.btn.fs-5').forEach(element=>{
+            element.classList.remove("bg-white","text-dark",);
+        });
+        obj.classList.add("bg-white","text-dark");
         My_door.type = type;
         button_update("shape",shape_[type]);
         let myobj = document.createElement("button");
@@ -416,7 +431,6 @@
     }
 
     function edit_view(){
-        document.getElementById("d_color").innerHTML = My_door.color;
         document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase()+"_"), "");
         document.getElementById("d_portal").innerHTML = My_door.portal;
         document.getElementById("d_molding").innerHTML = My_door.molding;
