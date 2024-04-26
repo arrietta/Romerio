@@ -397,14 +397,22 @@
             button_update("bevel",bevel_data[My_door.shape]);
             My_door["bevel"]=Object.keys(bevel_data[My_door.shape])[0];
         }
-        if(My_door.podium !=null && My_door.carnice != null){
+
+        if(My_door.podium != null && My_door.carnice != null){
             var word = My_door.carnice;
             var index = My_door.carnice.indexOf("_");
             if(index>1){
                 word = My_door.carnice.substring(0, index);
             }
+            if (My_door.carnice == "none" || My_door.podium == "none"){
+                
+                My_door.carnice = word
+            }else{
+                console.log(word);
+                My_door.carnice = word + "_" + My_door.podium.replace("2.1","2").replace("2.2","2").replace("1.1","1").replace("1.2","1");
             
-            My_door.carnice = word + "_" + My_door.podium.replace("2.1","2").replace("2.2","2").replace("1.1","1").replace("1.2","1");
+            }
+            
         }
 
         edit_view();

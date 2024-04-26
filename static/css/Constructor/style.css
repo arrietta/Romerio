@@ -180,6 +180,9 @@ a:hover{
     position: absolute;
     max-width:80%;
     top:20%;
+    object-fit: contain;
+    height: 5rem;
+
 }
 .pressed > div{
     background-color: #fff;
