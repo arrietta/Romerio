@@ -59,7 +59,7 @@
                     <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
                 </div>
                 <div id="type_selector">
-                    <button class="btn text-light right-line fs-5"  onclick="set_type('Classic',this)">Глухая</button>
+                    <button class="btn text-light bg-white text-dark right-line fs-5"  onclick="set_type('Classic',this)">Глухая</button>
                     <Button class="btn text-light fs-5" onclick="set_type('DO',this)">Остекленная</Button>
                 </div>
                 <div id="Scroll_Panel" >
@@ -131,7 +131,7 @@
                             <div>Портал :<span id="d_portal">Option</span></div>
                         </div>
                         <div>
-                            <div>Багет :<span id="d_molding">Option</span></div>
+                            <div>Фреза :<span id="d_molding">Option</span></div>
                             <div>Возвышение :<span id="d_porium">Option</span></div>
                             <div>Карниз :<span id="d_carnice">Option</span></div>
                         </div>
@@ -429,11 +429,22 @@
 
         
     }
+    function sellect(){
+        
+        document.querySelector('#shape > button.block.btn').classList.add("pressed");
+        document.querySelector('#portal > button.block.btn').classList.add("pressed");
+        if(document.getElementById("bevel")){document.querySelector('#bevel > button.block.btn').classList.add("pressed");}
+        document.querySelector('#boots > button.block.btn').classList.add("pressed");
+        document.querySelector('#carnice > button.block.btn').classList.add("pressed");
+        document.querySelector('#podium > button.block.btn').classList.add("pressed");
+        document.querySelector('#socket > button.block.btn').classList.add("pressed");
+
+    }
 
     function edit_view(){
         document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase()+"_"), "");
         document.getElementById("d_portal").innerHTML = My_door.portal;
-        document.getElementById("d_molding").innerHTML = My_door.molding;
+        document.getElementById("d_molding").innerHTML = My_door.bevel;
         document.getElementById("d_porium").innerHTML = My_door.podium;
         document.getElementById("d_carnice").innerHTML = My_door.carnice;
 
@@ -511,6 +522,7 @@
 
     panelsData.forEach(createPanels);
     edit_view();
+    sellect();
 
     function sendDataToServer(data) {
         // Получение CSRF токена из куки

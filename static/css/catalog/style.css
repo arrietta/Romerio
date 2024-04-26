@@ -20,6 +20,9 @@
 .container-fluid{
     margin: auto;
 }
+.active{
+    font-weight: bold!important;
+}
 
 *{
     color: #ffffff;
