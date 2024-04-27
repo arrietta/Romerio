@@ -396,7 +396,12 @@
         }
         if (additionals.includes("bevel")&& obj.attributes.type.value =="shape"){
             button_update("bevel",bevel_data[My_door.shape]);
-            My_door["bevel"]=Object.keys(bevel_data[My_door.shape])[0];
+            var newBevel = Object.keys(bevel_data[My_door.shape])[0]; // Получаем новое значение для 'bevel'
+
+            if (!Object.keys(bevel_data[My_door.shape]).includes(My_door["bevel"])) {
+                My_door["bevel"] = newBevel; // Обновляем значение 'bevel', если оно отсутствует в массиве ключей
+            }
+
         }
 
         if(My_door.podium != null && My_door.carnice != null){
