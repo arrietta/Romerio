@@ -38,6 +38,7 @@
                 <img src="/media/Portal/PORTALCURVE01.png" alt="" id="portal_image">
                 <img src="" alt="" id="boots_image">
                 <img src="" alt="" id="socket_image">
+                <img src="" alt="" id="shadow">
 
                 <span id="door_mask" class="mask"></span>
                 <span id="portal_mask" class="mask"></span>
@@ -169,7 +170,7 @@
 
     // Дополнительне
     const bevel_data = {};
-    const greed_data = {};
+    const grid_data = {};
     // --------------------
 
    
@@ -450,6 +451,7 @@
     }
 
     function edit_view(){
+        document.getElementById("shadow").src = "/static/css/Constructor/"+My_door.size+".png"
         document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase()+"_"), "");
         document.getElementById("d_portal").innerHTML = My_door.portal;
         document.getElementById("d_molding").innerHTML = My_door.bevel;
