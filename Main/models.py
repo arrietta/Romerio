@@ -93,7 +93,6 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
 
-
 class Shpone(models.Model):
     collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
     door_type = models.CharField(max_length=127)
@@ -110,6 +109,7 @@ class Shpone(models.Model):
             models.Index(fields=['collections'])
         ]
 
+
 class Shpon_Carnice(Decore):
     image = models.ImageField(upload_to='Carnice/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Carnice/', verbose_name='icon')
@@ -121,7 +121,20 @@ class Shpon_Socket(Decore):
     icon = models.ImageField(upload_to='icon/Socket/', verbose_name='icon')
     color = models.CharField(max_length=127)
 
+
 class Shpon_Boots(Decore):
     image = models.ImageField(upload_to='Boots/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Boots/', verbose_name='icon')
     color = models.CharField(max_length=127)
+
+
+class Shpon_Molding(models.Model):
+    collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='Molding/', verbose_name='Photo')
+    icon = models.ImageField(upload_to='icon/Molding/', verbose_name='icon')
+    color = models.CharField(max_length=127)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['collections'])
+        ]
