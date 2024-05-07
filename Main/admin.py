@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Collections, Portal, Carnice, Podium, Socket, Boots, CartItem, Shape, Molding,Shpon_Boots,Shpon_Socket,Shpon_Carnice,Shpone
+from .models import Collections, Portal, Carnice, Podium, Socket, Boots, CartItem, Shape, Molding,Shpon_Boots,Shpon_Socket,Shpon_Carnice,Shpone,Shpon_Molding
 
 admin.site.register(Collections)
 admin.site.register(Shape)
 admin.site.register(Molding)
 admin.site.register(Shpone)
+admin.site.register(Shpon_Molding)
 admin.site.register(Shpon_Socket)
 admin.site.register(Shpon_Carnice)
 admin.site.register(Shpon_Boots)
