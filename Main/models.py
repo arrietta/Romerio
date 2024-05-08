@@ -41,7 +41,7 @@ class Portal(Decore):
     icon = models.ImageField(upload_to='icon/Portal/', verbose_name='icon')
 
 
-class Molding(models.Model):
+class Molding(Decore):
     collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='Molding/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Molding/', verbose_name='icon')
@@ -128,7 +128,7 @@ class Shpon_Boots(Decore):
     color = models.CharField(max_length=127)
 
 
-class Shpon_Molding(models.Model):
+class Shpon_Molding(Decore):
     collections = models.ForeignKey(Collections, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='Molding/', verbose_name='Photo')
     icon = models.ImageField(upload_to='icon/Molding/', verbose_name='icon')

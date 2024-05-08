@@ -32,8 +32,6 @@ def cart(request):
 
 
 def constructor(request, key):
-    unique_id = identification(request)
-
     collections = Collections.objects.get(name=key)
 
     shape = Shape.objects.filter(collections=collections.pk)
