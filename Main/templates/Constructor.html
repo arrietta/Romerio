@@ -166,6 +166,8 @@
     const podium_field = { "SIZE1": {}, "SIZE2": {} };
     const portal_field = {};
 
+    const molding_field = {};
+
     const additionals = [];
 
     // Дополнительне
@@ -208,7 +210,7 @@
 
     var panelsData = [
         { head: "Портал", id: "portal", data: portal_field },
-        { head: "Багет", id: "molding", data: molding_data},
+        { head: "Багет", id: "molding", data: molding_field},
         { head: "Сапожки", id: "boots", data: boots_field["SIZE1"]  },
         { head: "Розетки", id: "socket", data: socket_field["SIZE1"]},
         { head: "Карниз", id: "carnice", data: carnice_field["SIZE1"]  },
@@ -304,7 +306,18 @@
                 }
             });
             panelsData.splice(1, 0, { head: "Фреза", id: "bevel", data: bevel_data[My_door.shape] });
-            additionals[0] = "bevel";
+            additionals.push("bevel");
+        }
+        if(molding_data[0]){
+            additionals.push("molding");
+            molding_data.forEach(item =>{
+                molding_field[item.name] =  molding_field[item.name]||{};
+                molding_field[item.name]["icon"] = item.icon;
+                molding_field[item.name]["image"] = item.image;
+                molding_field[item.name]["price"] = item.price;
+            });
+            My_door.molding = Object.keys(molding_field)[0];
+
         }
     }
     
@@ -394,15 +407,19 @@
         }else if (obj.value.includes("PORTAL")){
             My_door.size = "SIZE1";
         }
+
         if (additionals.includes("bevel")&& obj.attributes.type.value =="shape"){
             button_update("bevel",bevel_data[My_door.shape]);
-            var newBevel = Object.keys(bevel_data[My_door.shape])[0]; // Получаем новое значение для 'bevel'
+            var newBevel = Object.keys(bevel_data[My_door.shape])[0]; 
 
             if (!Object.keys(bevel_data[My_door.shape]).includes(My_door["bevel"])) {
-                My_door["bevel"] = newBevel; // Обновляем значение 'bevel', если оно отсутствует в массиве ключей
+                My_door["bevel"] = newBevel; 
             }
 
         }
+
+        
+
 
         if(My_door.podium != null && My_door.carnice != null){
             var word = My_door.carnice;
@@ -474,6 +491,7 @@
         }
 
         edit_image("portal",portal_field[My_door.portal]["image"],My_door.color);
+        edit_image("molding",molding_field[My_door.molding]["image"],"White");
 
         price += portal_field[My_door.portal]["price"];
         
