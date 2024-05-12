@@ -370,8 +370,8 @@
             });
             obj.classList.add('pressed');
             My_door.color = obj.style.backgroundColor;
-            My_door.color_name = obj.innerHTML.replace("<div>", "").replace("</div>", "").replace("\n", "");
-            document.getElementById("d_color").innerHTML = obj.innerHTML.replace("<div>", "").replace("</div>", "");
+            My_door.color_name = obj.innerText;
+            document.getElementById("d_color").innerHTML =  My_door.color_name;
             edit_view();
         }
 
