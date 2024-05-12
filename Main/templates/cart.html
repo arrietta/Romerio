@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,6 @@
     {% load static%}
     <link href="https://fonts.googleapis.com/css?family=Playfair Display" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
     <link href="https://fonts.cdnfonts.com/css/felidae" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/manrope" rel="stylesheet">
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
@@ -16,66 +16,36 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/cart/style.css' %}">
 </head>
+
 <body style="background-color: #0B0B0B;">
-    
-        
-            
+
     <Header class="underline">
         <nav class="navbar navbar-expand-lg  navbar-dark bg-black ">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'main' %}">Romerio</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end " id="navbarNav">
                     <ul class="navbar-nav ">
                         <li class="nav-item lined">
-                        <a class="nav-link "  id="link_main"  href="{% url 'main' %}">Главная</a>
-                      </li>
-                      <li class="nav-item lined">
-                        <a class="nav-link " id="link_catalog" href="{% url 'catalog' %}">Каталог</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link active" id="link_cart"  href="{% url 'cart'%}">Корзина</a>
-                      </li>
-                      
+                            <a class="nav-link " id="link_main" href="{% url 'main' %}">Главная</a>
+                        </li>
+                        <li class="nav-item lined">
+                            <a class="nav-link " id="link_catalog" href="{% url 'catalog' %}">Каталог</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="link_cart" href="{% url 'cart'%}">Корзина</a>
+                        </li>
+
                     </ul>
-                    </div>
                 </div>
-            </nav>
+            </div>
+        </nav>
     </Header>
     <main class="d-md-flex underline">
         <section id="list" class="col-md-6 rightline-md">
-            <!-- <div class="underline w-100  d-flex" id="0">
-                <div class="col-2 rightline"></div>
-                <div class="col-10 p-md-4 p-2 ">
-                    <div class="d-flex justify-content-between">
-                        <h3>Classic</h3>
-                        <h3>25000</h3>
-
-                    </div>
-                    <div class="d-flex justify-content-between ">
-                        <div>
-                            <div class="text-secondary ">опции</div>
-                            <div class="text-secondary">опции</div>
-                            <div class="text-secondary">опции</div>
-                        </div>
-                        <div>
-                            <div class="text-secondary">опции</div>
-                            <div class="text-secondary">опции</div>
-                            <div class="text-secondary">опции</div>
-                        </div>
-                        <div class="d-flex btns">
-                            <button class="">-</button>
-                            <div>1</div>
-                            <button class="">+</button>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div> -->
-            
         </section>
         <section id="order" class="col-md-6 ">
             <h3 class="p-4 ">Оформление <br> заявки для заказа:</h3>
@@ -98,126 +68,177 @@
                     </div>
                     <div id="error-message" class="text-danger p-3" style="display: none;">Выберите оба пункта</div>
                 </div>
-                
+
                 <div class="bottom">
                     <div class="d-flex justify-content-between px-3 py-1">
                         <h3>ИТОГО (Без услуг):</h3>
-                        <h3 ><span id="price"></span> руб.</h3>
+                        <h3><span id="price"></span> руб.</h3>
                     </div>
                     <input type="submit" value="Заказать**" class="btn-black" id="submitButton">
                     <div class="text-secondary m-3">** - Оплата доступна только на месте доставки или в салоне</div>
                     <div class="m-3"><a href="#" class="text-secondary ">политика конфиденциальности</a></div>
                 </div>
             </form>
-            
-            
+
         </section>
         <script>
             const data = JSON.parse('{{ data|safe }}');
-
             data.forEach(element => {
                 createObject(element);
             });
-            function createObject(element){
-                               
+
+            function createObject(element) {
                 var newItem = document.createElement('div');
                 newItem.classList.add('underline', 'w-100', 'd-flex');
-                newItem.id = '0';
-
+                newItem.id = "el_"+element.id ;
                 var col1 = document.createElement('div');
                 col1.classList.add('col-2', 'rightline');
-
                 newItem.appendChild(col1);
-
                 var col2 = document.createElement('div');
                 col2.classList.add('col-10', 'p-md-4', 'p-2');
-
                 var contentDiv1 = document.createElement('div');
-                
                 contentDiv1.classList.add('d-flex', 'justify-content-between');
-
-                contentDiv1.innerHTML = '<h3>'+element['shape'].split('_')[0]+'</h3><h3>'+element['door_price']* element['quantity']+'</h3>';
+                contentDiv1.innerHTML = '<h3>' + element['shape'].split('_')[0] + '</h3><h3 class="prices" id="price_'+ element.id +'">' + element['door_price'] *
+                    element['quantity'] + '</h3>';
                 var mainContainer = document.createElement('div');
                 mainContainer.classList.add('d-flex', 'justify-content-between');
-
                 var optionsLeftDiv = document.createElement('div');
-
-                var option =[];
-                
-                element['shape'].split('_')[1] ? option.push(["Форма : ",element['shape'].split('_')[1]]):'';
-                element['portal'] ? option.push(["Портал : ",element['portal']]):'';
-                element['molding'] != "null" ? option.push(["Багет : ",element['molding']]):'';
-                element['bevel'] != "null" ? option.push(["Фреза : ",element['bevel']]):'';
-                element['color'] ? option.push(["Цвет : ",element['color']]):'';
-                element['carnice'] != "null" ? option.push(["Карниз : ",element['carnice']]):'';
-                element['boots'] != "null" ? option.push(["Сопозок : ",element['boots']]):'';
-                element['podium'] != "null" ? option.push(["Возвышение : ",element['podium']]):'';
-                element['socket'] != "null" ? option.push(["Розетка : ",element['socket']]):'';
-
-                while(option.length < 6){
-                    option.push([" "," "]);
+                var option = [];
+                element['shape'].split('_')[1] ? option.push(["Форма : ", element['shape'].split('_')[1]]) : '';
+                element['portal'] ? option.push(["Портал : ", element['portal']]) : '';
+                element['molding'] != "null" ? option.push(["Багет : ", element['molding']]) : '';
+                element['bevel'] != "null" ? option.push(["Фреза : ", element['bevel']]) : '';
+                element['color'] ? option.push(["Цвет : ", element['color']]) : '';
+                element['carnice'] != "null" ? option.push(["Карниз : ", element['carnice']]) : '';
+                element['boots'] != "null" ? option.push(["Сопозок : ", element['boots']]) : '';
+                element['podium'] != "null" ? option.push(["Возвышение : ", element['podium']]) : '';
+                element['socket'] != "null" ? option.push(["Розетка : ", element['socket']]) : '';
+                while (option.length < 6) {
+                    option.push([" ", " "]);
                 }
-
-                var optionsLeftContent = [option[0][0]+option[0][1], option[2][0]+option[2][1], option[4][0]+option[4][1]];
+                var optionsLeftContent = [option[0][0] + option[0][1], option[2][0] + option[2][1], option[4][0] +
+                    option[4][1]
+                ];
                 optionsLeftContent.forEach(function(option) {
                     var optionDiv = document.createElement('div');
                     optionDiv.classList.add('text-secondary');
                     optionDiv.textContent = option;
                     optionsLeftDiv.appendChild(optionDiv);
                 });
-
                 var optionsRightDiv = document.createElement('div');
-                var optionsRightContent = [option[1][0]+option[1][1], option[3][0]+option[3][1], option[5][0]+option[5][1]];
+                var optionsRightContent = [option[1][0] + option[1][1], option[3][0] + option[3][1], option[5][0] +
+                    option[5][1]
+                ];
                 optionsRightContent.forEach(function(option) {
                     var optionDiv = document.createElement('div');
                     optionDiv.classList.add('text-secondary');
                     optionDiv.textContent = option;
                     optionsRightDiv.appendChild(optionDiv);
                 });
-
                 var buttonsDiv = document.createElement('div');
                 buttonsDiv.classList.add('d-flex', 'btns');
                 var minusButton = document.createElement('button');
                 minusButton.textContent = '-';
+                minusButton.onclick = function() {
+                    Element_minus(element.Key, element.id);
+                };
                 var quantityDiv = document.createElement('div');
-                quantityDiv.textContent = '1';
+                quantityDiv.textContent = element.quantity;
+                quantityDiv.id = element.id; 
                 var plusButton = document.createElement('button');
                 plusButton.textContent = '+';
+                plusButton.onclick = function() {
+                    Element_plus(element.Key, element.id);
+                };
                 buttonsDiv.appendChild(minusButton);
                 buttonsDiv.appendChild(quantityDiv);
                 buttonsDiv.appendChild(plusButton);
-
-                // Append the three inner divs to the main container
                 mainContainer.appendChild(optionsLeftDiv);
                 mainContainer.appendChild(optionsRightDiv);
                 mainContainer.appendChild(buttonsDiv);
-
-                // Append the main container to the desired parent element in the document
-                var parentElement = document.getElementById('your_parent_element_id');
-                
-
-
                 col2.appendChild(contentDiv1);
                 col2.appendChild(mainContainer);
-
                 newItem.appendChild(col2);
-
                 document.getElementById('list').appendChild(newItem);
-
             }
-
-            $(document).ready(function(){
+            $(document).ready(function() {
                 $('#submitButton').click(function() {
                     let deliveryCheckbox = $('#delivery');
                     let measurementCheckbox = $('#measurement');
-
                     if (!deliveryCheckbox.is(':checked') || !measurementCheckbox.is(':checked')) {
-                        $('#error-message').show(); 
+                        $('#error-message').show();
                     } else {
-                        $('#error-message').hide(); 
+                        $('#error-message').hide();
                     }
                 });
             });
+
+            function Element_plus(key,id){
+                
+                var requestData = {
+                    "key": key,
+                    "id": id,
+                };
+                sendDataToServer('/api_plus/', key, id);
+                let price = parseInt(document.getElementById("price_"+id).textContent)/ parseInt(document.getElementById(id).innerText);
+                document.getElementById(id).innerText = parseInt(document.getElementById(id).innerText) + 1 ;
+                document.getElementById("price_"+id).innerText = price * parseInt(document.getElementById(id).innerText);
+                edit_view();
+            }   
+
+            function Element_minus(key,id){
+
+                if(document.getElementById(id).innerText == 1){
+                    document.getElementById("el_"+id).remove();
+                    sendDataToServer('/api_delete/', key, id);
+                   
+                }else{
+                    sendDataToServer('/api_minus/', key, id);
+                    let price = parseInt(document.getElementById("price_"+id).textContent)/ parseInt(document.getElementById(id).innerText);
+                    document.getElementById(id).innerText = parseInt(document.getElementById(id).innerText) - 1;
+                    document.getElementById("price_"+id).innerText = price * parseInt(document.getElementById(id).innerText);
+                    edit_view();
+                }
+                
+                
+            }
+
+            function sendDataToServer(url, key , id) {
+
+                const csrftoken = getCookie('csrftoken');
+                const formData = new FormData();
+                formData.append('key', key);
+                formData.append('id', id);
+
+                fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {'X-CSRFToken': csrftoken }
+                })
+                .then(response => response.json())
+                
+                .catch(error => {
+                console.error('Error:', error);
+                });
+            }        
+
+            function getCookie(name) {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+
+            function edit_view(){
+                var totel = 0;
+                let elements = document.getElementsByClassName("prices")
+                Array.from(elements).forEach(element => {
+                    totel+=parseInt(element.innerText);
+                });
+               
+                document.getElementById("price").innerText = totel;
+            }
+            edit_view();
+
         </script>
 
     </main>
@@ -232,23 +253,23 @@
                     interroom21@mail.ru
                 </div>
                 <div>
-
-                    Индивидуальный Предприниматель<br>Вороновская Ольга Витальевна<br>ИНН: 772392666702<br>ОГРН: 321508100092737<br>БИК: 044525225<br>Банк ПАО СБЕРБАНК<br>Кор.счет: 30101810400000000225<br>Расчетный счет: 40802810540000162884 <br>Шрифт Felidae разработан Дарьей Казаковой <br>в Школе дизайна НИУ ВШЭ
+                    Индивидуальный Предприниматель<br>Вороновская Ольга Витальевна<br>ИНН: 772392666702<br>ОГРН:
+                    321508100092737<br>БИК: 044525225<br>Банк ПАО СБЕРБАНК<br>Кор.счет:
+                    30101810400000000225<br>Расчетный счет: 40802810540000162884 <br>Шрифт Felidae разработан Дарьей
+                    Казаковой <br>в Школе дизайна НИУ ВШЭ
                 </div>
             </div>
         </section>
-        <section  class="col-md-4">
+        <section class="col-md-4">
             <h2>Мы в соц.сетях</h2>
             <div class="mt-4">
                 <h3> <a href="https://dzen.ru/interroom">Дзен</a></h3>
                 <h3><a href="https://vk.com/interroom21">Вконтакте</a></h3>
                 <h3> <a href="#">Youtube</a></h3>
-               
-                
-               
+
             </div>
         </section>
-        <section  class="col-md-4">
+        <section class="col-md-4">
             <h2>Адрес</h2>
             <div class="mt-4">
                 Ш. Автомагистраль Москва – <br>
@@ -256,6 +277,7 @@
             </div>
         </section>
     </footer>
-       
+
 </body>
+
 </html>

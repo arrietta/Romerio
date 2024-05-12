@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+
 from Main.models import *
 from django.shortcuts import render, redirect
 import json
@@ -24,6 +26,8 @@ def catalog(request):
 
 
 def cart(request):
+    if request.method == 'POST':
+        print(request.POST)
     unique_id = identification(request)
     data = CartItem.objects.filter(Key=unique_id)
     return render(request, 'cart.html', {"data": Dump(data)})
@@ -70,6 +74,7 @@ def api_add(request):
             boots=request.POST['boots'],
             door_price=request.POST['price'],
             size=request.POST['size'],
+            color=request.POST['color_name'],
             quantity=1
         )
         cart_item.save()
@@ -77,9 +82,64 @@ def api_add(request):
         return redirect("/cart/")
 
 
-def api_plus():
-    return None
+def api_plus(request):
+    if request.method == 'POST':
+        key = request.POST.get("key")
+        item_id = request.POST.get("id")
+
+        if key and item_id:
+            cart_item = CartItem.objects.get(Key=key, id=item_id)
+            cart_item.quantity += 1
+            cart_item.save()
+
+            if cart_item:
+                return JsonResponse({'success': True, 'message': 'CartItem found.'})
+            else:
+                return JsonResponse({'success': False, 'message': 'CartItem not found.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Key and/or id parameter missing.'})
+
+    else:
+        return JsonResponse({'success': False, 'message': 'Only POST requests are supported.'})
 
 
-def api_minus():
-    return None
+def api_minus(request):
+    if request.method == 'POST':
+        key = request.POST.get("key")
+        item_id = request.POST.get("id")
+
+        if key and item_id:
+            cart_item = CartItem.objects.get(Key=key, id=item_id)
+            cart_item.quantity -= 1
+            cart_item.save()
+
+            if cart_item:
+                return JsonResponse({'success': True, 'message': 'CartItem found.'})
+            else:
+                return JsonResponse({'success': False, 'message': 'CartItem not found.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Key and/or id parameter missing.'})
+
+    else:
+        return JsonResponse({'success': False, 'message': 'Only POST requests are supported.'})
+
+
+def api_delete(request):
+    if request.method == 'POST':
+        key = request.POST.get("key")
+        item_id = request.POST.get("id")
+
+        if key and item_id:
+            cart_item = CartItem.objects.get(Key=key, id=item_id)
+            cart_item.delete()
+
+            if cart_item:
+                return JsonResponse({'success': True, 'message': 'CartItem found.'})
+
+            else:
+                return JsonResponse({'success': False, 'message': 'CartItem not found.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Key and/or id parameter missing.'})
+
+    else:
+        return JsonResponse({'success': False, 'message': 'Only POST requests are supported.'})
