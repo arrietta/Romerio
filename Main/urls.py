@@ -9,7 +9,9 @@ urlpatterns = ([
                   path('catalog', views.catalog, name='catalog'),
                   path('cart/', views.cart, name='cart'),
                   path('constructor/<str:key>', views.constructor, name='constructor'),
-                  path('api/', views.api, name='api'),
+                  path('api_add/', views.api_add, name='api_add'),
+                  path('api_plus/', views.api_plus, name='api_plus'),
+                  path('api_minus/', views.api_minus, name='api_minus'),
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
                static(settings.STATIC_URL,document_root=settings.STATIC_ROOT))

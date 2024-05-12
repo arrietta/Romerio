@@ -1,10 +1,7 @@
-import json
-import uuid
-
-from django.http import JsonResponse
-
 from Main.models import *
 from django.shortcuts import render, redirect
+import json
+import uuid
 
 
 def identification(request):
@@ -28,7 +25,8 @@ def catalog(request):
 
 def cart(request):
     unique_id = identification(request)
-    return render(request, 'cart.html')
+    data = CartItem.objects.filter(Key=unique_id)
+    return render(request, 'cart.html', {"data": Dump(data)})
 
 
 def constructor(request, key):
@@ -43,23 +41,22 @@ def constructor(request, key):
     molding = Molding.objects.filter(collections=collections.pk)
 
     return render(request, 'Constructor.html',
-                  {'shape_data': Data(shape),
-                   'portal_data': Data(portal),
-                   'molding_data': Data(molding),
-                   'podium_data': Data(podium),
-                   'boots_data': Data(boots),
-                   'carnice_data': Data(carnice),
-                   'socket_data': Data(socket)})
+                  {'shape_data': Dump(shape),
+                   'portal_data': Dump(portal),
+                   'molding_data': Dump(molding),
+                   'podium_data': Dump(podium),
+                   'boots_data': Dump(boots),
+                   'carnice_data': Dump(carnice),
+                   'socket_data': Dump(socket)})
 
 
-def Data(data):
+def Dump(data):
     return json.dumps(list(data.values()))
 
 
-def api(request):
+def api_add(request):
     unique_id = identification(request)
     if request.method == 'POST':
-
         cart_item = CartItem.objects.create(
             Key=unique_id,
             image=request.POST['image'],
@@ -78,3 +75,11 @@ def api(request):
         cart_item.save()
 
         return redirect("/cart/")
+
+
+def api_plus():
+    return None
+
+
+def api_minus():
+    return None

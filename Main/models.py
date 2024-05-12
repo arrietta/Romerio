@@ -88,6 +88,7 @@ class CartItem(models.Model):
     podium = models.CharField(max_length=64, null=True, blank=True)
     socket = models.CharField(max_length=64, null=True, blank=True)
     boots = models.CharField(max_length=64, null=True, blank=True)
+    color = models.CharField(max_length=64, null=True, blank=True)
     door_price = models.FloatField()
     size = models.CharField(max_length=16)
     quantity = models.PositiveIntegerField(default=1)

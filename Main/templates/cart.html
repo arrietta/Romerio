@@ -45,10 +45,10 @@
             </nav>
     </Header>
     <main class="d-md-flex underline">
-        <section id="list" class="w-50 rightline">
-            <div class="underline w-100  d-flex">
+        <section id="list" class="col-md-6 rightline-md">
+            <!-- <div class="underline w-100  d-flex" id="0">
                 <div class="col-2 rightline"></div>
-                <div class="col-10 p-4 ">
+                <div class="col-10 p-md-4 p-2 ">
                     <div class="d-flex justify-content-between">
                         <h3>Classic</h3>
                         <h3>25000</h3>
@@ -56,14 +56,14 @@
                     </div>
                     <div class="d-flex justify-content-between ">
                         <div>
-                            <div class="text-secondary">выбранные опции</div>
-                            <div class="text-secondary">выбранные опции</div>
-                            <div class="text-secondary">выбранные опции</div>
+                            <div class="text-secondary ">опции</div>
+                            <div class="text-secondary">опции</div>
+                            <div class="text-secondary">опции</div>
                         </div>
                         <div>
-                            <div class="text-secondary">выбранные опции</div>
-                            <div class="text-secondary">выбранные опции</div>
-                            <div class="text-secondary">выбранные опции</div>
+                            <div class="text-secondary">опции</div>
+                            <div class="text-secondary">опции</div>
+                            <div class="text-secondary">опции</div>
                         </div>
                         <div class="d-flex btns">
                             <button class="">-</button>
@@ -74,34 +74,37 @@
 
                     </div>
                 </div>
-            </div>
+            </div> -->
+            
         </section>
-        <section id="order" class="w-50 ">
+        <section id="order" class="col-md-6 ">
             <h3 class="p-4 ">Оформление <br> заявки для заказа:</h3>
-            <form action="" id="myForm">
-                <input type="text" name="name" id="name" placeholder="ФИО*" required>
-                <input type="text" name="phone" id="phone" placeholder="Телефон*" required>
-                <div class="d-flex m-3">
-                    <span class="p-2 text-secondary">* - Обязательный пункт</span>
-                    <label class="custom-checkbox">
-                        <input type="checkbox" name="delivery" id="delivery" required>
-                        <span class="checkmark"></span>
-                        Доставка
-                    </label>
-                    <label class="custom-checkbox">
-                        <input type="checkbox" name="measurement" id="measurement" required>
-                        <span class="checkmark"></span>
-                        Бесплатный замер проемов
-                    </label>
+            <form action="" id="myForm" class="d-flex flex-column justify-content-between">
+                <div class="top">
+                    <input type="text" name="name" id="name" placeholder="ФИО*" required>
+                    <input type="text" name="phone" id="phone" placeholder="Телефон*" required>
+                    <div class="d-md-flex m-3 text-center">
+                        <span class="p-2 text-secondary">* - Обязательный пункт</span>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="delivery" id="delivery" required>
+                            <span class="checkmark"></span>
+                            Доставка
+                        </label>
+                        <label class="custom-checkbox">
+                            <input type="checkbox" name="measurement" id="measurement" required>
+                            <span class="checkmark"></span>
+                            Бесплатный замер проемов
+                        </label>
+                    </div>
+                    <div id="error-message" class="text-danger p-3" style="display: none;">Выберите оба пункта</div>
                 </div>
-                <div id="error-message" class="text-danger p-3" style="display: none;">Выберите оба пункта</div>
+                
                 <div class="bottom">
                     <div class="d-flex justify-content-between px-3 py-1">
                         <h3>ИТОГО (Без услуг):</h3>
                         <h3 ><span id="price"></span> руб.</h3>
                     </div>
                     <input type="submit" value="Заказать**" class="btn-black" id="submitButton">
-                    <button class="btn-white mt-4">Заказать в рассрочку**</button>
                     <div class="text-secondary m-3">** - Оплата доступна только на месте доставки или в салоне</div>
                     <div class="m-3"><a href="#" class="text-secondary ">политика конфиденциальности</a></div>
                 </div>
@@ -110,6 +113,99 @@
             
         </section>
         <script>
+            const data = JSON.parse('{{ data|safe }}');
+
+            data.forEach(element => {
+                createObject(element);
+            });
+            function createObject(element){
+                               
+                var newItem = document.createElement('div');
+                newItem.classList.add('underline', 'w-100', 'd-flex');
+                newItem.id = '0';
+
+                var col1 = document.createElement('div');
+                col1.classList.add('col-2', 'rightline');
+
+                newItem.appendChild(col1);
+
+                var col2 = document.createElement('div');
+                col2.classList.add('col-10', 'p-md-4', 'p-2');
+
+                var contentDiv1 = document.createElement('div');
+                
+                contentDiv1.classList.add('d-flex', 'justify-content-between');
+
+                contentDiv1.innerHTML = '<h3>'+element['shape'].split('_')[0]+'</h3><h3>'+element['door_price']* element['quantity']+'</h3>';
+                var mainContainer = document.createElement('div');
+                mainContainer.classList.add('d-flex', 'justify-content-between');
+
+                var optionsLeftDiv = document.createElement('div');
+
+                var option =[];
+                
+                element['shape'].split('_')[1] ? option.push(["Форма : ",element['shape'].split('_')[1]]):'';
+                element['portal'] ? option.push(["Портал : ",element['portal']]):'';
+                element['molding'] != "null" ? option.push(["Багет : ",element['molding']]):'';
+                element['bevel'] != "null" ? option.push(["Фреза : ",element['bevel']]):'';
+                element['color'] ? option.push(["Цвет : ",element['color']]):'';
+                element['carnice'] != "null" ? option.push(["Карниз : ",element['carnice']]):'';
+                element['boots'] != "null" ? option.push(["Сопозок : ",element['boots']]):'';
+                element['podium'] != "null" ? option.push(["Возвышение : ",element['podium']]):'';
+                element['socket'] != "null" ? option.push(["Розетка : ",element['socket']]):'';
+
+                while(option.length < 6){
+                    option.push([" "," "]);
+                }
+
+                var optionsLeftContent = [option[0][0]+option[0][1], option[2][0]+option[2][1], option[4][0]+option[4][1]];
+                optionsLeftContent.forEach(function(option) {
+                    var optionDiv = document.createElement('div');
+                    optionDiv.classList.add('text-secondary');
+                    optionDiv.textContent = option;
+                    optionsLeftDiv.appendChild(optionDiv);
+                });
+
+                var optionsRightDiv = document.createElement('div');
+                var optionsRightContent = [option[1][0]+option[1][1], option[3][0]+option[3][1], option[5][0]+option[5][1]];
+                optionsRightContent.forEach(function(option) {
+                    var optionDiv = document.createElement('div');
+                    optionDiv.classList.add('text-secondary');
+                    optionDiv.textContent = option;
+                    optionsRightDiv.appendChild(optionDiv);
+                });
+
+                var buttonsDiv = document.createElement('div');
+                buttonsDiv.classList.add('d-flex', 'btns');
+                var minusButton = document.createElement('button');
+                minusButton.textContent = '-';
+                var quantityDiv = document.createElement('div');
+                quantityDiv.textContent = '1';
+                var plusButton = document.createElement('button');
+                plusButton.textContent = '+';
+                buttonsDiv.appendChild(minusButton);
+                buttonsDiv.appendChild(quantityDiv);
+                buttonsDiv.appendChild(plusButton);
+
+                // Append the three inner divs to the main container
+                mainContainer.appendChild(optionsLeftDiv);
+                mainContainer.appendChild(optionsRightDiv);
+                mainContainer.appendChild(buttonsDiv);
+
+                // Append the main container to the desired parent element in the document
+                var parentElement = document.getElementById('your_parent_element_id');
+                
+
+
+                col2.appendChild(contentDiv1);
+                col2.appendChild(mainContainer);
+
+                newItem.appendChild(col2);
+
+                document.getElementById('list').appendChild(newItem);
+
+            }
+
             $(document).ready(function(){
                 $('#submitButton').click(function() {
                     let deliveryCheckbox = $('#delivery');
@@ -122,10 +218,10 @@
                     }
                 });
             });
-            </script>
+        </script>
 
     </main>
-    <footer class="d-md-flex pt-3">
+    <footer class="p-3 d-md-flex pt-3">
         <section class="col-md-4">
             <h2>Контакты</h2>
             <div class="mt-4">
