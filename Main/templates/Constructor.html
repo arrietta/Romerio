@@ -418,14 +418,15 @@
                     My_door.carnice = word + "_" + My_door.podium.replace("2.1", "2").replace("2.2", "2").replace("1.1", "1").replace("1.2", "1");
                 }
             }
-            if(molding_field[My_door.shape.split('_')[1]].length == undefined){
 
-            }
-            if(molding_field[My_door.shape.split('_')[1]].length ==1){
-               My_door.molding = Object.keys(molding_field[My_door.shape.split('_')[1]])[0];
-            }else if (molding_field[My_door.shape.split('_')[1]].length ==0){
+            if(molding_field[My_door.shape.split('_')[1]] != undefined || molding_field[My_door.shape.split('_')[1]]  != null){
+                if(Object.keys(molding_field[My_door.shape.split('_')[1]]).length == 1){
+                    My_door.molding = Object.keys(molding_field[My_door.shape.split('_')[1]])[0];
+                }
+            }else{
                 My_door.molding = null;
             }
+            
             
             edit_view();
         }
