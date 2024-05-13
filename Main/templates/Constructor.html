@@ -38,7 +38,7 @@
             <img src="" alt="" id="shadow">
             <span id="door_mask" class="mask"></span>
             <span id="portal_mask" class="mask"></span>
-            <div id="molding_mask" class="mask"></div>
+            <div id="molding_mask"class="mask"></div>
             <div id="podium_mask" class="mask"></div>
             <div id="carnice_mask" class="mask"></div>
             <div id="door_bottom" class="p-4">
@@ -196,14 +196,7 @@
         createField(carnice_data, carnice_field);
         createField(podium_data, podium_field);
 
-        var panelsData = [
-            { head: "Портал", id: "portal", data: portal_field },
-            { head: "Багет", id: "molding", data: molding_field },
-            { head: "Сапожки", id: "boots", data: boots_field["SIZE1"] },
-            { head: "Розетки", id: "socket", data: socket_field["SIZE1"] },
-            { head: "Карниз", id: "carnice", data: carnice_field["SIZE1"] },
-            { head: "Возвышение", id: "podium", data: podium_field["SIZE1"] }
-        ];
+        
 
         let shape_ = {
             "Classic": {},
@@ -222,6 +215,10 @@
                 shape_[item.door_type][item.name]["display"] = item.name.replace((Collection.toUpperCase() + "_"), "");
             }
         });
+
+        if(Object.keys(shape_["DO"]).length === 0){
+            document.getElementById('type_selector').style.display = 'none';
+        }
 
         portal_data.forEach(item => {
             const obj = {
@@ -270,7 +267,7 @@
                 }
             }
         }
-
+        var panelsData = [];
         function additional_data() {
             if (shape_data[0].bevel) {
 
@@ -290,20 +287,28 @@
             if (molding_data[0]) {
                 additionals.push("molding");
                 molding_data.forEach(item => {
-                    let name = item.name.replace(Collection.toUpperCase()+"_","");
+                    let name = item.name.replace(Collection.toUpperCase()+"_","").split('_')[0];
+                    let val = item.name.replace(Collection.toUpperCase()+"_","").split('_')[1];
                     molding_field[name] = molding_field[name] || {};
-                    molding_field[name]["icon"] = item.icon;
-                    molding_field[name]["image"] = item.image;
-                    molding_field[name]["price"] = item.price;
+                    molding_field[name][val] = molding_field[name][val] || {};
+                    molding_field[name][val]["icon"] = item.icon;
+                    molding_field[name][val]["image"] = item.image;
+                    molding_field[name][val]["price"] = item.price;
                 });
-                My_door.molding = Object.keys(molding_field)[0];
-
+                My_door.molding = molding_field[My_door.shape.split('_')[1]]!=undefined ? Object.keys(molding_field[My_door.shape.split('_')[1]])[0] : "";
+                   
             }
         }
 
         createForm();
         additional_data();
 
+        panelsData.push( { head: "Портал", id: "portal", data: portal_field },
+            { head: "Багет", id: "molding", data: molding_field[My_door.shape.split('_')[1]] },
+            { head: "Сапожки", id: "boots", data: boots_field["SIZE1"] },
+            { head: "Розетки", id: "socket", data: socket_field["SIZE1"] },
+            { head: "Карниз", id: "carnice", data: carnice_field["SIZE1"] },
+            { head: "Возвышение", id: "podium", data: podium_field["SIZE1"] })
 
         function createButtons(data, containerId) {
 
@@ -410,11 +415,8 @@
                 } else {
                     console.log(word);
                     My_door.carnice = word + "_" + My_door.podium.replace("2.1", "2").replace("2.2", "2").replace("1.1", "1").replace("1.2", "1");
-
                 }
-
             }
-
             edit_view();
         }
 
@@ -434,8 +436,6 @@
             myobj.setAttribute("type", "shape");
             myobj.setAttribute("value", Object.keys(shape_[type])[0]);
             edit_conf(myobj);
-
-
         }
         function sellect() {
 
@@ -469,7 +469,13 @@
             }
 
             edit_image("portal", portal_field[My_door.portal]["image"], My_door.color);
-            My_door.molding ? edit_image("molding", molding_field[My_door.molding]["image"], "White") : "";
+
+            if(My_door.molding){
+                if(Collection != 'Baguette'){
+                    edit_image("molding", molding_field[My_door.shape.split('_')[1]][My_door.molding]["image"], "White") 
+                    document.getElementById("molding_mask").style.mixBlendMode ="color";
+                }
+            }
 
             price += portal_field[My_door.portal]["price"];
 
