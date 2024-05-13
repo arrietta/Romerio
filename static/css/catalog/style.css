@@ -75,12 +75,12 @@ a:hover{
     padding-left:6rem ;
 }
 
-#collections {
+.collection {
     text-align: center;
     padding: 1rem;
     
 }
-#collections a{
+.collection a{
     text-decoration-thickness:4px;
     line-height: 120%;
     text-underline-offset: 0.8rem;
@@ -108,13 +108,13 @@ a.text-secondary:hover{
     #letter{
         display: none;
     }
-    #collections a{
+    .collection a{
         line-height: 120%;
         font-size: 3rem;
         margin: 0rem;
         text-decoration-line:none ;
     }
-    #collections {
+    .collection {
         display: flex;
         flex-direction: column;
         justify-content: center;
