@@ -295,7 +295,7 @@
                     molding_field[name][val]["image"] = item.image;
                     molding_field[name][val]["price"] = item.price;
                 });
-                My_door.molding = molding_field[My_door.shape.split('_')[1]]!= undefined ? Object.keys(molding_field[My_door.shape.split('_')[1]])[0] : "";
+                My_door.molding = molding_field[My_door.shape.split('_')[1]]!= undefined ? Object.keys(molding_field[My_door.shape.split('_')[1]])[0] : null;
                    
             }
         }
@@ -418,8 +418,15 @@
                     My_door.carnice = word + "_" + My_door.podium.replace("2.1", "2").replace("2.2", "2").replace("1.1", "1").replace("1.2", "1");
                 }
             }
+            if(molding_field[My_door.shape.split('_')[1]].length == undefined){
 
-            if(molding_field[My_door.shape.split('_')[1]])
+            }
+            if(molding_field[My_door.shape.split('_')[1]].length ==1){
+               My_door.molding = Object.keys(molding_field[My_door.shape.split('_')[1]])[0];
+            }else if (molding_field[My_door.shape.split('_')[1]].length ==0){
+                My_door.molding = null;
+            }
+            
             edit_view();
         }
 
@@ -473,13 +480,15 @@
 
             edit_image("portal", portal_field[My_door.portal]["image"], My_door.color);
 
+            
             if(My_door.molding){
                 if(Collection != 'Baguette'){
-                    
                     document.getElementById("molding_mask").style.mixBlendMode ="color";
                 }
                 price += molding_field[My_door.shape.split('_')[1]][My_door.molding]["price"];
                 edit_image("molding", molding_field[My_door.shape.split('_')[1]][My_door.molding]["image"], "White") ;
+            }else{
+                no_image("molding")
             }
 
             price += portal_field[My_door.portal]["price"];
@@ -505,7 +514,17 @@
                 }
             }
         }
+        function no_image(obj){
+            var mainImage = document.getElementById(obj + "_image");
+            mainImage.src = "/media/none.png" ;
+            const element = document.getElementById(obj + "_mask");
 
+            if (!element) {
+                return;
+            }
+            element.style.webkitMask = `url('${"/media/none.png"}') `;
+            element.style.mask = `url('${"/media/none.png"}') `;
+        }
         function edit_image(obj, img, color) {
 
             var newImage = new Image();
