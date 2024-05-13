@@ -295,7 +295,7 @@
                     molding_field[name][val]["image"] = item.image;
                     molding_field[name][val]["price"] = item.price;
                 });
-                My_door.molding = molding_field[My_door.shape.split('_')[1]]!=undefined ? Object.keys(molding_field[My_door.shape.split('_')[1]])[0] : "";
+                My_door.molding = molding_field[My_door.shape.split('_')[1]]!= undefined ? Object.keys(molding_field[My_door.shape.split('_')[1]])[0] : "";
                    
             }
         }
@@ -388,6 +388,7 @@
             obj.classList.add("pressed");
 
             My_door[obj.attributes.type.value] = obj.value
+
             if (obj.value == "PORTAL11" || obj.value == "PORTAL12" || obj.value == "PORTAL13") {
                 My_door.size = "SIZE2";
             } else if (obj.value.includes("PORTAL")) {
@@ -417,6 +418,8 @@
                     My_door.carnice = word + "_" + My_door.podium.replace("2.1", "2").replace("2.2", "2").replace("1.1", "1").replace("1.2", "1");
                 }
             }
+
+            if(molding_field[My_door.shape.split('_')[1]])
             edit_view();
         }
 
