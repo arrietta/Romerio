@@ -79,7 +79,7 @@ def api_add(request):
         )
         cart_item.save()
 
-        return redirect("/cart/")
+        return redirect("/Cart/")
 
 
 def api_plus(request):
@@ -143,3 +143,19 @@ def api_delete(request):
 
     else:
         return JsonResponse({'success': False, 'message': 'Only POST requests are supported.'})
+
+
+def Shpon(request, key):
+    collections = Collections.objects.get(name=key)
+    shape = Shpone.objects.filter(collections=collections.pk)
+    carnice = Shpon_Carnice.objects.all()
+    socket = Shpon_Socket.objects.all()
+    boots = Shpon_Boots.objects.all()
+    molding = Shpon_Molding.objects.filter(collections=collections.pk)
+
+    return render(request, 'Shpon.html',
+                  {'shape_data': Dump(shape),
+                   'molding_data': Dump(molding),
+                   'boots_data': Dump(boots),
+                   'carnice_data': Dump(carnice),
+                   'socket_data': Dump(socket)})

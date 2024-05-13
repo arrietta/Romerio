@@ -44,24 +44,22 @@
     </Header>
     <main>
         <section id="top">
-            <a href="#" class="">Эмаль</a>
-            <a href="#" class="text-secondary">Шпон</a>
+            <a href="#" class="link" onclick="show_emal(this)">Эмаль</a>
+            <a href="#" class="link text-secondary" onclick="show_shpon(this)">Шпон</a>
 
         </section>
         <div class="container text-secondary " id="letter">Выберите коллекцию:</div>
-        <section id="collections" class="container">
+        <section  class="container collection" id="emal">
             <a href="{% url 'constructor' key='Classic' %}">CLASSIC</a>
             <hr class="bg-light">
-            <a href="{% url 'constructor' key='Baguette' %}">BAGUETTE</a>
+            <a href="{% url 'constructor' key='Grand' %}">GRAND</a>
             <hr class="bg-light">
             <a href="{% url 'constructor' key='Ampir' %}">AMPIR</a>
             <hr class="bg-light">
             <br>
-            <a href="{% url 'constructor' key='Grand' %}">GRAND</a>
+            <a href="{% url 'constructor' key='Baguette' %}">BAGUETTE</a>
             <hr class="bg-light">
             <a href="{% url 'constructor' key='Griglia' %}">GRIGLIA</a>
-            <hr class="bg-light">
-            <a href="{% url 'constructor' key='Loft' %}">LOFT</a>
             <hr class="bg-light">
             <br>
             <a href="{% url 'constructor' key='Line' %}">LINE</a>
@@ -75,8 +73,53 @@
             <hr class="bg-light">
             <a href="{% url 'constructor' key='Atlantic' %}">ATLANTIC</a>
             <hr class="bg-light">
+            <a href="{% url 'constructor' key='Loft' %}">LOFT</a>
+            <hr class="bg-light">
+        </section>
+        <section  class="container collection" id="shpon" style="display: none;">
+            <a href="{% url 'shpon' key='Neoclassic' %}">NEOCLASSIC</a>
+            <hr class="bg-light">
+            <a href="{% url 'shpon' key='Plain' %}">PLAIN</a>
+            <hr class="bg-light">
+            <br>
+            <a href="{% url 'shpon' key='Line' %}">LINE</a>
+            <hr class="bg-light">
+            <a href="{% url 'shpon' key='Vision' %}">VISION</a>
+            <hr class="bg-light">
+            <br>
+            <a href="{% url 'shpon' key='Panotograph' %}">PANTOGRAPH</a>
+            <hr class="bg-light">
+            <a href="{% url 'shpon' key='Atlantic' %}">ATLANTIC</a>
+            <hr class="bg-light">
+            <br>
+            <a href="{% url 'shpon' key='Graphica' %}">GRAPHICA</a>
+            <hr class="bg-light">
+            <a href="{% url 'shpon' key='Loft' %}">LOFT</a>
+            <hr class="bg-light">
+           
         </section>
     </main>
+    <script>
+        function show_shpon(btn) {
+           
+            Array.from(document.getElementsByClassName("link")).forEach(el =>{
+                el.classList.add("text-secondary");
+            });
+            btn.classList.remove("text-secondary")
+            document.getElementById("shpon").style.display = "block";
+            document.getElementById("emal").style.display = "none";
+        }
+
+        function show_emal(btn) {
+            Array.from(document.getElementsByClassName("link")).forEach(el =>{
+                el.classList.add("text-secondary");
+            });
+            btn.classList.remove("text-secondary")
+            document.getElementById("emal").style.display = "block";
+            document.getElementById("shpon").style.display = "none";
+        }
+
+    </script>
        
 </body>
 </html>
