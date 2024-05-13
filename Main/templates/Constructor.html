@@ -475,9 +475,10 @@
 
             if(My_door.molding){
                 if(Collection != 'Baguette'){
-                    edit_image("molding", molding_field[My_door.shape.split('_')[1]][My_door.molding]["image"], "White") 
+                    
                     document.getElementById("molding_mask").style.mixBlendMode ="color";
                 }
+                edit_image("molding", molding_field[My_door.shape.split('_')[1]][My_door.molding]["image"], "White") 
             }
 
             price += portal_field[My_door.portal]["price"];
