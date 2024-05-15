@@ -27,6 +27,25 @@ def catalog(request):
 
 def cart(request):
     if request.method == 'POST':
+        Name = request.POST['name']
+        phone = request.POST['phone']
+        delivery = request.POST['delivery']
+        sizeing = request.POST['measurement']
+
+        id = identification(request)
+
+        Doors = CartItem.objects.filter(Key=id)
+        for i in Doors:
+            shape = i.shape
+            portal = i.portal
+            color = i.color
+            image = i.image
+
+            bevel = i.bevel
+            molding = i.molding
+
+            bevel = i.bevel
+
         print(request.POST)
     unique_id = identification(request)
     data = CartItem.objects.filter(Key=unique_id)

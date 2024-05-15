@@ -84,6 +84,7 @@ class CartItem(models.Model):
     molding = models.CharField(max_length=64, null=True, blank=True)
     portal = models.CharField(max_length=64, null=True, blank=True)
     image = models.CharField(max_length=64, null=True, blank=True)
+    icon = models.CharField(max_length=64, null=True, blank=True)
     carnice = models.CharField(max_length=64, null=True, blank=True)
     podium = models.CharField(max_length=64, null=True, blank=True)
     socket = models.CharField(max_length=64, null=True, blank=True)

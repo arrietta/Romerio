@@ -1,0 +1,27 @@
+import telebot
+
+# Замените 'YOUR_BOT_TOKEN' на токен вашего Telegram бота
+bot = telebot.TeleBot('6442182992:AAFF7xkljKsaHEmNh0PfE9k2rMXjZbGii0s')
+
+
+def send_message_to_bot(message):
+    try:
+        chat_id = '@My_Alpha_Doors'
+        bot.send_message(chat_id, message)
+    except Exception as e:
+        print(f"Произошла ошибка при отправке сообщения в Telegram: {str(e)}")
+
+
+def send_photo_to_bot(link):
+    try:
+        print('https://raw.githubusercontent.com/arrietta/romerio/main/'+link[9:len(link)])
+        chat_id = '@My_Alpha_Doors'
+
+        bot.send_message(chat_id, 'https://raw.githubusercontent.com/arrietta/romerio/main/'+link[9:len(link)])
+    except Exception as e:
+        print(f"Произошла ошибка при отправке сообщения в Telegram: {str(e)}")
+
+
+if __name__ == "__main__":
+    message = "This is a test message sent to the channel."
+    send_message_to_bot(message)
