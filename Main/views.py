@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 import json
 import uuid
 
+from Main.telegram_bot import send_photo_to_bot, send_message_to_bot
+
 
 def identification(request):
     unique_id = request.session.get('unique_id', 'Not available')
@@ -27,26 +29,37 @@ def catalog(request):
 
 def cart(request):
     if request.method == 'POST':
-        Name = request.POST['name']
-        phone = request.POST['phone']
-        delivery = request.POST['delivery']
-        sizeing = request.POST['measurement']
+        Name = "ФИО: " + request.POST['name'] + '\n'
+        phone = "Телефон: " +  request.POST['phone']+ '\n'
+        delivery = "Доставка: " +request.POST['delivery']+ '\n'
+        sizeing = "Замеры: " +request.POST['measurement']+ '\n'
 
         id = identification(request)
 
         Doors = CartItem.objects.filter(Key=id)
         for i in Doors:
-            shape = i.shape
-            portal = i.portal
-            color = i.color
+            shape = "Форма: " + i.shape + "\n"
+            portal = "Портал: " + i.portal + "\n"
+            color = "Цвет: " + i.color + "\n"
             image = i.image
+            price = "Цена: " + str(i.door_price * i.quantity) + "\n"
+            quantity = "Количество: " + str(i.quantity) + "\n"
 
-            bevel = i.bevel
-            molding = i.molding
+            bevel = "Фреза: " + i.bevel + "\n" if i.bevel != "null" else ""
+            molding = "Багет: " + i.molding + "\n" if i.molding != "null" else ""
+            carnice = "Карниз: " + i.carnice + "\n" if i.carnice != "null" else ""
+            podium = "Возвышение: " + i.podium + "\n" if i.podium != "null" else ""
+            socket = "Розетка: " + i.socket + "\n" if i.socket != "null" else ""
+            boots = "Сапожок: " + i.boots + "\n" if i.boots != "null" else ""
 
-            bevel = i.bevel
+            massage = (Name + phone + delivery + sizeing + shape + portal + color +
+                       bevel + molding + carnice +
+                       podium + socket + boots + price + quantity)
 
-        print(request.POST)
+            send_photo_to_bot(image)
+
+            send_message_to_bot(massage)
+            i.delete()
     unique_id = identification(request)
     data = CartItem.objects.filter(Key=unique_id)
     return render(request, 'cart.html', {"data": Dump(data)})
@@ -83,6 +96,7 @@ def api_add(request):
         cart_item = CartItem.objects.create(
             Key=unique_id,
             image=request.POST['image'],
+            icon=request.POST['icon'],
             bevel=request.POST['bevel'],
             shape=request.POST['shape'],
             molding=request.POST['molding'],

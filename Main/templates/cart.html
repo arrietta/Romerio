@@ -87,13 +87,17 @@
             data.forEach(element => {
                 createObject(element);
             });
-
+            
             function createObject(element) {
                 var newItem = document.createElement('div');
                 newItem.classList.add('underline', 'w-100', 'd-flex');
                 newItem.id = "el_"+element.id ;
                 var col1 = document.createElement('div');
-                col1.classList.add('col-2', 'rightline');
+                col1.classList.add('col-2', 'rightline','p-4','d-flex','justify-content-center');
+
+                var icon = document.createElement('img');
+                icon.src = element.icon;
+                col1.appendChild(icon);
                 newItem.appendChild(col1);
                 var col2 = document.createElement('div');
                 col2.classList.add('col-10', 'p-md-4', 'p-2');

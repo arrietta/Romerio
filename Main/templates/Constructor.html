@@ -239,6 +239,7 @@
             "color_name": "White",
             "shape": shape_data[0]["name"],
             "image": "/media/" + shape_data[0]["image"],
+            "icon":"/media/" + shape_data[0]["icon"],
             "portal": portal_data[0]["name"],
             "molding": null,
             "bevel": shape_data[0]["bevel"],
@@ -388,6 +389,10 @@
             obj.classList.add("pressed");
 
             My_door[obj.attributes.type.value] = obj.value
+
+            if(obj.attributes.type.value=="shape"){
+                My_door.icon = shape_[My_door.type][My_door.shape]['icon'];
+            }
 
             if (obj.value == "PORTAL11" || obj.value == "PORTAL12" || obj.value == "PORTAL13") {
                 My_door.size = "SIZE2";

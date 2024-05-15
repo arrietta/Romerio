@@ -231,6 +231,7 @@
             "color_name": "White",
             "shape": shape_data[0]["name"],
             "image": "/media/" + shape_data[0]["image"],
+            "icon":"/media/" + shape_data[0]["icon"],
             "molding": null,
             "portal":"Portal_1",
             "podium":null,
@@ -363,12 +364,18 @@
 
         function edit_conf(obj) {
 
+            
+
             document.querySelectorAll('.block[type="' + obj.attributes.type.value + '"]').forEach(element => {
                 element.classList.remove("pressed");
             })
             obj.classList.add("pressed");
 
             My_door[obj.attributes.type.value] = obj.value
+
+            if(obj.attributes.type.value=="shape"){
+                My_door.icon = shape_[My_door.type][My_door.shape]['icon'];
+            }
             
             edit_view();
         }
