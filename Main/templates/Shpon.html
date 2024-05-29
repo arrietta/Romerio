@@ -374,7 +374,7 @@
             My_door[obj.attributes.type.value] = obj.value
 
             if(obj.attributes.type.value=="shape"){
-                My_door.icon = shape_[My_door.type][My_door.shape]['icon'];
+                My_door.icon = shape_[My_door.type][My_door.color][My_door.shape]['icon'];
             }
             
             edit_view();
