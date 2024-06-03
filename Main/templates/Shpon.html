@@ -114,7 +114,7 @@
 
         const molding_field = {};
 
-        const additionals = [];
+        const additionals = new Set();
 
         // Дополнительне
         const bevel_data = {};
@@ -177,7 +177,7 @@
             shape_[item.door_type][item.color] = shape_[item.door_type][item.color] || {};
             shape_[item.door_type][item.color][item.name] = shape_[item.door_type][item.name] || {};
             shape_[item.door_type][item.color][item.name]["icon"] = item.icon;
-            shape_[item.door_type][item.color][item.name]["display"] = item.display;
+            shape_[item.door_type][item.color][item.name]["display"] = item.name.replace((Collection.toUpperCase() + "_"), "");
             shape_[item.door_type][item.color][item.name]["image"] = item.image;
             shape_[item.door_type][item.color][item.name]["price"] = item.price;
             shape_[item.door_type][item.color][item.name]["portal"] = item.portal_image;
@@ -186,6 +186,7 @@
                 uniqueColor.add(item.color);
             }
         });
+        
         
 
         function createColors(name) {
@@ -244,14 +245,10 @@
 
         }
 
-        var panelsData = [
-            
-            
-            { head: "Сапожки", id: "boots", data: boots_field[My_door.color]},
-            { head: "Розетки", id: "socket", data: socket_field[My_door.color]},
-            { head: "Карниз", id: "carnice", data: carnice_field[My_door.color]},
-        ];
-        additionals.includes("molding")? panelsData.splice(1, 0, { head: "Багет", id: "molding", data: {"none":molding_field["none"]["none"]},[FirstElement(molding_field[My_door.color])]:molding_field[My_door.color][FirstElement(molding_field[My_door.color])] }):"";
+    
+         
+        
+
         function FirstElement(el){
             return Object.keys(el)[0];
         }
@@ -275,23 +272,35 @@
         function additional_data() {
             
             if (molding_data[0]) {
-                additionals.push("molding");
+                additionals.add("molding");
                 molding_data.forEach(item => {
-                    let name = item.name.replace(Collection.toUpperCase()+"_","");
+                    let sha = My_door.shape.replace((Collection.toUpperCase() + "_"),"");
+
+                    let name = item.name.replace(Collection.toUpperCase()+"_","").replace(sha+"_","");
                     item.color = item.color.replace("_",' ')
-                    molding_field[name] = molding_field[name] || {};
-                    molding_field[name][item.color] = molding_field[name][item.color] || {};
-                    molding_field[name][item.color]["icon"] = item.icon;
-                    molding_field[name][item.color]["image"] = item.image;
-                    molding_field[name][item.color]["price"] = item.price;
+                    molding_field[sha] = molding_field[sha] || {};
+                    molding_field[sha][name] = molding_field[sha][name] || {};
+                    molding_field[sha][name]["icon"] = item.icon;
+                    molding_field[sha][name]["image"] = item.image;
+                    molding_field[sha][name]["price"] = item.price;
                 });
-                My_door.molding = Object.keys(molding_field)[0];
+                My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")])[0];
 
             }
         }
-
-        createForm();
         additional_data();
+
+        var panelsData = [
+            { head: "Сапожки", id: "boots", data: boots_field[My_door.color]},
+            { head: "Розетки", id: "socket", data: socket_field[My_door.color]},
+            { head: "Карниз", id: "carnice", data: carnice_field[My_door.color]},
+        ];
+
+        // {"none":molding_field["none"]["none"]},[FirstElement(molding_field[My_door.color])]:molding_field[My_door.color][FirstElement(molding_field[My_door.color])] }
+        
+        additionals.has("molding")? panelsData.splice(1, 0, { head: "Багет", id: "molding", data: molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")]}):"";
+        createForm();
+        
 
 
         function createButtons(data, containerId) {
@@ -422,7 +431,7 @@
             edit_image("portal",shape_[My_door.type][My_door.color][My_door.shape]["portal"])
             price += shape_[My_door.type][My_door.color][My_door.shape]["price"]
 
-            My_door.molding ? edit_image("molding", molding_field[My_door.molding]["image"], "White") : "";
+            My_door.molding ? edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")][My_door.molding]["image"], "White") : "";
 
 
             carnice_field[My_door.color][My_door.carnice] ? price += carnice_field[My_door.color][My_door.carnice]["price"] : "";

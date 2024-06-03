@@ -110,6 +110,7 @@ def api_add(request):
             color=request.POST['color_name'],
             quantity=1
         )
+        print(request.POST['price'])
         cart_item.save()
 
         return redirect("/Cart/")

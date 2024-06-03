@@ -622,11 +622,11 @@
             document.getElementById("price").innerHTML = price;
 
 
-            // for (const key in My_door) {
-            //     if (Object.hasOwnProperty.call(My_door, key)) {
-            //         document.getElementById("set_" + key).setAttribute('value', My_door[key])
-            //     }
-            // }
+            for (const key in My_door) {
+                if (Object.hasOwnProperty.call(My_door, key)&& key != "molding_color") {
+                    document.getElementById("set_" + key).setAttribute('value', My_door[key])
+                }
+            }
         }
         function no_image(obj){
             var mainImage = document.getElementById(obj + "_image");
