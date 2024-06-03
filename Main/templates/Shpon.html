@@ -274,9 +274,9 @@
             if (molding_data[0]) {
                 additionals.add("molding");
                 molding_data.forEach(item => {
-                    let sha = My_door.shape.replace((Collection.toUpperCase() + "_"),"");
+                    let sha = item.name.replace(Collection.toUpperCase()+"_","").split("_")[0];
 
-                    let name = item.name.replace(Collection.toUpperCase()+"_","").replace(sha+"_","");
+                    let name = item.name.replace(Collection.toUpperCase()+"_","").split("_")[1];
                     item.color = item.color.replace("_",' ')
                     molding_field[sha] = molding_field[sha] || {};
                     molding_field[sha][name] = molding_field[sha][name] || {};
@@ -284,7 +284,7 @@
                     molding_field[sha][name]["image"] = item.image;
                     molding_field[sha][name]["price"] = item.price;
                 });
-                My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")])[0];
+                My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[1]])[0];
 
             }
         }
@@ -382,6 +382,13 @@
 
             My_door[obj.attributes.type.value] = obj.value
 
+            if(molding_field[My_door.shape.split('_')[1]] != undefined || molding_field[My_door.shape.split('_')[1]]  != null){
+                if(Object.keys(molding_field[My_door.shape.split('_')[1]]).length == 1){
+                    My_door.molding = Object.keys(molding_field[My_door.shape.split('_')[1]])[0];
+                }
+            }else{
+                My_door.molding = null;
+            }
             if(obj.attributes.type.value=="shape"){
                 My_door.icon = shape_[My_door.type][My_door.color][My_door.shape]['icon'];
             }
@@ -431,7 +438,7 @@
             edit_image("portal",shape_[My_door.type][My_door.color][My_door.shape]["portal"])
             price += shape_[My_door.type][My_door.color][My_door.shape]["price"]
 
-            My_door.molding ? edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")][My_door.molding]["image"], "White") : "";
+            My_door.molding ? edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[1]][My_door.molding]["image"], "White") : "";
 
 
             carnice_field[My_door.color][My_door.carnice] ? price += carnice_field[My_door.color][My_door.carnice]["price"] : "";
