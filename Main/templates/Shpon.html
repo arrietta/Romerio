@@ -47,11 +47,11 @@
                 <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
                 <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
             </div>
-            <!-- <div id="type_selector">
+            <div id="type_selector">
                 <button class="btn text-light bg-white text-dark right-line fs-5"
                     onclick="set_type('Classic',this)">Глухая</button>
                 <Button class="btn text-light fs-5" onclick="set_type('DO',this)">Остекленная</Button>
-            </div> -->
+            </div>
             <div id="Scroll_Panel">
                 <div id="Color" class="panel ">
                     <div class="panel_head">Цвет</div>
@@ -160,7 +160,6 @@
                         price: field['none']["none"].price,
                         image: field['none']["none"].image
                     };
-                    console.log(el);
                     let key = Object.keys(field[el])[0];
                     let temp = field[el][key];
                     
@@ -187,7 +186,9 @@
             }
         });
         
-        
+        if(Object.keys(shape_["DO"]).length === 0){
+            document.getElementById('type_selector').style.display = 'none';
+        }
 
         function createColors(name) {
             const button = document.createElement("button");
@@ -394,6 +395,7 @@
                 My_door.icon = shape_[My_door.type][My_door.color][My_door.shape]['icon'];
             }
             
+            
             edit_view();
         }
 
@@ -408,10 +410,10 @@
             });
             obj.classList.add("bg-white", "text-dark");
             My_door.type = type;
-            button_update("shape", shape_[type]);
+            button_update("shape", shape_[type][My_door.color]);
             let myobj = document.createElement("button");
             myobj.setAttribute("type", "shape");
-            myobj.setAttribute("value", Object.keys(shape_[type])[0]);
+            myobj.setAttribute("value", Object.keys(shape_[type][My_door.color])[0]);
             edit_conf(myobj);
 
 
@@ -454,12 +456,13 @@
             My_door["price"] = price;
             document.getElementById("price").innerHTML = price;
 
-
+            
             for (const key in My_door) {
                 if (Object.hasOwnProperty.call(My_door, key)) {
                     document.getElementById("set_" + key).setAttribute('value', My_door[key])
                 }
             }
+            
         }
 
         function edit_image(obj, img, color) {
@@ -471,7 +474,7 @@
             newImage.onload = function () {
                 mainImage.src = newImage.src;
                 mainImage.style.display = "inline";
-
+                
             };
 
             newImage.src = "/media/" + img;
