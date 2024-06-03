@@ -20,6 +20,9 @@
 .container-fluid{
     margin: auto;
 }
+#shadow{
+    z-index: 2;
+}
 
 *{
     color: #ffffff;
@@ -261,22 +264,17 @@ img[src="/media/icon/none.png"]{
     max-width: 100%;
     top: 0;
 }
+
 @media (max-width: 1450px){
 
 }
 @media (max-width: 768px) {
     #door{
-
-
         width: 100%;
-
-
     }
 
     #panel{
-
         width: 100%;
-
     }
 }
 

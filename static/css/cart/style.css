@@ -165,6 +165,10 @@ input[type="text"]{
     width: 100%;
     bottom: 0;
 } */
+
+#list > div{
+    height: 123px;
+}
 .btn-black{
     background-color: #0B0B0B;
     border-radius: 0;

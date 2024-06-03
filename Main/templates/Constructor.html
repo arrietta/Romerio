@@ -109,14 +109,15 @@
                     </div>
 
                 </div>
+                
                 <div class="panel ">
-                    <div class="panel_head" onclick="togglePanel('shape')">Форма двери</div>
+                    <div class="panel_head">Форма двери</div>
                     <div class="panel_body" id="shape"></div>
                 </div>
 
             </div>
             <div id="Order">
-                <div class="d-flex p-3 justify-content-between w-75 ">
+                <div class="d-flex p-3 justify-content-between w-75">
                     <div>
                         <div>Цвет :<span id="d_color">White</span></div>
                         <div>Форма двери :<span id="d_shape">Option</span></div>
@@ -167,6 +168,29 @@
         // --------------------
 
         const Collection = shape_data[0]["collections_id"]
+
+        m_name = "Багет";
+
+        
+
+        if(Collection == "Novara"){
+            m_name = "Вставка";
+            var panelContainer = document.createElement('div');
+            panelContainer.classList.add('panel');
+
+            var panelHead = document.createElement('div');
+            panelHead.classList.add('panel_head');
+            panelHead.textContent = 'Цвет Вставки';
+
+            var colorBody = document.createElement('div');
+            colorBody.classList.add('color_body');
+            colorBody.setAttribute('id', 'bevel_color');
+
+            panelContainer.appendChild(panelHead);
+            panelContainer.appendChild(colorBody);
+
+            document.getElementById('Scroll_Panel').appendChild(panelContainer);
+        }
 
         function createField(data, fieldObject) {
             const uniqueNames = new Set();
@@ -252,6 +276,8 @@
 
         }
 
+        
+
         function createForm() {
             const form = document.getElementById("form");
             for (const key in My_door) {
@@ -287,9 +313,20 @@
             }
             if (molding_data[0]) {
                 additionals.push("molding");
+                const uniqueNames = new Set();
                 molding_data.forEach(item => {
                     let name = item.name.replace(Collection.toUpperCase()+"_","").split('_')[0];
-                    let val = item.name.replace(Collection.toUpperCase()+"_","").split('_')[1];
+                    let val = item.name.replace(Collection.toUpperCase()+"_","").split('_')[1].replace("Molding.","").replace("Molding.".toUpperCase(),"");
+
+                    if(Collection == "Novara"){
+                        
+
+                        color_val = val.split('.')[2] ? val.split('.')[1]+ " " + val.split('.')[2] : val.split('.')[1];
+                        if(!uniqueNames.has(color_val)){
+                            createColors(color_val);
+                            uniqueNames.add(color_val);
+                        } 
+                    }
                     molding_field[name] = molding_field[name] || {};
                     molding_field[name][val] = molding_field[name][val] || {};
                     molding_field[name][val]["icon"] = item.icon;
@@ -297,15 +334,30 @@
                     molding_field[name][val]["price"] = item.price;
                 });
                 My_door.molding = molding_field[My_door.shape.split('_')[1]]!= undefined ? Object.keys(molding_field[My_door.shape.split('_')[1]])[0] : null;
-                   
+                
             }
         }
+        let counter = 1;
 
         createForm();
         additional_data();
 
+        
+        molding_panel = {};
+        
+        if (Collection == "Novara"){
+             
+            Object.keys(molding_field[My_door.shape.split('_')[1]]).forEach(item => {
+                if(item.includes("Vintage")){
+                    molding_panel[item] = molding_field[My_door.shape.split('_')[1]][item];
+                }
+            })
+        }else{
+            molding_panel = molding_field[My_door.shape.split('_')[1]];
+        }
+
         panelsData.push( { head: "Портал", id: "portal", data: portal_field },
-            { head: "Багет", id: "molding", data: molding_field[My_door.shape.split('_')[1]] },
+            { head: m_name, id: "molding", data: molding_panel },
             { head: "Сапожки", id: "boots", data: boots_field["SIZE1"] },
             { head: "Розетки", id: "socket", data: socket_field["SIZE1"] },
             { head: "Карниз", id: "carnice", data: carnice_field["SIZE1"] },
@@ -338,11 +390,24 @@
                 button.appendChild(image);
 
                 const div = document.createElement("div");
-                div.textContent = display;
+
+                
+                div.textContent = removeNonNumericSuffix(display);
                 button.appendChild(div);
 
                 container.appendChild(button);
             });
+        }
+        
+        function removeNonNumericSuffix(str) {
+            var dotIndex = str.indexOf('.');
+            if (dotIndex !== -1) {
+                var suffix = str.substring(dotIndex + 1);
+                if (isNaN(suffix)) {
+                    return str.substring(0, dotIndex);
+                }
+            }
+            return str;
         }
 
         function createPanels(panelData) {
@@ -382,6 +447,8 @@
         }
 
         function edit_conf(obj) {
+           
+           
 
             document.querySelectorAll('.block[type="' + obj.attributes.type.value + '"]').forEach(element => {
                 element.classList.remove("pressed");
@@ -419,7 +486,6 @@
                 if (My_door.carnice == "none" || My_door.podium == "none") {
                     My_door.carnice = word
                 } else {
-                    console.log(word);
                     My_door.carnice = word + "_" + My_door.podium.replace("2.1", "2").replace("2.2", "2").replace("1.1", "1").replace("1.2", "1");
                 }
             }
@@ -432,10 +498,49 @@
                 My_door.molding = null;
             }
             
+            if(obj.attributes.type.value == "molding_color"){
+                My_door.molding = My_door.molding.split(".")[0]+'.'+obj.value.replace(" ",'.');
+            }
             
             edit_view();
         }
 
+        function createColors(name) {
+            const button = document.createElement("button");
+            button.classList.add("block", "btn");
+            const hex = {
+                "Ash Grey" : "957b5b",
+                "Ash White" : "C0b9a6",
+                "Bourbon" : "A37e48",
+                "Buckwheat" : "B19664",
+                "Black Ofram":"2C2521",
+                "Caramel" : "985f2e",
+                "Cotton White":"C1b08e",
+                "Decape" :  "C6bba2",
+                "Mud Light":  "A99573",
+                "Natural" :  "Bdac90",
+                "Nut Natural" : "5a361d",
+                "Oak Honey":  "B8a47a",
+                "Oak Natural" :  "B4985e",
+                "Pepper" :  "52483a",
+                "Pepper Black" :  "3e372c",
+                "Super White" : "B8a488",
+                "Vintage" : "9a7e55",
+                "White" : "C0b093"
+            };
+            button.id = counter <= 2 ? "color-"+ counter.toString() : ""; 
+            counter <= 1 ?button.classList.add("pressed"):"";
+            button.style.backgroundColor = "#"+hex[name];
+            button.setAttribute("onclick", "edit_conf(this)");
+            button.setAttribute("type", "molding_color");
+            button.setAttribute("value", name);
+            const div = document.createElement("div");
+            div.textContent = name;
+            counter++;
+            button.appendChild(div);
+            document.getElementById("bevel_color").appendChild(button)
+        }
+       
         function button_update(id, data) {
             document.getElementById(id).innerHTML = "";
             createButtons(data, id);
@@ -488,8 +593,11 @@
 
             
             if(My_door.molding){
-                if(Collection != 'Baguette'){
+                if(Collection != 'Baguette'&& Collection != 'Novara'){
                     document.getElementById("molding_mask").style.mixBlendMode ="color";
+                }
+                if(Collection == 'Novara'){
+                    document.getElementById("molding_image").style.zIndex = "1";
                 }
                 price += molding_field[My_door.shape.split('_')[1]][My_door.molding]["price"];
                 edit_image("molding", molding_field[My_door.shape.split('_')[1]][My_door.molding]["image"], "White") ;
@@ -514,11 +622,11 @@
             document.getElementById("price").innerHTML = price;
 
 
-            for (const key in My_door) {
-                if (Object.hasOwnProperty.call(My_door, key)) {
-                    document.getElementById("set_" + key).setAttribute('value', My_door[key])
-                }
-            }
+            // for (const key in My_door) {
+            //     if (Object.hasOwnProperty.call(My_door, key)) {
+            //         document.getElementById("set_" + key).setAttribute('value', My_door[key])
+            //     }
+            // }
         }
         function no_image(obj){
             var mainImage = document.getElementById(obj + "_image");
@@ -560,6 +668,16 @@
         panelsData.forEach(createPanels);
         edit_view();
         sellect();
+
+        function checkAndRemovePanel() {
+            var shape = document.getElementById('shape');
+            var panel = shape.closest('.panel');
+
+            if (shape.children.length < 2 && panel) {
+                panel.remove();
+            }
+        }
+        checkAndRemovePanel();
 
 
     </script>
