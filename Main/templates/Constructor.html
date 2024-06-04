@@ -28,9 +28,10 @@
                 <h5 class="font-Playfair">Romerio</h5>
                 <img src="{% static 'image/main_logo.png'%}" height="40px" alt="">
             </div>
+            <img src="" alt="" id="grid_image">
+
             <img src="/media/Shape/CLASSIC_AFINA-1.png" alt="" id="door_image">
             <img src="" alt="" id="molding_image">
-            <img src="" alt="" id="grid_image">
             
             <img src="" alt="" id="carnice_image">
             <img src="" alt="" id="podium_image">
@@ -602,9 +603,11 @@
                 document.getElementById("d_additional").innerHTML = My_door.bevel;
                 document.getElementById("additional").innerText = "Фреза";
 
-            }else if (additionals.includes("molding")&& Collection != "Modern"){
+            }else if (additionals.includes("molding")&& Collection != "Modern" && molding_field[My_door.shape.split('_')[1]]){
+                My_door.molding = document.querySelector("#molding .pressed").value;
                 document.getElementById("d_additional").innerHTML = My_door.molding.split(".")[0];
                 document.getElementById("additional").innerText = "Багет";
+               
             }
             else if (additionals.includes("grid")){
                 document.getElementById("d_additional").innerHTML = My_door.grid;
@@ -718,8 +721,9 @@
         }
 
         panelsData.forEach(createPanels);
-        edit_view();
         sellect();
+        edit_view();
+        
 
         function checkAndRemovePanel() {
             var shape = document.getElementById('shape');
