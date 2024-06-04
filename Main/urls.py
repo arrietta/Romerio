@@ -8,6 +8,7 @@ urlpatterns = ([
                    path('', views.main, name='main'),
                    path('Catalog', views.catalog, name='catalog'),
                    path('Cart/', views.cart, name='cart'),
+                   path('privacy/', views.privacy, name='privacy'),
                    path('Constructor/<str:key>', views.constructor, name='constructor'),
                    path('Shpon/<str:key>', views.Shpon, name='shpon'),
                    path('api_add/', views.api_add, name='api_add'),

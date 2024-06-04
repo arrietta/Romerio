@@ -25,7 +25,7 @@
     <main class="d-md-flex">
         <section id="door">
             <div id="door_top" class="d-flex justify-content-between px-4 py-3">
-                <h5 class="font-Playfair">Romerio</h5>
+                <h5 class="font-Playfair"><a href="{% url 'main'%}">Romerio</a></h5>
                 <img src="{% static 'image/main_logo.png'%}" height="40px" alt="">
             </div>
             <img src="" alt="" id="grid_image">
@@ -483,7 +483,7 @@
             My_door[obj.attributes.type.value] = obj.value
 
             if(obj.attributes.type.value=="shape"){
-                My_door.icon = shape_[My_door.type][My_door.shape]['icon'];
+                My_door.icon = "/media/"+shape_[My_door.type][My_door.shape]['icon'];
             }
 
             if (obj.value == "PORTAL11" || obj.value == "PORTAL12" || obj.value == "PORTAL13") {

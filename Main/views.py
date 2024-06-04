@@ -194,3 +194,7 @@ def Shpon(request, key):
                    'boots_data': Dump(boots),
                    'carnice_data': Dump(carnice),
                    'socket_data': Dump(socket)})
+
+
+def privacy(request):
+    return render(request, 'privacy.html')

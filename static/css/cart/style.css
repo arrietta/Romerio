@@ -165,7 +165,9 @@ input[type="text"]{
     width: 100%;
     bottom: 0;
 } */
-
+#list{
+    overflow-y: scroll;
+}
 #list > div{
     height: 125px;
 }

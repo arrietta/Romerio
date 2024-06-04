@@ -393,9 +393,8 @@
             }
             
             if(obj.attributes.type.value=="shape"){
-                My_door.icon = shape_[My_door.type][My_door.color][My_door.shape]['icon'];
+                My_door.icon = "/media/"+shape_[My_door.type][My_door.color][My_door.shape]['icon'];
             }
-            
             
             edit_view();
         }
@@ -495,7 +494,15 @@
         panelsData.forEach(createPanels);
         edit_view();
         sellect();
+        function checkAndRemovePanel() {
+            var shape = document.getElementById('shape');
+            var panel = shape.closest('.panel');
 
+            if (shape.children.length < 2 && panel) {
+                panel.remove();
+            }
+        }
+        checkAndRemovePanel();
 
     </script>
 
