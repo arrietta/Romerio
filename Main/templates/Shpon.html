@@ -465,7 +465,7 @@
             My_door["price"] = price;
             document.getElementById("price").innerHTML = price;
 
-            document.getElementById("shape_name").innerText = Collection;
+            document.getElementById("shape_name").innerText = Collection.includes("Shpone")?Collection.replace("_Shpone","") : Collection;
 
             for (const key in My_door) {
                 if (Object.hasOwnProperty.call(My_door, key)) {
