@@ -74,8 +74,8 @@
                         <div>Розетка :<span id="d_socket">Option</span></div>
                     </div>
                     <div>
-                        <div>Фреза :<span id="d_molding">Option</span></div>
-                        <div>Возвышение :<span id="d_porium">Option</span></div>
+                        <div ><span id="additional">Фреза</span> :<span id="d_additional">Option</span></div>
+                        <div>Возвышение :<span id="d_podium">Option</span></div>
                         <div>Карниз :<span id="d_carnice">Option</span></div>
                     </div>
                     <div>
@@ -235,9 +235,10 @@
             "image": "/media/" + shape_data[0]["image"],
             "icon":"/media/" + shape_data[0]["icon"],
             "molding": null,
+            "grid":null,
             "portal":"Portal_1",
             "podium":null,
-            "bevel": shape_data[0]["bevel"],
+            "bevel": null,
             "boots": null,
             "socket": null,
             "carnice": null,
@@ -432,7 +433,15 @@
         function edit_view() {
             document.getElementById("shadow").src = "/static/css/Constructor/" + My_door.size + ".png"
             document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase() + "_"), "");
-            document.getElementById("d_molding").innerHTML = My_door.bevel;
+            if (additionals.has("molding")&& Collection != "Modern"){
+                document.getElementById("d_additional").innerHTML = My_door.molding.split(".")[0];
+                document.getElementById("additional").innerText = "Багет";
+            }else{
+                document.getElementById("d_additional").innerHTML = My_door.socket;
+                document.getElementById("additional").innerText = "Розетки";
+            }
+            document.getElementById("d_podium").innerHTML = My_door.podium;
+
             document.getElementById("d_carnice").innerHTML = My_door.carnice;
 
             price = 0;
@@ -456,7 +465,8 @@
             My_door["price"] = price;
             document.getElementById("price").innerHTML = price;
 
-            
+            document.getElementById("shape_name").innerText = Collection;
+
             for (const key in My_door) {
                 if (Object.hasOwnProperty.call(My_door, key)) {
                     document.getElementById("set_" + key).setAttribute('value', My_door[key])

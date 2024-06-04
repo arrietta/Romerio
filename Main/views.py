@@ -98,6 +98,7 @@ def api_add(request):
             image=request.POST['image'],
             icon=request.POST['icon'],
             bevel=request.POST['bevel'],
+            grid=request.POST['grid'],
             shape=request.POST['shape'],
             molding=request.POST['molding'],
             portal=request.POST['portal'],
