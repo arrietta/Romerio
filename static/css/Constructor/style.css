@@ -89,7 +89,7 @@ a:hover{
     position:absolute;
     width:100%;
     bottom:0;
-
+    z-index: 6;
 }
 
 
@@ -272,11 +272,19 @@ img[src="/media/icon/none.png"]{
     #door{
         width: 100%;
     }
+    .panel{
+        width: auto;
+    }
 
     #panel{
         width: 100%;
     }
 }
+@media (min-width: 768px) {
+    .w-md-75 {
+      width: 75% !important;
+    }
+  }
 
 
 

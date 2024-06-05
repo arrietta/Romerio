@@ -70,7 +70,7 @@ a:hover{
     border-right: #fff solid 2px;
 }
 main > section{
-    height: calc(100vh - 75px);
+    height: calc(100vh );
 }
 section{
     position: relative;
@@ -82,7 +82,7 @@ section{
     padding: 0.5rem;
     padding-left: 30px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     margin-left: 1rem;
     margin-right: 1rem;
 }
@@ -193,6 +193,9 @@ input[type="text"]{
     
 }
 @media (max-width: 768px) {
+    .text-secondary {
+        font-size: 0.8rem;
+    }
     .rightline-md{
         border: none;
         border-bottom: #fff solid 2px;

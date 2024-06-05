@@ -17,15 +17,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
+        
     {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'image/logo.png'%}">
+
     <link rel="stylesheet" href="{% static 'css/Constructor/style.css' %}">
 </head>
-<body style="background-color: black;">
+<body style="background-color: #0B0B0B;">
 
     <main class="d-md-flex">
         <section id="door">
-            <div id="door_top" class="d-flex justify-content-between px-4 py-3">
-                <h5 class="font-Playfair"><a href="{% url 'main'%}">Romerio</a></h5>
+            <div id="door_top" class="d-flex justify-content-between px-4 py-3" style="z-index: 5;">
+                <h5 ><a href="{% url 'main' %}" class="font-Playfair" >Romerio</a></h5>
                 <img src="{% static 'image/main_logo.png'%}" height="40px" alt="">
             </div>
             <img src="" alt="" id="grid_image">
@@ -43,20 +46,27 @@
             <img src="" alt="" id="shadow">
             <span id="door_mask" class="mask"></span>
             <span id="portal_mask" class="mask"></span>
+           
             <div id="molding_mask"class="mask"></div>
             <div id="podium_mask" class="mask"></div>
             <div id="carnice_mask" class="mask"></div>
-            <div id="door_bottom" class="p-4">
-                <h3 class="font-Playfair" id="shape_name">Classic</h3>
-                <div class="fs-5 fw-light"><span id="price"></span> рублей</div>
+            <div id="door_bottom" class="p-4 d-flex justify-content-between">
+                <div>
+                    <h3 class="font-Playfair" id="shape_name">Classic</h3>
+                    <div class="fs-5 fw-light"><span id="price"></span> рублей</div>
+                </div>
+                
             </div>
 
         </section>
 
         <section id="panel">
-            <div class="bg-white d-flex py-3 px-4 ">
-                <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
-                <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
+            <div class="bg-white d-flex px-4 justify-content-between">
+                <div class="bg-white d-flex py-3  ">
+                    <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
+                    <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
+                </div>
+                
             </div>
             <div id="type_selector">
                 <button class="btn text-light bg-white text-dark right-line fs-5"
@@ -122,7 +132,7 @@
 
             </div>
             <div id="Order">
-                <div class="d-flex p-3 justify-content-between w-75">
+                <div class="d-flex p-3 justify-content-between  w-100 w-md-75" id="place-1">
                     <div>
                         <div>Цвет :<span id="d_color">White</span></div>
                         <div>Форма двери :<span id="d_shape">Option</span></div>
@@ -133,7 +143,7 @@
                         <div>Возвышение :<span id="d_podium">Option</span></div>
                         <div>Карниз :<span id="d_carnice">Option</span></div>
                     </div>
-                    <div>
+                    <div id="fixed-element">
                         <form action="/api_add/" id="form" method="post">
                             {% csrf_token %}
                             <input class="btn" type="submit" onclick="send()" value="В корзину">
@@ -170,6 +180,7 @@
         // Дополнительне
         const bevel_data = {};
         const grid_data = {};
+        const grid_bevel_data = {};
         // --------------------
 
         const Collection = shape_data[0]["collections_id"]
@@ -177,7 +188,9 @@
         m_name = "Багет";
 
         
-
+        if(Collection.includes("Line")){
+            m_name = "Вставка";
+        }
         if(Collection == "Novara"){
             m_name = "Вставка";
             var panelContainer = document.createElement('div');
@@ -272,6 +285,7 @@
             "portal": portal_data[0]["name"],
             "molding": null,
             "grid":null,
+            "grid_bevel":null,
             "bevel": null,
             "boots": null,
             "socket": null,
@@ -317,23 +331,44 @@
                     }
                 });
                 My_door.bevel = bevel_data[My_door.shape]!= undefined ? Object.keys(bevel_data[My_door.shape])[0] : null;
-                panelsData.splice(1, 0, { head: "Фреза", id: "bevel", data: bevel_data[My_door.shape] });
+                panelsData.splice(0, 0, { head: "Фреза", id: "bevel", data: bevel_data[My_door.shape] });
                 additionals.push("bevel");
             }
             if (shape_data[0].Grid_icon) {
+
                 shape_data.forEach(item => {
                     if (item.Grid_icon) {
-                        let grid_name = removeNonNumericSuffix(item.Grid_image.split("/")[1].split(".")[1]) +" "+ item.Grid_image.split("/")[1].split(".")[0] ;
-                        grid_data[item.name] = grid_data[item.name] || {};
-                        grid_data[item.name][grid_name] = grid_data[grid_name] || {};
-                        grid_data[item.name][grid_name]["icon"] = item.Grid_icon;
-                        grid_data[item.name][grid_name]["image"] = item.Grid_image;
-                        grid_data[item.name][grid_name]["price"] = 0;
+                        let grid_name =  item.Grid_image.split("/")[1].split(".")[0] ;
+                        grid_bevel_data[item.name] = grid_bevel_data[item.name] || {};
+                        grid_bevel_data[item.name][grid_name] = grid_bevel_data[grid_name] || {};
+                        grid_bevel_data[item.name][grid_name]["icon"] = item.Grid_icon;
+                        grid_bevel_data[item.name][grid_name]["image"] = item.Grid_image;
+                        grid_bevel_data[item.name][grid_name]["price"] = 0;
                     }
                 });
-                panelsData.splice(1, 0, { head: "Решётка", id: "grid", data: grid_data[My_door.shape] });
+                panelsData.splice(0, 0, { head: "Фреза решётки", id: "grid_bevel", data: grid_bevel_data[My_door.shape] });
+                My_door.grid_bevel = grid_bevel_data[My_door.shape]!= undefined ? Object.keys(grid_bevel_data[My_door.shape])[0] : null;
+
+                shape_data.forEach(item => {
+                    if (item.Grid_icon) {
+                        let bevel_name =  item.Grid_image.split("/")[1].split(".")[0] ;
+                        
+                        let grid_name =  item.Grid_image.split("/")[1].split(".")[1] ;
+                        console.log(grid_name + " " + bevel_name );
+                        grid_data[item.name] = grid_data[item.name] || {};
+                        grid_data[item.name][bevel_name] == undefined ? grid_data[item.name][bevel_name] = grid_data[bevel_name] || {}:"";
+                        grid_data[item.name][bevel_name][grid_name] = grid_data[grid_name] || {};
+                        grid_data[item.name][bevel_name][grid_name]["icon"] = item.Grid_icon;
+                        grid_data[item.name][bevel_name][grid_name]["image"] = item.Grid_image;
+                        grid_data[item.name][bevel_name][grid_name]["price"] = 0;
+                    }
+                });
+                panelsData.splice(0, 0, { head: "Решётка", id: "grid", data: grid_data[My_door.shape][My_door.grid_bevel] });
                 additionals.push("grid");
-                My_door.grid = grid_data[My_door.shape]!= undefined ? Object.keys(grid_data[My_door.shape])[0] : null;
+                My_door.grid = grid_data[My_door.shape][My_door.grid_bevel]!= undefined ? Object.keys(grid_data[My_door.shape][My_door.grid_bevel])[0] : null;
+
+
+               
             }
             if (molding_data[0]) {
                 additionals.push("molding");
@@ -381,8 +416,10 @@
             molding_panel = molding_field[My_door.shape.split('_')[1]];
         }
 
-        panelsData.push( { head: "Портал", id: "portal", data: portal_field },
+        panelsData.push(
             { head: m_name, id: "molding", data: molding_panel },
+            { head: "Портал", id: "portal", data: portal_field },
+            
             { head: "Сапожки", id: "boots", data: boots_field["SIZE1"] },
             { head: "Розетки", id: "socket", data: socket_field["SIZE1"] },
             { head: "Карниз", id: "carnice", data: carnice_field["SIZE1"] },
@@ -530,8 +567,8 @@
             }
             
             if(additionals.includes("grid")&& obj.attributes.type.value == "shape"){
-                button_update("grid",grid_data[My_door.shape]);
-                My_door.grid = Object.keys(grid_data[My_door.shape])[0];
+                button_update("grid",grid_data[My_door.shape][My_door.grid_bevel]);
+                My_door.grid = Object.keys(grid_data[My_door.shape][My_door.grid_bevel])[0];
                 document.querySelector('#grid > button.block.btn').classList.add("pressed");
             }
             edit_view();
@@ -599,6 +636,7 @@
             if (document.getElementById("bevel")) { document.querySelector('#bevel > button.block.btn').classList.add("pressed"); }
             if (document.getElementById("molding")) { document.querySelector('#molding > button.block.btn').classList.add("pressed"); }
             if (document.getElementById("grid")) { document.querySelector('#grid > button.block.btn').classList.add("pressed"); }
+            if (document.getElementById("grid_bevel")) { document.querySelector('#grid_bevel > button.block.btn').classList.add("pressed"); }
             document.querySelector('#boots > button.block.btn').classList.add("pressed");
             document.querySelector('#carnice > button.block.btn').classList.add("pressed");
             document.querySelector('#podium > button.block.btn').classList.add("pressed");
@@ -652,7 +690,7 @@
                 if(Collection != 'Baguette'&& Collection != 'Novara'&& Collection != 'Griglia'){
                     document.getElementById("molding_mask").style.mixBlendMode ="color";
                 }
-                if(Collection == 'Novara'){
+                if(Collection == 'Novara' || Collection == 'Line' || Collection.includes("Vision")){
                     document.getElementById("molding_image").style.zIndex = "1";
                 }
                 price += molding_field[My_door.shape.split('_')[1]][My_door.molding]["price"];
@@ -670,7 +708,7 @@
 
 
             podium_field[My_door.size][My_door.podium] ? edit_image("podium", podium_field[My_door.size][My_door.podium]["image"], My_door.color) : "";
-            if(grid_data[My_door.shape]!= undefined){grid_data[My_door.shape][My_door.grid] ? edit_image("grid", grid_data[My_door.shape][My_door.grid]["image"], My_door.color) : "";}
+            if(grid_data[My_door.shape]!= undefined){grid_data[My_door.shape][My_door.grid_bevel][My_door.grid] ? edit_image("grid", grid_data[My_door.shape][My_door.grid_bevel][My_door.grid]["image"], My_door.color) : "";}
             carnice_field[My_door.size][My_door.carnice] ? edit_image("carnice", carnice_field[My_door.size][My_door.carnice]["image"], My_door.color) : "";
             socket_field[My_door.size][My_door.socket] ? edit_image("socket", socket_field[My_door.size][My_door.socket]["image"], My_door.color) : "";
             boots_field[My_door.size][My_door.boots] ? edit_image("boots", boots_field[My_door.size][My_door.boots]["image"], My_door.color) : "";
@@ -715,6 +753,10 @@
 
             var newImage = new Image();
             var mainImage = document.getElementById(obj + "_image");
+            
+            if(Collection.includes("Vision") && obj == "molding"){
+                mainImage.style.opacity = "0.2";
+            }
             mainImage.style.display = "none";
 
             newImage.onload = function () {
@@ -727,8 +769,14 @@
 
             const element = document.getElementById(obj + "_mask");
 
+            
+
             if (!element) {
                 return;
+            }
+
+            if(Collection.includes("Vision") && obj == "molding"){
+                element.style.opacity = "0.2";
             }
 
             element.style.backgroundColor = color;
@@ -751,6 +799,26 @@
             }
         }
         checkAndRemovePanel();
+
+        window.addEventListener('resize', moveElement);
+        document.addEventListener('DOMContentLoaded', moveElement);
+
+        function moveElement() {
+            const element = document.getElementById('fixed-element');
+            const div2 = document.querySelector('#place-1');
+            const div1 = document.querySelector('#door_bottom');
+
+            if (window.innerWidth >= 768) {
+                if (!div2.contains(element)) {
+                    div2.appendChild(element);
+                }
+            } else {
+                if (!div1.contains(element)) {
+                    element.style.margin = "1rem 0";
+                    div1.appendChild(element);
+                }
+            }
+        }
 
 
     </script>

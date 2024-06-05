@@ -29,31 +29,33 @@ def catalog(request):
 
 def cart(request):
     if request.method == 'POST':
-        Name = "ФИО: " + request.POST['name'] + '\n'
-        phone = "Телефон: " +  request.POST['phone']+ '\n'
-        delivery = "Доставка: " +request.POST['delivery']+ '\n'
-        sizeing = "Замеры: " +request.POST['measurement']+ '\n'
+        Name = "Конечный заказчик: " + request.POST['name'] + '\n'
+        phone = "Контактный телефон: " +request.POST['phone'] + '\n'
+        delivery = "Доставка: " +("Есть"if request.POST['delivery']  else "")+ '\n'
+        sizeing = "Замеры: " +("Есть" if request.POST['measurement'] else "")+ '\n'
 
         id = identification(request)
 
         Doors = CartItem.objects.filter(Key=id)
         for i in Doors:
-            shape = "Форма: " + i.shape + "\n"
-            portal = "Портал: " + i.portal + "\n"
-            color = "Цвет: " + i.color + "\n"
+            shape = "- Форма: " + i.shape + "\n"
+            portal = "- Портал: " + i.portal + "\n"
+            color = "- Цвет: " + i.color + "\n"
             image = i.image
-            price = "Цена: " + str(i.door_price * i.quantity) + "\n"
-            quantity = "Количество: " + str(i.quantity) + "\n"
+            price = "- Цена: " + str(i.door_price * i.quantity) + "\n"
+            quantity = "- Количество: " + str(i.quantity) + "\n"
 
-            bevel = "Фреза: " + i.bevel + "\n" if i.bevel != "null" else ""
-            molding = "Багет: " + i.molding + "\n" if i.molding != "null" else ""
-            carnice = "Карниз: " + i.carnice + "\n" if i.carnice != "null" else ""
-            podium = "Возвышение: " + i.podium + "\n" if i.podium != "null" else ""
-            socket = "Розетка: " + i.socket + "\n" if i.socket != "null" else ""
-            boots = "Сапожок: " + i.boots + "\n" if i.boots != "null" else ""
+            bevel = "- Фреза: " + i.bevel + "\n" if i.bevel != "null" else ""
+            grid = "- Решётка: " + i.grid + "\n" if i.grid != "null" else ""
+            grid_bevel = "- Фреза Решётки: " + i.grid_bevel + "\n" if i.grid_bevel != "null" else ""
+            molding = "- Багет/Вставка: " + i.molding + "\n" if i.molding != "null" else ""
+            carnice = "- Карниз: " + i.carnice + "\n" if i.carnice != "null" else ""
+            podium = "- Возвышение: " + i.podium + "\n" if i.podium != "null" else ""
+            socket = "- Розетка: " + i.socket + "\n" if i.socket != "null" else ""
+            boots = "- Сапожок: " + i.boots + "\n" if i.boots != "null" else ""
 
-            massage = (Name + phone + delivery + sizeing + shape + portal + color +
-                       bevel + molding + carnice +
+            massage = (Name + phone + delivery + sizeing + shape + grid + grid_bevel  + color +
+                       bevel + molding + portal + carnice +
                        podium + socket + boots + price + quantity)
 
             send_photo_to_bot(image)
@@ -99,6 +101,7 @@ def api_add(request):
             icon=request.POST['icon'],
             bevel=request.POST['bevel'],
             grid=request.POST['grid'],
+            grid_bevel=request.POST['grid_bevel'],
             shape=request.POST['shape'],
             molding=request.POST['molding'],
             portal=request.POST['portal'],

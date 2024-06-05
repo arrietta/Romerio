@@ -18,14 +18,16 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
     {% load static %}
+    <link rel="icon" type="image/x-icon" href="{% static 'image/logo.png'%}">
+
     <link rel="stylesheet" href="{% static 'css/Constructor/style.css' %}">
 </head>
-<body style="background-color: black;">
+<body style="background-color: #0B0B0B;">
 
     <main class="d-md-flex">
         <section id="door">
-            <div id="door_top" class="d-flex justify-content-between px-4 py-3">
-                <h5 class="font-Playfair">Romerio</h5>
+            <div id="door_top" class="d-flex justify-content-between px-4 py-3" style="z-index: 5;">
+                <h5 ><a href="{% url 'main' %}" class="font-Playfair">Romerio</a></h5>
                 <img src="{% static 'image/main_logo.png'%}" height="40px" alt="">
             </div>
             <img src="/media/Shape/CLASSIC_AFINA-1.png" alt="" id="door_image">
@@ -35,9 +37,11 @@
             <img src="" alt="" id="boots_image">
             <img src="" alt="" id="socket_image">
             <img src="" alt="" id="shadow">
-            <div id="door_bottom" class="p-4">
-                <h3 class="font-Playfair" id="shape_name">Classic</h3>
-                <div class="fs-5 fw-light"><span id="price"></span> рублей</div>
+            <div id="door_bottom" class="p-4 d-flex justify-content-between">
+                <div>
+                    <h3 class="font-Playfair" id="shape_name">Classic</h3>
+                    <div class="fs-5 fw-light"><span id="price"></span> рублей</div>
+                </div>
             </div>
 
         </section>
@@ -56,7 +60,6 @@
                 <div id="Color" class="panel ">
                     <div class="panel_head">Цвет</div>
                     <div class="color_body">
-                        
                     </div>
 
                 </div>
@@ -67,7 +70,7 @@
 
             </div>
             <div id="Order">
-                <div class="d-flex p-3 justify-content-between w-75 ">
+                <div class="d-flex p-3 justify-content-between w-100 w-md-75" id="place-1">
                     <div>
                         <div>Цвет :<span id="d_color">White</span></div>
                         <div>Форма двери :<span id="d_shape">Option</span></div>
@@ -78,7 +81,7 @@
                         <div>Возвышение :<span id="d_podium">Option</span></div>
                         <div>Карниз :<span id="d_carnice">Option</span></div>
                     </div>
-                    <div>
+                    <div id="fixed-element">
                         <form action="/api_add/" id="form" method="post">
                             {% csrf_token %}
                             <input class="btn" type="submit" onclick="send()" value="В корзину">
@@ -122,6 +125,13 @@
         // --------------------
 
         const Collection = shape_data[0]["collections_id"]
+
+        m_name = "Багет";
+
+                
+        if(Collection.includes("Line")){
+            m_name = "Вставка";
+        }
 
         function createField(data, fieldObject) {
             const field1 = "SIZE1";
@@ -167,7 +177,6 @@
 
             });
         }
-
         
         const uniqueColor = new Set();
         
@@ -223,8 +232,6 @@
             document.getElementsByClassName("color_body")[0].appendChild(button)
         }
 
-        
-
         createButtons(shape_["Classic"]["White"], "shape")
 
         let My_door = {
@@ -246,10 +253,6 @@
             "price": 0
 
         }
-
-    
-         
-        
 
         function FirstElement(el){
             return Object.keys(el)[0];
@@ -297,14 +300,10 @@
             { head: "Розетки", id: "socket", data: socket_field[My_door.color]},
             { head: "Карниз", id: "carnice", data: carnice_field[My_door.color]},
         ];
-
-        // {"none":molding_field["none"]["none"]},[FirstElement(molding_field[My_door.color])]:molding_field[My_door.color][FirstElement(molding_field[My_door.color])] }
         
-        additionals.has("molding")? panelsData.splice(1, 0, { head: "Багет", id: "molding", data: molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")]}):"";
+        additionals.has("molding")? panelsData.splice(0, 0, { head: m_name, id: "molding", data: molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")]}):"";
         createForm();
         
-
-
         function createButtons(data, containerId) {
 
             const container = document.getElementById(containerId);
@@ -375,8 +374,6 @@
 
         function edit_conf(obj) {
 
-            
-
             document.querySelectorAll('.block[type="' + obj.attributes.type.value + '"]').forEach(element => {
                 element.classList.remove("pressed");
             })
@@ -416,7 +413,6 @@
             myobj.setAttribute("value", Object.keys(shape_[type][My_door.color])[0]);
             edit_conf(myobj);
 
-
         }
         function sellect() {
 
@@ -451,11 +447,9 @@
 
             My_door.molding ? edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")][My_door.molding]["image"], "White") : "";
 
-
             carnice_field[My_door.color][My_door.carnice] ? price += carnice_field[My_door.color][My_door.carnice]["price"] : "";
             socket_field[My_door.color][My_door.socket] ? price += socket_field[My_door.color][My_door.socket]["price"] : "";
             boots_field[My_door.color][My_door.boots] ? price += boots_field[My_door.color][My_door.boots]["price"] : "";
-
 
             carnice_field[My_door.color][My_door.carnice] ? edit_image("carnice", carnice_field[My_door.color][My_door.carnice]["image"], My_door.color) : "";
             socket_field[My_door.color][My_door.socket] ? edit_image("socket", socket_field[My_door.color][My_door.socket]["image"], My_door.color) : "";
@@ -470,8 +464,7 @@
                 if (Object.hasOwnProperty.call(My_door, key)) {
                     document.getElementById("set_" + key).setAttribute('value', My_door[key])
                 }
-            }
-            
+            }   
         }
 
         function edit_image(obj, img, color) {
@@ -480,15 +473,26 @@
             var mainImage = document.getElementById(obj + "_image");
             mainImage.style.display = "none";
 
+            if(Collection.includes("Vision") && obj == "molding"){
+                mainImage.style.opacity = "0.2";
+            }
+
             newImage.onload = function () {
                 mainImage.src = newImage.src;
                 mainImage.style.display = "inline";
                 
             };
-
+            
             newImage.src = "/media/" + img;
 
-            
+            if(Collection.includes("Vision") && obj == "molding"){
+                const element = document.getElementById(obj + "_mask");
+                if (!element) {
+                    return;
+                }
+                element.style.opacity = "0.2";
+            }
+
         }
 
         panelsData.forEach(createPanels);
@@ -503,12 +507,28 @@
             }
         }
         checkAndRemovePanel();
+        window.addEventListener('resize', moveElement);
+        document.addEventListener('DOMContentLoaded', moveElement);
+
+        function moveElement() {
+            const element = document.getElementById('fixed-element');
+            const div2 = document.querySelector('#place-1');
+            const div1 = document.querySelector('#door_bottom');
+
+            if (window.innerWidth >= 768) {
+                if (!div2.contains(element)) {
+                    div2.appendChild(element);
+                }
+            } else {
+                if (!div1.contains(element)) {
+                    element.style.margin = "1rem 0";
+                    div1.appendChild(element);
+                }
+            }
+        }
 
     </script>
-
-
-
-
+    
 </body>
 
 </html>
