@@ -571,6 +571,12 @@
                 My_door.grid = Object.keys(grid_data[My_door.shape][My_door.grid_bevel])[0];
                 document.querySelector('#grid > button.block.btn').classList.add("pressed");
             }
+
+            if(additionals.includes("molding")&& obj.attributes.type.value == "shape" && molding_field[My_door.shape.split('_')[1]]){
+                button_update("molding",molding_field[My_door.shape.split('_')[1]]);
+                My_door.molding = Object.keys(molding_field[My_door.shape.split('_')[1]])[0];
+                document.querySelector('#molding > button.block.btn').classList.add("pressed");
+            }
             edit_view();
 
             
@@ -654,7 +660,7 @@
                 document.getElementById("additional").innerText = "Фреза";
 
             }else if (additionals.includes("molding")&& Collection != "Modern" && molding_field[My_door.shape.split('_')[1]]){
-                if(Collection != "Novara" ){
+                if(Collection != "Novara"  ){
                     My_door.molding = document.querySelector("#molding .pressed").value;
                 }
                 
@@ -730,6 +736,7 @@
                 if(!molding_field[My_door.shape.split("_")[1]]){
                     panel.style.display = "none";
                 }else{
+                    // button_update("molding",molding_field[My_door.shape.split("_")[1]])
                     panel.style.display = "block";
                 }
             }
