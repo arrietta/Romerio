@@ -243,6 +243,7 @@
             "icon":"/media/" + shape_data[0]["icon"],
             "molding": null,
             "grid":null,
+            "grid_bevel":null,
             "portal":"Portal_1",
             "podium":null,
             "bevel": null,
@@ -512,7 +513,7 @@
         }
         checkAndRemovePanel("shape");
         checkAndRemovePanel("molding");
-        
+
         window.addEventListener('resize', moveElement);
         document.addEventListener('DOMContentLoaded', moveElement);
 
