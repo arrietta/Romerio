@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 import json
 import uuid
 
-from Main.telegram_bot import send_photo_to_bot, send_message_to_bot
+from Main.telegram_bot import send_photo_with_message_to_bot, send_message_to_bot
 
 
 def identification(request):
@@ -58,9 +58,9 @@ def cart(request):
                        bevel + molding + portal + carnice +
                        podium + socket + boots + price + quantity)
 
-            send_photo_to_bot(image)
+            send_photo_with_message_to_bot(image, massage)
 
-            send_message_to_bot(massage)
+            # send_message_to_bot(massage)
             i.delete()
     unique_id = identification(request)
     data = CartItem.objects.filter(Key=unique_id)
