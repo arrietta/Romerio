@@ -790,15 +790,17 @@
         edit_view();
         
 
-        function checkAndRemovePanel() {
-            var shape = document.getElementById('shape');
+        function checkAndRemovePanel(name) {
+            var shape = document.getElementById(name);
             var panel = shape.closest('.panel');
 
             if (shape.children.length < 2 && panel) {
                 panel.remove();
             }
         }
-        checkAndRemovePanel();
+        checkAndRemovePanel("shape");
+        checkAndRemovePanel("molding");
+
 
         window.addEventListener('resize', moveElement);
         document.addEventListener('DOMContentLoaded', moveElement);
