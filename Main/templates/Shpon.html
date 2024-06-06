@@ -455,6 +455,10 @@
             socket_field[My_door.color][My_door.socket] ? edit_image("socket", socket_field[My_door.color][My_door.socket]["image"], My_door.color) : "";
             boots_field[My_door.color][My_door.boots] ? edit_image("boots", boots_field[My_door.color][My_door.boots]["image"], My_door.color) : "";
 
+            if (["Ash White", "Buckwheat", "Caramel", "Pepper", "Pepper Black"].includes(My_door.color)) {
+                console.log("7%");
+                price = price + (price * 0.07);
+            }
             My_door["price"] = price;
             document.getElementById("price").innerHTML = price;
 
