@@ -160,10 +160,42 @@
     </main>
     <script>
 
-        (function(){
+        let name; // Объявляем переменную name глобально
+
+        function loadJSON() {
+            return fetch("/static/dict.json")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    name = data; // Сохраняем данные в переменную name
+                    return data;
+                })
+                .catch(error => {
+                    console.error('Error loading JSON:', error);
+                    return null;
+                });
+        }
+
+        // Функция для использования данных
+        function useData() {
+            console.log(name); // Здесь будет ваш объект данных из dict.json
+
+            // Дальше ваш код, использующий переменную name
+        }
+
+        // Загружаем данные синхронно и используем их
+        loadJSON().then(() => {
+            useData();
+        
 
 
-                    
+        (function start(){
+
+
             document.getElementById("type_Classic").addEventListener('click', function() {
                 set_type('Classic',this)
             });
@@ -464,13 +496,13 @@
                     if (key.includes("_POD")) {
                         return;
                     }
+
                     let display = item.display ? item.display : key;
 
+                    display = name[display]? name[display]:display;
                     if(display.includes("Molding") || (display.includes("Molding.".toUpperCase()) )){
                         display = display.replace("Molding.","").replace("Molding.".toUpperCase(),"")
                     } 
-
-                
 
                     const button = document.createElement("button");
                     button.className = "block btn";
@@ -876,7 +908,7 @@
                 }
             }
 
-        })();
+        })();});
     </script>
 
 
