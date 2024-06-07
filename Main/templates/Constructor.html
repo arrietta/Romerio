@@ -160,7 +160,7 @@
     </main>
     <script>
 
-        let name; // Объявляем переменную name глобально
+        let names; // Объявляем переменную name глобально
 
         function loadJSON() {
             return fetch("/static/dict.json")
@@ -171,7 +171,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    name = data; // Сохраняем данные в переменную name
+                    names = data; // Сохраняем данные в переменную name
                     return data;
                 })
                 .catch(error => {
@@ -182,7 +182,7 @@
 
         // Функция для использования данных
         function useData() {
-            console.log(name); // Здесь будет ваш объект данных из dict.json
+            console.log(names); // Здесь будет ваш объект данных из dict.json
 
             // Дальше ваш код, использующий переменную name
         }
@@ -499,7 +499,7 @@
 
                     let display = item.display ? item.display : key;
 
-                    display = name[display]? name[display]:display;
+                    display = names[display]? names[display]:display;
                     if(display.includes("Molding") || (display.includes("Molding.".toUpperCase()) )){
                         display = display.replace("Molding.","").replace("Molding.".toUpperCase(),"")
                     } 
@@ -680,7 +680,7 @@
                 button.setAttribute("type", "molding_color");
                 button.setAttribute("value", name);
                 const div = document.createElement("div");
-                div.textContent = name;
+                div.textContent = names[name]?names[name]:name;
                 counter++;
                 button.appendChild(div);
                 document.getElementById("bevel_color").appendChild(button)
@@ -725,8 +725,8 @@
                 if(Collection.includes("Line")||(Collection.includes("Novara"))){
                     document.getElementById("shadow").src = "/static/css/Constructor/" +"Line_"+ My_door.size + ".png"
                 }
-                document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase() + "_"), "");
-                document.getElementById("d_portal").innerHTML = My_door.portal;
+                document.getElementById("d_shape").innerHTML =  names[ My_door.shape.replace((Collection.toUpperCase() + "_"), "")]?names[ My_door.shape.replace((Collection.toUpperCase() + "_"), "")]:My_door.shape.replace((Collection.toUpperCase() + "_"), "");
+                document.getElementById("d_portal").innerHTML =  names[ My_door.portal]?names[ My_door.portal]:My_door.portal;
                 if(additionals.includes("bevel")){
                     document.getElementById("d_additional").innerHTML = My_door.bevel;
                     document.getElementById("additional").innerText = "Фреза";
@@ -736,20 +736,20 @@
                         My_door.molding = document.querySelector("#molding .pressed").value;
                     }
                     
-                    document.getElementById("d_additional").innerHTML = My_door.molding.split(".")[0];
+                    document.getElementById("d_additional").innerHTML =  names[My_door.molding.split(".")[0]]?names[My_door.molding.split(".")[0]]:My_door.molding.split(".")[0];
                     document.getElementById("additional").innerText = "Багет";
                 
                 }
                 else if (additionals.includes("grid")){
-                    document.getElementById("d_additional").innerHTML = My_door.grid;
+                    document.getElementById("d_additional").innerHTML =  names[My_door.grid]?names[My_door.grid]:My_door.grid;
                     document.getElementById("additional").innerText = "Решётка";
                     
                 }else{
-                    document.getElementById("d_additional").innerHTML = My_door.socket;
+                    document.getElementById("d_additional").innerHTML =  names[My_door.socket] ? names[My_door.socket]:My_door.socket;
                     document.getElementById("additional").innerText = "Розетки";
                 }
-                document.getElementById("d_podium").innerHTML = My_door.podium;
-                document.getElementById("d_carnice").innerHTML = My_door.carnice;
+                document.getElementById("d_podium").innerHTML =  names[My_door.podium] ? names[My_door.podium]:My_door.podium;
+                document.getElementById("d_carnice").innerHTML = names[My_door.carnice] ?  names[My_door.carnice] : My_door.carnice;
 
                 price = 0;
 

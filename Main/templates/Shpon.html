@@ -95,6 +95,37 @@
 
     </main>
     <script>
+
+        let names; // Объявляем переменную name глобально
+
+        function loadJSON() {
+            return fetch("/static/dict_s.json")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    names = data; // Сохраняем данные в переменную name
+                    return data;
+                })
+                .catch(error => {
+                    console.error('Error loading JSON:', error);
+                    return null;
+                });
+        }
+
+        // Функция для использования данных
+        function useData() {
+            console.log(names); // Здесь будет ваш объект данных из dict.json
+
+            // Дальше ваш код, использующий переменную name
+        }
+
+        // Загружаем данные синхронно и используем их
+        loadJSON().then(() => {
+            useData();
         (function(){
 
 
@@ -241,13 +272,15 @@
                 button.id = counter <= 2 ? "color-"+ counter.toString() : ""; 
                 counter <= 1 ?button.classList.add("pressed"):"";
                 button.style.backgroundColor = "#"+hex[name];
+                button.setAttribute("value",name);
                 button.addEventListener('click', function() {
                     edit_color(button);
                 });
 
                 
                 const div = document.createElement("div");
-                div.textContent = name;
+                div.textContent = names[name]?names[name]:name;
+
                 counter++;
                 button.appendChild(div);
                 document.getElementsByClassName("color_body")[0].appendChild(button)
@@ -337,7 +370,9 @@
 
                     const item = data[key];
                     
-                    const display = item.display ? item.display : key;
+                    let display = item.display ? item.display : key;
+
+                    display = names[display]? names[display] : display;
 
                     const button = document.createElement("button");
                     button.className = "block btn";
@@ -393,7 +428,7 @@
                     element.classList.remove('pressed');
                 });
                 obj.classList.add('pressed');
-                My_door.color = obj.innerText;
+                My_door.color = obj.value;
                 My_door.color_name = obj.innerText;
                 document.getElementById("d_color").innerHTML =  My_door.color_name;
                 edit_view();
@@ -457,17 +492,17 @@
                 if(Collection.includes("Line")||(Collection.includes("Novara"))){
                     document.getElementById("shadow").src = "/static/css/Constructor/" +"Line_"+ My_door.size + ".png"
                 }
-                document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase() + "_"), "");
+                document.getElementById("d_shape").innerHTML = names[My_door.shape.replace((Collection.toUpperCase() + "_"), "")];
                 if (additionals.has("molding")&& Collection != "Modern"){
-                    document.getElementById("d_additional").innerHTML = My_door.molding.split(".")[0];
+                    document.getElementById("d_additional").innerHTML = names[My_door.molding.split(".")[0]] ? names[My_door.molding.split(".")[0]] : My_door.molding.split(".")[0];
                     document.getElementById("additional").innerText = "Багет";
                 }else{
-                    document.getElementById("d_additional").innerHTML = My_door.socket;
+                    document.getElementById("d_additional").innerHTML = names[My_door.socket]? names[My_door.socket]:My_door.socket;
                     document.getElementById("additional").innerText = "Розетки";
                 }
-                document.getElementById("d_podium").innerHTML = My_door.podium;
+                document.getElementById("d_podium").innerHTML = names[My_door.podium] ? names[My_door.podium]:My_door.podium;
 
-                document.getElementById("d_carnice").innerHTML = My_door.carnice;
+                document.getElementById("d_carnice").innerHTML = names[My_door.carnice]? names[My_door.carnice]: My_door.carnice;
 
                 price = 0;
 
@@ -566,7 +601,7 @@
                     }
                 }
             }
-        })();
+        })();});
 
     </script>
     

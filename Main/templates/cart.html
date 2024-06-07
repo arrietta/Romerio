@@ -91,171 +91,204 @@
 
         </section>
         <script>
+            let names; // Объявляем переменную name глобально
 
-
-
-            const data = JSON.parse('{{ data|safe }}');
-            data.forEach(element => {
-                createObject(element);
-            });
-            
-            function createObject(element) {
-                var newItem = document.createElement('div');
-                newItem.classList.add('underline', 'w-100', 'd-flex');
-                newItem.id = "el_"+element.id ;
-                var col1 = document.createElement('div');
-                col1.classList.add('col-2', 'rightline','p-4','d-flex','justify-content-center');
-
-                var icon = document.createElement('img');
-                icon.src = element.icon;
-                col1.appendChild(icon);
-                newItem.appendChild(col1);
-                var col2 = document.createElement('div');
-                col2.classList.add('col-10', 'p-md-4', 'p-2');
-                var contentDiv1 = document.createElement('div');
-                contentDiv1.classList.add('d-flex', 'justify-content-between');
-                contentDiv1.innerHTML = '<h3>' + element['shape'].split('_')[0] + '</h3><h3 class="prices" id="price_'+ element.id +'">' + element['door_price'] *
-                    element['quantity'] + '</h3>';
-                var mainContainer = document.createElement('div');
-                mainContainer.classList.add('d-flex', 'justify-content-between');
-                var optionsLeftDiv = document.createElement('div');
-                var option = [];
-                element['shape'].split('_')[1] ? option.push(["Форма : ", element['shape'].split('_')[1]]) : '';
-                element['portal'] ? option.push(["Портал : ", element['portal']]) : '';
-                element['molding'] != "null" ? option.push(["Багет : ", element['molding']]) : '';
-                element['bevel'] != "null" ? option.push(["Фреза : ", element['bevel']]) : '';
-                element['grid'] != "null" ? option.push(["Решётка : ", element['grid']]) : '';
-                element['color'] ? option.push(["Цвет : ", element['color']]) : '';
-                element['carnice'] != "null" ? option.push(["Карниз : ", element['carnice']]) : '';
-                element['boots'] != "null" ? option.push(["Сопозок : ", element['boots']]) : '';
-                element['podium'] != "null" ? option.push(["Возвышение : ", element['podium']]) : '';
-                element['socket'] != "null" ? option.push(["Розетка : ", element['socket']]) : '';
-                while (option.length < 6) {
-                    option.push([" ", " "]);
-                }
-                var optionsLeftContent = [option[0][0] + option[0][1], option[2][0] + option[2][1], option[4][0] +
-                    option[4][1]
-                ];
-                optionsLeftContent.forEach(function(option) {
-                    var optionDiv = document.createElement('div');
-                    optionDiv.classList.add('text-secondary');
-                    optionDiv.textContent = option;
-                    optionsLeftDiv.appendChild(optionDiv);
-                });
-                var optionsRightDiv = document.createElement('div');
-                var optionsRightContent = [option[1][0] + option[1][1], option[3][0] + option[3][1], option[5][0] +
-                    option[5][1]
-                ];
-                optionsRightContent.forEach(function(option) {
-                    var optionDiv = document.createElement('div');
-                    optionDiv.classList.add('text-secondary');
-                    optionDiv.textContent = option;
-                    optionsRightDiv.appendChild(optionDiv);
-                });
-                var buttonsDiv = document.createElement('div');
-                buttonsDiv.classList.add('d-flex', 'btns');
-                var minusButton = document.createElement('button');
-                minusButton.textContent = '-';
-                minusButton.onclick = function() {
-                    Element_minus(element.Key, element.id);
-                };
-                var quantityDiv = document.createElement('div');
-                quantityDiv.textContent = element.quantity;
-                quantityDiv.id = element.id; 
-                var plusButton = document.createElement('button');
-                plusButton.textContent = '+';
-                plusButton.onclick = function() {
-                    Element_plus(element.Key, element.id);
-                };
-                buttonsDiv.appendChild(minusButton);
-                buttonsDiv.appendChild(quantityDiv);
-                buttonsDiv.appendChild(plusButton);
-                mainContainer.appendChild(optionsLeftDiv);
-                mainContainer.appendChild(optionsRightDiv);
-                mainContainer.appendChild(buttonsDiv);
-                col2.appendChild(contentDiv1);
-                col2.appendChild(mainContainer);
-                newItem.appendChild(col2);
-                document.getElementById('list').appendChild(newItem);
+            function loadJSON() {
+                return fetch("/static/dict.json")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        names = data; // Сохраняем данные в переменную name
+                        return data;
+                    })
+                    .catch(error => {
+                        console.error('Error loading JSON:', error);
+                        return null;
+                    });
             }
-            $(document).ready(function() {
-                $('#submitButton').click(function() {
-                    let deliveryCheckbox = $('#delivery');
-                    let measurementCheckbox = $('#measurement');
-                    let privacy = $('#privacy')
-                    if (!deliveryCheckbox.is(':checked') || !measurementCheckbox.is(':checked')|| !privacy.is(':checked')) {
-                        $('#error-message').show();
-                    } else {    
-                        $('#error-message').hide();
-                    }
+
+            // Функция для использования данных
+            function useData() {
+                console.log(names); // Здесь будет ваш объект данных из dict.json
+
+                // Дальше ваш код, использующий переменную name
+            }
+
+            // Загружаем данные синхронно и используем их
+            loadJSON().then(() => {
+                useData();
+
+
+
+
+
+                const data = JSON.parse('{{ data|safe }}');
+                data.forEach(element => {
+                    createObject(element);
                 });
-            });
-
-            function Element_plus(key,id){
                 
-                var requestData = {
-                    "key": key,
-                    "id": id,
-                };
-                sendDataToServer('/api_plus/', key, id);
-                let price = parseInt(document.getElementById("price_"+id).textContent)/ parseInt(document.getElementById(id).innerText);
-                document.getElementById(id).innerText = parseInt(document.getElementById(id).innerText) + 1 ;
-                document.getElementById("price_"+id).innerText = price * parseInt(document.getElementById(id).innerText);
-                edit_view();
-            }   
+                function createObject(element) {
+                    var newItem = document.createElement('div');
+                    newItem.classList.add('underline', 'w-100', 'd-flex');
+                    newItem.id = "el_"+element.id ;
+                    var col1 = document.createElement('div');
+                    col1.classList.add('col-2', 'rightline','p-4','d-flex','justify-content-center');
 
-            function Element_minus(key,id){
+                    var icon = document.createElement('img');
+                    icon.src = element.icon;
+                    col1.appendChild(icon);
+                    newItem.appendChild(col1);
+                    var col2 = document.createElement('div');
+                    col2.classList.add('col-10', 'p-md-4', 'p-2');
+                    var contentDiv1 = document.createElement('div');
+                    contentDiv1.classList.add('d-flex', 'justify-content-between');
+                    contentDiv1.innerHTML = '<h3>' + element['shape'].split('_')[0] + '</h3><h3 class="prices" id="price_'+ element.id +'">' + element['door_price'] *
+                        element['quantity'] + '</h3>';
+                    var mainContainer = document.createElement('div');
+                    mainContainer.classList.add('d-flex', 'justify-content-between');
+                    var optionsLeftDiv = document.createElement('div');
+                    var option = [];
+                    element['shape'].split('_')[1] ? option.push(["Форма : ", names[element['shape'].split('_')[1]]?names[element['shape'].split('_')[1]]:element['shape'].split('_')[1]]) : '';
+                    element['portal'] ? option.push(["Портал : ", names[element['portal']]?names[element['portal']]:element['portal']]) : '';
+                    element['molding'] != "null" ? option.push(["Багет : ", names[element['molding']]?names[element['molding']]:element['molding']]) : '';
+                    element['bevel'] != "null" ? option.push(["Фреза : ", names[element['bevel']]?names[element['bevel']]:element['bevel']]) : '';
+                    element['grid'] != "null" ? option.push(["Решётка : ", names[element['grid']]?names[element['grid']]:element['grid']]) : '';
+                    element['color'] ? option.push(["Цвет : ", names[element['color']]?names[element['color']]:element['color']]) : '';
+                    element['carnice'] != "null" ? option.push(["Карниз : ", names[element['carnice']]?names[element['carnice']]:element['carnice']]) : '';
+                    element['boots'] != "null" ? option.push(["Сопозок : ", names[element['boots']]?names[element['boots']]:element['boots']]) : '';
+                    element['podium'] != "null" ? option.push(["Возвышение : ", names[element['podium']]?names[element['podium']]:element['podium']]) : '';
+                    element['socket'] != "null" ? option.push(["Розетка : ", names[element['socket']]?names[element['socket']]:element['socket']]) : '';
+                    while (option.length < 6) {
+                        option.push([" ", " "]);
+                    }
+                    var optionsLeftContent = [option[0][0] + option[0][1], option[2][0] + option[2][1], option[4][0] +
+                        option[4][1]
+                    ];
+                    optionsLeftContent.forEach(function(option) {
+                        var optionDiv = document.createElement('div');
+                        optionDiv.classList.add('text-secondary');
+                        optionDiv.textContent = option;
+                        optionsLeftDiv.appendChild(optionDiv);
+                    });
+                    var optionsRightDiv = document.createElement('div');
+                    var optionsRightContent = [option[1][0] + option[1][1], option[3][0] + option[3][1], option[5][0] +
+                        option[5][1]
+                    ];
+                    optionsRightContent.forEach(function(option) {
+                        var optionDiv = document.createElement('div');
+                        optionDiv.classList.add('text-secondary');
+                        optionDiv.textContent = option;
+                        optionsRightDiv.appendChild(optionDiv);
+                    });
+                    var buttonsDiv = document.createElement('div');
+                    buttonsDiv.classList.add('d-flex', 'btns');
+                    var minusButton = document.createElement('button');
+                    minusButton.textContent = '-';
+                    minusButton.onclick = function() {
+                        Element_minus(element.Key, element.id);
+                    };
+                    var quantityDiv = document.createElement('div');
+                    quantityDiv.textContent = element.quantity;
+                    quantityDiv.id = element.id; 
+                    var plusButton = document.createElement('button');
+                    plusButton.textContent = '+';
+                    plusButton.onclick = function() {
+                        Element_plus(element.Key, element.id);
+                    };
+                    buttonsDiv.appendChild(minusButton);
+                    buttonsDiv.appendChild(quantityDiv);
+                    buttonsDiv.appendChild(plusButton);
+                    mainContainer.appendChild(optionsLeftDiv);
+                    mainContainer.appendChild(optionsRightDiv);
+                    mainContainer.appendChild(buttonsDiv);
+                    col2.appendChild(contentDiv1);
+                    col2.appendChild(mainContainer);
+                    newItem.appendChild(col2);
+                    document.getElementById('list').appendChild(newItem);
+                }
+                $(document).ready(function() {
+                    $('#submitButton').click(function() {
+                        let deliveryCheckbox = $('#delivery');
+                        let measurementCheckbox = $('#measurement');
+                        let privacy = $('#privacy')
+                        if (!deliveryCheckbox.is(':checked') || !measurementCheckbox.is(':checked')|| !privacy.is(':checked')) {
+                            $('#error-message').show();
+                        } else {    
+                            $('#error-message').hide();
+                        }
+                    });
+                });
 
-                if(document.getElementById(id).innerText == 1){
-                    document.getElementById("el_"+id).remove();
-                    sendDataToServer('/api_delete/', key, id);
-                   
-                }else{
-                    sendDataToServer('/api_minus/', key, id);
+                function Element_plus(key,id){
+                    
+                    var requestData = {
+                        "key": key,
+                        "id": id,
+                    };
+                    sendDataToServer('/api_plus/', key, id);
                     let price = parseInt(document.getElementById("price_"+id).textContent)/ parseInt(document.getElementById(id).innerText);
-                    document.getElementById(id).innerText = parseInt(document.getElementById(id).innerText) - 1;
+                    document.getElementById(id).innerText = parseInt(document.getElementById(id).innerText) + 1 ;
                     document.getElementById("price_"+id).innerText = price * parseInt(document.getElementById(id).innerText);
                     edit_view();
+                }   
+
+                function Element_minus(key,id){
+
+                    if(document.getElementById(id).innerText == 1){
+                        document.getElementById("el_"+id).remove();
+                        sendDataToServer('/api_delete/', key, id);
+                    
+                    }else{
+                        sendDataToServer('/api_minus/', key, id);
+                        let price = parseInt(document.getElementById("price_"+id).textContent)/ parseInt(document.getElementById(id).innerText);
+                        document.getElementById(id).innerText = parseInt(document.getElementById(id).innerText) - 1;
+                        document.getElementById("price_"+id).innerText = price * parseInt(document.getElementById(id).innerText);
+                        edit_view();
+                    }
+                    
+                    
                 }
+
+                function sendDataToServer(url, key , id) {
+
+                    const csrftoken = getCookie('csrftoken');
+                    const formData = new FormData();
+                    formData.append('key', key);
+                    formData.append('id', id);
+
+                    fetch(url, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {'X-CSRFToken': csrftoken }
+                    })
+                    .then(response => response.json())
+                    
+                    .catch(error => {
+                    console.error('Error:', error);
+                    });
+                }        
+
+                function getCookie(name) {
+                        const value = `; ${document.cookie}`;
+                        const parts = value.split(`; ${name}=`);
+                        if (parts.length === 2) return parts.pop().split(';').shift();
+                }
+
+                function edit_view(){
+                    var totel = 0;
+                    let elements = document.getElementsByClassName("prices")
+                    Array.from(elements).forEach(element => {
+                        totel+=parseInt(element.innerText);
+                    });
                 
-                
-            }
-
-            function sendDataToServer(url, key , id) {
-
-                const csrftoken = getCookie('csrftoken');
-                const formData = new FormData();
-                formData.append('key', key);
-                formData.append('id', id);
-
-                fetch(url, {
-                method: 'POST',
-                body: formData,
-                headers: {'X-CSRFToken': csrftoken }
-                })
-                .then(response => response.json())
-                
-                .catch(error => {
-                console.error('Error:', error);
-                });
-            }        
-
-            function getCookie(name) {
-                    const value = `; ${document.cookie}`;
-                    const parts = value.split(`; ${name}=`);
-                    if (parts.length === 2) return parts.pop().split(';').shift();
-            }
-
-            function edit_view(){
-                var totel = 0;
-                let elements = document.getElementsByClassName("prices")
-                Array.from(elements).forEach(element => {
-                    totel+=parseInt(element.innerText);
-                });
-               
-                document.getElementById("price").innerText = totel;
-            }
-            edit_view();
+                    document.getElementById("price").innerText = totel;
+                }
+                edit_view();
+            });
 
         </script>
 
