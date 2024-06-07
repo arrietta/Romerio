@@ -791,6 +791,16 @@
                 socket_field[My_door.size][My_door.socket] ? edit_image("socket", socket_field[My_door.size][My_door.socket]["image"], My_door.color) : "";
                 boots_field[My_door.size][My_door.boots] ? edit_image("boots", boots_field[My_door.size][My_door.boots]["image"], My_door.color) : "";
 
+                if (["Ash White", "Buckwheat", "Caramel", "Pepper", "Pepper Black"].includes(My_door.molding_color)) {
+                    console.log("7%");
+                    price = price + (price * 0.07);
+                }
+
+                if (["Black Ofram"].includes(My_door.molding_color)) {
+                    console.log("30%");
+                    price = price + (price * 0.30);
+                }
+                
                 My_door["price"] = price;
                 document.getElementById("price").innerHTML = price;
 
