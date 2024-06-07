@@ -41,9 +41,13 @@ def cart(request):
             data = json.load(file)
 
         Doors = CartItem.objects.filter(Key=id)
+
         for i in Doors:
-            shape = "- Форма: " + (i.shape.split("_")[0] + " " + data[i.shape.split("_")[1]] if i.shape.split("_")[
-                                                                                                    1] in data else i.shape) + "\n"
+            coll = "- Коллекция: " + (i.shape.split("_")[0] +" " + i.shape.split("_")[1] if i.shape.split("_")[1] == "SHPONE"  else i.shape.split("_")[0]) + "\n"
+            if(i.shape.split("_")[1] == "SHPONE"):
+                shape = "- Форма: " + (data[i.shape.split("_")[2]] if i.shape.split("_")[1] in data else i.shape.split("_")[2]) + "\n"
+            else:
+                shape = "- Форма: " + (data[i.shape.split("_")[1]] if i.shape.split("_")[1] in data else i.shape.split("_")[1]) + "\n"
             portal = "- Портал: " + (data[i.portal] if i.portal in data else i.portal) + "\n"
             color = "- Цвет: " + (data[i.color] if i.color in data else i.color) + "\n"
             image = i.image
@@ -64,7 +68,7 @@ def cart(request):
                 data[i.socket] if i.socket in data else i.socket) + "\n" if i.socket != "null" else ""
             boots = "- Сапожок: " + (data[i.boots] if i.boots in data else i.boots) + "\n" if i.boots != "null" else ""
 
-            massage = (Name + phone + delivery + sizeing + shape + grid + grid_bevel + color +
+            massage = (Name + phone + delivery + sizeing +coll + shape + grid + grid_bevel + color +
                        bevel + molding + portal + carnice +
                        podium + socket + boots + price + quantity)
 
