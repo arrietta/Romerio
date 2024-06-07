@@ -61,9 +61,13 @@
         </section>
 
         <section id="panel">
+         
             <div class="bg-white d-flex px-4 justify-content-between">
                 <div class="bg-white d-flex py-3  ">
-                    <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
+                    <a href="{% url 'catalog'%}">
+                        <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
+                    </a>
+                    
                     <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
                 </div>
                 
@@ -354,7 +358,6 @@
                         let bevel_name =  item.Grid_image.split("/")[1].split(".")[0] ;
                         
                         let grid_name =  item.Grid_image.split("/")[1].split(".")[1] ;
-                        console.log(grid_name + " " + bevel_name );
                         grid_data[item.name] = grid_data[item.name] || {};
                         grid_data[item.name][bevel_name] == undefined ? grid_data[item.name][bevel_name] = grid_data[bevel_name] || {}:"";
                         grid_data[item.name][bevel_name][grid_name] = grid_data[grid_name] || {};
@@ -375,9 +378,12 @@
                 const uniqueNames = new Set();
                 molding_data.forEach(item => {
                     let name = item.name.replace(Collection.toUpperCase()+"_","").split('_')[0];
-                    let val = item.name.replace(Collection.toUpperCase()+"_","").split('_')[1].replace("Molding.","").replace("Molding.".toUpperCase(),"");
+                    let val = item.name.replace(Collection.toUpperCase()+"_","").split('_')[1];
+                    
+                    console.log(name + " " +val);
 
                     if(Collection == "Novara"){
+                        val = val.replace("Molding.","").replace("Molding.".toUpperCase(),"");
                         color_val = val.split('.')[2] ? val.split('.')[1]+ " " + val.split('.')[2] : val.split('.')[1];
                         if(!uniqueNames.has(color_val)){
                             createColors(color_val);
@@ -437,7 +443,13 @@
                 if (key.includes("_POD")) {
                     return;
                 }
-                const display = item.display ? item.display : key;
+                let display = item.display ? item.display : key;
+
+                if(display.includes("Molding") || (display.includes("Molding.".toUpperCase()) )){
+                    display = display.replace("Molding.","").replace("Molding.".toUpperCase(),"")
+                } 
+
+               
 
                 const button = document.createElement("button");
                 button.className = "block btn";
@@ -572,7 +584,7 @@
                 document.querySelector('#grid > button.block.btn').classList.add("pressed");
             }
 
-            if(additionals.includes("molding")&& obj.attributes.type.value == "shape" && molding_field[My_door.shape.split('_')[1]]){
+            if(additionals.includes("molding")&& obj.attributes.type.value == "shape" && molding_field[My_door.shape.split('_')[1]] && document.getElementById("molding")){
                 button_update("molding",molding_field[My_door.shape.split('_')[1]]);
                 My_door.molding = Object.keys(molding_field[My_door.shape.split('_')[1]])[0];
                 document.querySelector('#molding > button.block.btn').classList.add("pressed");
@@ -663,7 +675,7 @@
                 document.getElementById("additional").innerText = "Фреза";
 
             }else if (additionals.includes("molding")&& Collection != "Modern" && molding_field[My_door.shape.split('_')[1]]){
-                if(Collection != "Novara"  ){
+                if(Collection != "Novara" && Collection != "Vision"  ){
                     My_door.molding = document.querySelector("#molding .pressed").value;
                 }
                 
@@ -801,7 +813,13 @@
         
 
         function checkAndRemovePanel(name) {
+
+            if(!document.getElementById(name)){
+                return;
+            }
             var shape = document.getElementById(name);
+
+            
             var panel = shape.closest('.panel');
 
             if (shape.children.length < 2 && panel) {

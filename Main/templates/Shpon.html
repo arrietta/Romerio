@@ -504,15 +504,21 @@
         edit_view();
         sellect();
         function checkAndRemovePanel(name) {
+
+            if(!document.getElementById(name)){
+                return;
+            }
             var shape = document.getElementById(name);
+
+
             var panel = shape.closest('.panel');
 
             if (shape.children.length < 2 && panel) {
                 panel.remove();
             }
-        }
-        checkAndRemovePanel("shape");
-        checkAndRemovePanel("molding");
+            }
+            checkAndRemovePanel("shape");
+            checkAndRemovePanel("molding");
 
         window.addEventListener('resize', moveElement);
         document.addEventListener('DOMContentLoaded', moveElement);
