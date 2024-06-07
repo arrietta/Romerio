@@ -182,7 +182,6 @@
 
         // Функция для использования данных
         function useData() {
-            console.log(names); // Здесь будет ваш объект данных из dict.json
 
             // Дальше ваш код, использующий переменную name
         }
@@ -205,7 +204,8 @@
             });
 
             document.getElementById("submit").addEventListener('click', function() {
-                edit_view()
+                document.getElementById("price").innerHTML = My_door.price;
+                console.log(My_door);
             });
 
             Array.from(document.getElementsByClassName("clr")).forEach(el =>{
@@ -433,8 +433,6 @@
                         let name = item.name.replace(Collection.toUpperCase()+"_","").split('_')[0];
                         let val = item.name.replace(Collection.toUpperCase()+"_","").split('_')[1];
                         
-                        console.log(name + " " +val);
-
                         if(Collection == "Novara"){
                             val = val.replace("Molding.","").replace("Molding.".toUpperCase(),"");
                             color_val = val.split('.')[2] ? val.split('.')[1]+ " " + val.split('.')[2] : val.split('.')[1];
@@ -644,6 +642,7 @@
                     document.querySelector('#molding > button.block.btn').classList.add("pressed");
                 }
                 edit_view();
+                
 
                 
             }
@@ -755,9 +754,11 @@
 
                 if (bevel_data[My_door.shape]) {
                     edit_image("door", bevel_data[My_door.shape][My_door.bevel]["image"], My_door.color);
+                    My_door.image = "/media/" + bevel_data[My_door.shape][My_door.bevel]["image"];
                     price += bevel_data[My_door.shape][My_door.bevel]["price"];
                 } else {
                     edit_image("door", shape_[My_door.type][My_door.shape]["image"], My_door.color);
+                    My_door.image = "/media/" +  shape_[My_door.type][My_door.shape]["image"];
                     price += shape_[My_door.type][My_door.shape]["price"]
                 }
 
@@ -792,12 +793,10 @@
                 boots_field[My_door.size][My_door.boots] ? edit_image("boots", boots_field[My_door.size][My_door.boots]["image"], My_door.color) : "";
 
                 if (["Ash White", "Buckwheat", "Caramel", "Pepper", "Pepper Black"].includes(My_door.molding_color)) {
-                    console.log("7%");
                     price = price + (price * 0.07);
                 }
 
                 if (["Black Ofram"].includes(My_door.molding_color)) {
-                    console.log("30%");
                     price = price + (price * 0.30);
                 }
                 

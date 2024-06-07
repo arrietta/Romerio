@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 import json
 import uuid
 
-from Main.telegram_bot import send_photo_with_message_to_bot, send_message_to_bot
+from Main.telegram_bot import send_photo_with_message_to_bot
 
 
 def identification(request):
@@ -30,31 +30,41 @@ def catalog(request):
 def cart(request):
     if request.method == 'POST':
         Name = "Конечный заказчик: " + request.POST['name'] + '\n'
-        phone = "Контактный телефон: " +request.POST['phone'] + '\n'
-        delivery = "Доставка: " +("Есть"if request.POST['delivery']  else "")+ '\n'
-        sizeing = "Замеры: " +("Есть" if request.POST['measurement'] else "")+ '\n'
+        phone = "Контактный телефон: " + request.POST['phone'] + '\n'
+        delivery = "Доставка: " + ("Есть" if request.POST['delivery'] else "") + '\n'
+        sizeing = "Замеры: " + ("Есть" if request.POST['measurement'] else "") + '\n'
 
         id = identification(request)
 
+        with open('data.json', 'r', encoding='utf-8') as file:
+            # Load JSON data
+            data = json.load(file)
+
         Doors = CartItem.objects.filter(Key=id)
         for i in Doors:
-            shape = "- Форма: " + i.shape + "\n"
-            portal = "- Портал: " + i.portal + "\n"
-            color = "- Цвет: " + i.color + "\n"
+            shape = "- Форма: " + (i.shape.split("_")[0] + " " + data[i.shape.split("_")[1]] if i.shape.split("_")[
+                                                                                                    1] in data else i.shape) + "\n"
+            portal = "- Портал: " + (data[i.portal] if i.portal in data else i.portal) + "\n"
+            color = "- Цвет: " + (data[i.color] if i.color in data else i.color) + "\n"
             image = i.image
             price = "- Цена: " + str(i.door_price * i.quantity) + "\n"
             quantity = "- Количество: " + str(i.quantity) + "\n"
 
-            bevel = "- Фреза: " + i.bevel + "\n" if i.bevel != "null" else ""
-            grid = "- Решётка: " + i.grid + "\n" if i.grid != "null" else ""
-            grid_bevel = "- Фреза Решётки: " + i.grid_bevel + "\n" if i.grid_bevel != "null" else ""
-            molding = "- Багет/Вставка: " + i.molding + "\n" if i.molding != "null" else ""
-            carnice = "- Карниз: " + i.carnice + "\n" if i.carnice != "null" else ""
-            podium = "- Возвышение: " + i.podium + "\n" if i.podium != "null" else ""
-            socket = "- Розетка: " + i.socket + "\n" if i.socket != "null" else ""
-            boots = "- Сапожок: " + i.boots + "\n" if i.boots != "null" else ""
+            bevel = "- Фреза: " + (data[i.bevel] if i.bevel in data else i.bevel) + "\n" if i.bevel != "null" else ""
+            grid = "- Решётка: " + (data[i.grid] if i.grid in data else i.grid) + "\n" if i.grid != "null" else ""
+            grid_bevel = "- Фреза Решётки: " + (
+                data[i.grid_bevel] if i.grid_bevel in data else i.grid_bevel) + "\n" if i.grid_bevel != "null" else ""
+            molding = "- Багет/Вставка: " + (
+                data[i.molding] if i.molding in data else i.molding) + "\n" if i.molding != "null" else ""
+            carnice = "- Карниз: " + (
+                data[i.carnice] if i.carnice in data else i.carnice) + "\n" if i.carnice != "null" else ""
+            podium = "- Возвышение: " + (
+                data[i.podium] if i.podium in data else i.podium) + "\n" if i.podium != "null" else ""
+            socket = "- Розетка: " + (
+                data[i.socket] if i.socket in data else i.socket) + "\n" if i.socket != "null" else ""
+            boots = "- Сапожок: " + (data[i.boots] if i.boots in data else i.boots) + "\n" if i.boots != "null" else ""
 
-            massage = (Name + phone + delivery + sizeing + shape + grid + grid_bevel  + color +
+            massage = (Name + phone + delivery + sizeing + shape + grid + grid_bevel + color +
                        bevel + molding + portal + carnice +
                        podium + socket + boots + price + quantity)
 
