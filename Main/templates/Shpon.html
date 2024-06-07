@@ -118,7 +118,7 @@
 
         // Функция для использования данных
         function useData() {
-            console.log(names); // Здесь будет ваш объект данных из dict.json
+            console.log(names); // Здесь будет ваш объект данных из data.json
 
             // Дальше ваш код, использующий переменную name
         }
@@ -507,6 +507,7 @@
                 price = 0;
 
                 edit_image("door", shape_[My_door.type][My_door.color][My_door.shape]["image"], My_door.color);
+                My_door.image="/media/"+shape_[My_door.type][My_door.color][My_door.shape]["image"];
                 edit_image("portal",shape_[My_door.type][My_door.color][My_door.shape]["portal"])
                 price += shape_[My_door.type][My_door.color][My_door.shape]["price"]
 
