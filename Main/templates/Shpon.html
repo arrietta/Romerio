@@ -48,7 +48,9 @@
 
         <section id="panel">
             <div class="bg-white d-flex py-3 px-4 ">
-                <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
+                <a href="{% url 'catalog'%}">
+                    <img src="{% static 'image/Arrow.png'%}" height="18px" alt="" class="my-auto mx-1">
+                </a>
                 <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
             </div>
             <div id="type_selector">
