@@ -218,7 +218,7 @@
 
             function createColors(name) {
                 const button = document.createElement("button");
-                button.classList.add("block", "btn");
+                button.classList.add("block", "btn",'clr');
                 const hex = {
                     "Ash Grey" : "957b5b",
                     "Ash White" : "C0b9a6",
@@ -239,7 +239,7 @@
                     "White" : "C0b093"
                 };
                 button.id = counter <= 2 ? "color-"+ counter.toString() : ""; 
-                counter <= 1 ?button.classList.add("pressed",'clr'):"";
+                counter <= 1 ?button.classList.add("pressed"):"";
                 button.style.backgroundColor = "#"+hex[name];
                 button.addEventListener('click', function() {
                     edit_color(button);
