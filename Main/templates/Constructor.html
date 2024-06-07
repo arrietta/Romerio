@@ -80,48 +80,48 @@
                 <div id="Color" class="panel ">
                     <div class="panel_head">Цвет</div>
                     <div class="color_body">
-                        <button class="block btn pressed clr" onclick="edit_color(this)" id="color-1"
+                        <button class="block btn pressed clr"  id="color-1"
                             style="background-color: white;">
                             <div>Белый</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" id="color-2"
+                        <button class="block btn clr"  id="color-2"
                             style="background-color: #3C3C3C;">
                             <div>Антрацит</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #787f88;">
+                        <button class="block btn clr"  style="background-color: #787f88;">
                             <div>Ral 7040</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #EFECE5;">
+                        <button class="block btn clr"  style="background-color: #EFECE5;">
                             <div>Ral 9010</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #DBD2BE;">
+                        <button class="block btn clr"  style="background-color: #DBD2BE;">
                             <div>Ral 1013</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #C7C8CC;">
+                        <button class="block btn clr"  style="background-color: #C7C8CC;">
                             <div>Cs 006</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #5B6066;">
+                        <button class="block btn clr"  style="background-color: #5B6066;">
                             <div>Ral 7011</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #C6C6C8;">
+                        <button class="block btn clr"  style="background-color: #C6C6C8;">
                             <div>Ral 7047</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #D2D3CD;">
+                        <button class="block btn clr"  style="background-color: #D2D3CD;">
                             <div>Cs 010</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #949496;">
+                        <button class="block btn clr"  style="background-color: #949496;">
                             <div>Ral 7036</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #EFEBDD;">
+                        <button class="block btn clr"  style="background-color: #EFEBDD;">
                             <div>Ral 9001</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #F6F8F5;">
+                        <button class="block btn clr"  style="background-color: #F6F8F5;">
                             <div>Ral 9003</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #897D82;">
+                        <button class="block btn clr"  style="background-color: #897D82;">
                             <div>Каштановый</div>
                         </button>
-                        <button class="block btn clr" onclick="edit_color(this)" style="background-color: #B37E85;">
+                        <button class="block btn clr"  style="background-color: #B37E85;">
                             <div>Джеральдин</div>
                         </button>
                     </div>
@@ -530,7 +530,7 @@
             }
 
             function edit_color(obj) {
-                var pressedElements = document.querySelectorAll('.pressed[onclick="edit_color(this)"]');
+                var pressedElements = document.querySelectorAll('.pressed.clr');
 
                 pressedElements.forEach(function (element) {
                     element.classList.remove('pressed');
