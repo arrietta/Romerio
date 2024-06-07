@@ -428,6 +428,9 @@
 
         function edit_view() {
             document.getElementById("shadow").src = "/static/css/Constructor/" + My_door.size + ".png"
+            if(Collection.includes("Line")||(Collection.includes("Novara"))){
+                document.getElementById("shadow").src = "/static/css/Constructor/" +"Line_"+ My_door.size + ".png"
+            }
             document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase() + "_"), "");
             if (additionals.has("molding")&& Collection != "Modern"){
                 document.getElementById("d_additional").innerHTML = My_door.molding.split(".")[0];
