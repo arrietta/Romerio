@@ -65,7 +65,7 @@
 
                 </div>
                 <div class="panel ">
-                    <div class="panel_head" onclick="togglePanel('shape')">Форма двери</div>
+                    <div class="panel_head" >Форма двери</div>
                     <div class="panel_body" id="shape"></div>
                 </div>
 
@@ -86,7 +86,6 @@
                         <form action="/api_add/" id="form" method="post">
                             {% csrf_token %}
                             <input class="btn" type="submit" id="submit" value="В корзину">
-                            <!-- onclick="send()" -->
                         </form>
 
                     </div>
@@ -240,7 +239,7 @@
                     "White" : "C0b093"
                 };
                 button.id = counter <= 2 ? "color-"+ counter.toString() : ""; 
-                counter <= 1 ?button.classList.add("pressed"):"";
+                counter <= 1 ?button.classList.add("pressed",'clr'):"";
                 button.style.backgroundColor = "#"+hex[name];
                 button.addEventListener('click', function() {
                     edit_color(button);
@@ -388,7 +387,7 @@
             }
 
             function edit_color(obj) {
-                var pressedElements = document.querySelectorAll('.pressed[onclick="edit_color(this)"]');
+                var pressedElements = document.querySelectorAll('.pressed.clr');
 
                 pressedElements.forEach(function (element) {
                     element.classList.remove('pressed');
