@@ -52,9 +52,8 @@
                 <a href="{% url 'catalog'%}" class="text-dark fs-5 mx-2">В каталог</a>
             </div>
             <div id="type_selector">
-                <button class="btn text-light bg-white text-dark right-line fs-5"
-                    onclick="set_type('Classic',this)">Глухая</button>
-                <Button class="btn text-light fs-5" onclick="set_type('DO',this)">Остекленная</Button>
+                <button class="btn text-light bg-white text-dark right-line fs-5" id="type_Classic">Глухая</button>
+                <Button class="btn text-light fs-5"  id="type_Do">Остекленная</Button>
             </div>
             <div id="Scroll_Panel">
                 <div id="Color" class="panel ">
@@ -84,7 +83,8 @@
                     <div id="fixed-element">
                         <form action="/api_add/" id="form" method="post">
                             {% csrf_token %}
-                            <input class="btn" type="submit" onclick="send()" value="В корзину">
+                            <input class="btn" type="submit" id="submit" value="В корзину">
+                            <!-- onclick="send()" -->
                         </form>
 
                     </div>
@@ -94,454 +94,477 @@
 
     </main>
     <script>
+        (function(){
 
-        
-        let counter = 1;
 
-        const shape_data = JSON.parse('{{ shape_data|safe }}');
-        const molding_data = JSON.parse('{{ molding_data|safe }}');
-        const boots_data = JSON.parse('{{ boots_data|safe }}');
-        const socket_data = JSON.parse('{{ socket_data|safe }}');
-        const carnice_data = JSON.parse('{{ carnice_data|safe }}');
+            
+            document.getElementById("type_Classic").addEventListener('click', function() {
+                set_type('Classic',this)
+            });
 
-        let shape_ = {
-            "Classic": {},
-            "DO": {}
-        };
+            document.getElementById("type_Do").addEventListener('click', function() {
+                set_type('DO',this)
+            });
 
-        const boots_field = { };
-        const socket_field = {  };
-        const carnice_field = { };
-        const portal_field = {};
-        const color_field = {};
-
-        const molding_field = {};
-
-        const additionals = new Set();
-
-        // Дополнительне
-        const bevel_data = {};
-        const grid_data = {};
-        // --------------------
-
-        const Collection = shape_data[0]["collections_id"]
-
-        m_name = "Багет";
-
-                
-        if(Collection.includes("Line")){
-            m_name = "Вставка";
-        }
-
-        function createField(data, fieldObject) {
-            const field1 = "SIZE1";
-
-            data.forEach(item => {
-                item.name = item.name.replace("_"+item.color,"")
-                const nameWithoutSize = item.name.replace(`_${field1}`, "");
-                
-                    const obj = {
-                        name: item.name,
-                        display: nameWithoutSize,
-                        icon: item.icon,
-                        price: item.price,
-                        image: item.image
-                    };
-                item.color = item.color.replace("_",' ')
-                fieldObject[item.color]= fieldObject[item.color]|| {};
-                fieldObject[item.color][nameWithoutSize] = obj;
+            document.getElementById("submit").addEventListener('click', function() {
+                edit_view()
             });
             
-        }
+            
 
-        createField(boots_data, boots_field);
-        createField(socket_data, socket_field);
-        createField(carnice_data, carnice_field);
-        add_none(boots_field)
-        add_none(socket_field)
-        add_none(carnice_field)
+            let counter = 1;
 
-        function add_none(field){
-            Object.keys(field).forEach( el =>{
-                var obj = {
-                        name: field['none']["none"].name,
-                        display: field['none']["none"].display,
-                        icon: field['none']["none"].icon,
-                        price: field['none']["none"].price,
-                        image: field['none']["none"].image
-                    };
-                    let key = Object.keys(field[el])[0];
-                    let temp = field[el][key];
+            const shape_data = JSON.parse('{{ shape_data|safe }}');
+            const molding_data = JSON.parse('{{ molding_data|safe }}');
+            const boots_data = JSON.parse('{{ boots_data|safe }}');
+            const socket_data = JSON.parse('{{ socket_data|safe }}');
+            const carnice_data = JSON.parse('{{ carnice_data|safe }}');
+
+            let shape_ = {
+                "Classic": {},
+                "DO": {}
+            };
+
+            const boots_field = { };
+            const socket_field = {  };
+            const carnice_field = { };
+            const portal_field = {};
+            const color_field = {};
+
+            const molding_field = {};
+
+            const additionals = new Set();
+
+            // Дополнительне
+            const bevel_data = {};
+            const grid_data = {};
+            // --------------------
+
+            const Collection = shape_data[0]["collections_id"]
+
+            m_name = "Багет";
+
                     
-                    field[el]= {"none":obj,key:temp};
-
-            });
-        }
-        
-        const uniqueColor = new Set();
-        
-        shape_data.forEach(item => {
-            item.color = item.color.replace("_",' ')
-            shape_[item.door_type][item.color] = shape_[item.door_type][item.color] || {};
-            shape_[item.door_type][item.color][item.name] = shape_[item.door_type][item.name] || {};
-            shape_[item.door_type][item.color][item.name]["icon"] = item.icon;
-            shape_[item.door_type][item.color][item.name]["display"] = item.name.replace((Collection.toUpperCase() + "_"), "");
-            shape_[item.door_type][item.color][item.name]["image"] = item.image;
-            shape_[item.door_type][item.color][item.name]["price"] = item.price;
-            shape_[item.door_type][item.color][item.name]["portal"] = item.portal_image;
-            if(!uniqueColor.has(item.color)){
-                createColors(item.color);
-                uniqueColor.add(item.color);
+            if(Collection.includes("Line")){
+                m_name = "Вставка";
             }
-        });
-        
-        if(Object.keys(shape_["DO"]).length === 0){
-            document.getElementById('type_selector').style.display = 'none';
-        }
 
-        function createColors(name) {
-            const button = document.createElement("button");
-            button.classList.add("block", "btn");
-            const hex = {
-                "Ash Grey" : "957b5b",
-                "Ash White" : "C0b9a6",
-                "Bourbon" : "A37e48",
-                "Buckwheat" : "B19664",
-                "Caramel" : "985f2e",
-                "Cotton White":"C1b08e",
-                "Decape" :  "C6bba2",
-                "Mud Light":  "A99573",
-                "Natural" :  "Bdac90",
-                "Nut Natural" : "5a361d",
-                "Oak Honey":  "B8a47a",
-                "Oak Natural" :  "B4985e",
-                "Pepper" :  "52483a",
-                "Pepper Black" :  "3e372c",
-                "Super White" : "B8a488",
-                "Vintage" : "9a7e55",
-                "White" : "C0b093"
-            };
-            button.id = counter <= 2 ? "color-"+ counter.toString() : ""; 
-            counter <= 1 ?button.classList.add("pressed"):"";
-            button.style.backgroundColor = "#"+hex[name];
-            button.setAttribute("onclick", "edit_color(this)");
-            const div = document.createElement("div");
-            div.textContent = name;
-            counter++;
-            button.appendChild(div);
-            document.getElementsByClassName("color_body")[0].appendChild(button)
-        }
+            function createField(data, fieldObject) {
+                const field1 = "SIZE1";
 
-        createButtons(shape_["Classic"]["White"], "shape")
-
-        let My_door = {
-            "type": "Classic",
-            "color": "White",
-            "color_name": "White",
-            "shape": shape_data[0]["name"],
-            "image": "/media/" + shape_data[0]["image"],
-            "icon":"/media/" + shape_data[0]["icon"],
-            "molding": null,
-            "grid":null,
-            "grid_bevel":null,
-            "portal":"Portal_1",
-            "podium":null,
-            "bevel": null,
-            "boots": null,
-            "socket": null,
-            "carnice": null,
-            "size": "SIZE1",
-            "price": 0
-
-        }
-
-        function FirstElement(el){
-            return Object.keys(el)[0];
-        }
-        function createForm() {
-            const form = document.getElementById("form");
-            for (const key in My_door) {
-                if (Object.hasOwnProperty.call(My_door, key)) {
-                    const value = My_door[key];
-
-                    const input = document.createElement('input');
-                    input.setAttribute('type', 'hidden');
-                    input.setAttribute('name', key);
-                    input.setAttribute('value', value);
-                    input.setAttribute('id', "set_" + key);
-
-                    form.appendChild(input);
-                }
-            }
-        }
-
-        function additional_data() {
-            
-            if (molding_data[0]) {
-                additionals.add("molding");
-                molding_data.forEach(item => {
-                    let sha = item.name.replace(Collection.toUpperCase()+"_","").split("_")[0];
-
-                    let name = item.name.replace(Collection.toUpperCase()+"_","").split("_")[1];
+                data.forEach(item => {
+                    item.name = item.name.replace("_"+item.color,"")
+                    const nameWithoutSize = item.name.replace(`_${field1}`, "");
+                    
+                        const obj = {
+                            name: item.name,
+                            display: nameWithoutSize,
+                            icon: item.icon,
+                            price: item.price,
+                            image: item.image
+                        };
                     item.color = item.color.replace("_",' ')
-                    molding_field[sha] = molding_field[sha] || {};
-                    molding_field[sha][name] = molding_field[sha][name] || {};
-                    molding_field[sha][name]["icon"] = item.icon;
-                    molding_field[sha][name]["image"] = item.image;
-                    molding_field[sha][name]["price"] = item.price;
+                    fieldObject[item.color]= fieldObject[item.color]|| {};
+                    fieldObject[item.color][nameWithoutSize] = obj;
                 });
-                My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")])[0];
-
-            }
-        }
-        additional_data();
-
-        var panelsData = [
-            { head: "Сапожки", id: "boots", data: boots_field[My_door.color]},
-            { head: "Розетки", id: "socket", data: socket_field[My_door.color]},
-            { head: "Карниз", id: "carnice", data: carnice_field[My_door.color]},
-        ];
-        
-        additionals.has("molding")? panelsData.splice(0, 0, { head: m_name, id: "molding", data: molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")]}):"";
-        createForm();
-        
-        function createButtons(data, containerId) {
-
-            const container = document.getElementById(containerId);
-
-            if (!container || !data || Object.keys(data).length === 0) return;
-
-            Object.keys(data).forEach(key => {
-
-                const item = data[key];
                 
-                const display = item.display ? item.display : key;
+            }
 
+            createField(boots_data, boots_field);
+            createField(socket_data, socket_field);
+            createField(carnice_data, carnice_field);
+            add_none(boots_field)
+            add_none(socket_field)
+            add_none(carnice_field)
+
+            function add_none(field){
+                Object.keys(field).forEach( el =>{
+                    var obj = {
+                            name: field['none']["none"].name,
+                            display: field['none']["none"].display,
+                            icon: field['none']["none"].icon,
+                            price: field['none']["none"].price,
+                            image: field['none']["none"].image
+                        };
+                        let key = Object.keys(field[el])[0];
+                        let temp = field[el][key];
+                        
+                        field[el]= {"none":obj,key:temp};
+
+                });
+            }
+            
+            const uniqueColor = new Set();
+            
+            shape_data.forEach(item => {
+                item.color = item.color.replace("_",' ')
+                shape_[item.door_type][item.color] = shape_[item.door_type][item.color] || {};
+                shape_[item.door_type][item.color][item.name] = shape_[item.door_type][item.name] || {};
+                shape_[item.door_type][item.color][item.name]["icon"] = item.icon;
+                shape_[item.door_type][item.color][item.name]["display"] = item.name.replace((Collection.toUpperCase() + "_"), "");
+                shape_[item.door_type][item.color][item.name]["image"] = item.image;
+                shape_[item.door_type][item.color][item.name]["price"] = item.price;
+                shape_[item.door_type][item.color][item.name]["portal"] = item.portal_image;
+                if(!uniqueColor.has(item.color)){
+                    createColors(item.color);
+                    uniqueColor.add(item.color);
+                }
+            });
+            
+            if(Object.keys(shape_["DO"]).length === 0){
+                document.getElementById('type_selector').style.display = 'none';
+            }
+
+            function createColors(name) {
                 const button = document.createElement("button");
-                button.className = "block btn";
-                button.setAttribute("value", key);
-                button.setAttribute("type", containerId);
-                button.setAttribute("onclick", "edit_conf(this)");
+                button.classList.add("block", "btn");
+                const hex = {
+                    "Ash Grey" : "957b5b",
+                    "Ash White" : "C0b9a6",
+                    "Bourbon" : "A37e48",
+                    "Buckwheat" : "B19664",
+                    "Caramel" : "985f2e",
+                    "Cotton White":"C1b08e",
+                    "Decape" :  "C6bba2",
+                    "Mud Light":  "A99573",
+                    "Natural" :  "Bdac90",
+                    "Nut Natural" : "5a361d",
+                    "Oak Honey":  "B8a47a",
+                    "Oak Natural" :  "B4985e",
+                    "Pepper" :  "52483a",
+                    "Pepper Black" :  "3e372c",
+                    "Super White" : "B8a488",
+                    "Vintage" : "9a7e55",
+                    "White" : "C0b093"
+                };
+                button.id = counter <= 2 ? "color-"+ counter.toString() : ""; 
+                counter <= 1 ?button.classList.add("pressed"):"";
+                button.style.backgroundColor = "#"+hex[name];
+                button.addEventListener('click', function() {
+                    edit_color(button);
+                });
 
-                const image = document.createElement("img");
-                image.src = "/media/" + item.icon;
-                image.alt = "";
-                image.setAttribute("loading", "lazy")
-                button.appendChild(image);
-
-                const div = document.createElement("div");
-                div.textContent = display;
-                button.appendChild(div);
-
-                container.appendChild(button);
-            });
-        }
-
-        function createPanels(panelData) {
-            if (panelData.data && Object.keys(panelData.data).length > 0) {
-                const panelDiv = document.createElement("div");
-                panelDiv.className = "panel";
-
-                const panelHeadDiv = document.createElement("div");
-                panelHeadDiv.className = "panel_head";
-                panelHeadDiv.textContent = panelData.head;
-
-                const panelBodyDiv = document.createElement("div");
-                panelBodyDiv.className = "panel_body";
-                panelBodyDiv.id = panelData.id;
-
-                panelDiv.appendChild(panelHeadDiv);
-                panelDiv.appendChild(panelBodyDiv);
-
-                document.getElementById("Scroll_Panel").appendChild(panelDiv);
-
-                createButtons(panelData.data, panelData.id);
-
-            }
-        }
-
-        function edit_color(obj) {
-            var pressedElements = document.querySelectorAll('.pressed[onclick="edit_color(this)"]');
-
-            pressedElements.forEach(function (element) {
-                element.classList.remove('pressed');
-            });
-            obj.classList.add('pressed');
-            My_door.color = obj.innerText;
-            My_door.color_name = obj.innerText;
-            document.getElementById("d_color").innerHTML =  My_door.color_name;
-            edit_view();
-        }
-
-        function edit_conf(obj) {
-
-            document.querySelectorAll('.block[type="' + obj.attributes.type.value + '"]').forEach(element => {
-                element.classList.remove("pressed");
-            })
-            obj.classList.add("pressed");
-
-            My_door[obj.attributes.type.value] = obj.value
-
-            if(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")] != undefined || molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")]  != null ){
-                if(Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")]).length == 1){
-                    My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")])[0];
-                }
-            }else{
-                My_door.molding = null;
-            }
-            
-            if(obj.attributes.type.value=="shape"){
-                My_door.icon = "/media/"+shape_[My_door.type][My_door.color][My_door.shape]['icon'];
-            }
-            
-            edit_view();
-        }
-
-        function button_update(id, data) {
-            document.getElementById(id).innerHTML = "";
-            createButtons(data, id);
-        }
-
-        function set_type(type, obj) {
-            document.querySelectorAll('.btn.fs-5').forEach(element => {
-                element.classList.remove("bg-white", "text-dark",);
-            });
-            obj.classList.add("bg-white", "text-dark");
-            My_door.type = type;
-            button_update("shape", shape_[type][My_door.color]);
-            let myobj = document.createElement("button");
-            myobj.setAttribute("type", "shape");
-            myobj.setAttribute("value", Object.keys(shape_[type][My_door.color])[0]);
-            edit_conf(myobj);
-
-        }
-        function sellect() {
-
-            document.querySelector('#shape > button.block.btn').classList.add("pressed");
-            if (document.getElementById("bevel")) { document.querySelector('#bevel > button.block.btn').classList.add("pressed"); }
-            if (document.getElementById("molding")) { document.querySelector('#molding > button.block.btn').classList.add("pressed"); }
-            document.querySelector('#boots > button.block.btn').classList.add("pressed");
-            document.querySelector('#carnice > button.block.btn').classList.add("pressed");
-            document.querySelector('#socket > button.block.btn').classList.add("pressed");
-
-        }
-
-        function edit_view() {
-            document.getElementById("shadow").src = "/static/css/Constructor/" + My_door.size + ".png"
-            if(Collection.includes("Line")||(Collection.includes("Novara"))){
-                document.getElementById("shadow").src = "/static/css/Constructor/" +"Line_"+ My_door.size + ".png"
-            }
-            document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase() + "_"), "");
-            if (additionals.has("molding")&& Collection != "Modern"){
-                document.getElementById("d_additional").innerHTML = My_door.molding.split(".")[0];
-                document.getElementById("additional").innerText = "Багет";
-            }else{
-                document.getElementById("d_additional").innerHTML = My_door.socket;
-                document.getElementById("additional").innerText = "Розетки";
-            }
-            document.getElementById("d_podium").innerHTML = My_door.podium;
-
-            document.getElementById("d_carnice").innerHTML = My_door.carnice;
-
-            price = 0;
-
-            edit_image("door", shape_[My_door.type][My_door.color][My_door.shape]["image"], My_door.color);
-            edit_image("portal",shape_[My_door.type][My_door.color][My_door.shape]["portal"])
-            price += shape_[My_door.type][My_door.color][My_door.shape]["price"]
-
-            My_door.molding ? edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")][My_door.molding]["image"], "White") : "";
-
-            carnice_field[My_door.color][My_door.carnice] ? price += carnice_field[My_door.color][My_door.carnice]["price"] : "";
-            socket_field[My_door.color][My_door.socket] ? price += socket_field[My_door.color][My_door.socket]["price"] : "";
-            boots_field[My_door.color][My_door.boots] ? price += boots_field[My_door.color][My_door.boots]["price"] : "";
-
-            carnice_field[My_door.color][My_door.carnice] ? edit_image("carnice", carnice_field[My_door.color][My_door.carnice]["image"], My_door.color) : "";
-            socket_field[My_door.color][My_door.socket] ? edit_image("socket", socket_field[My_door.color][My_door.socket]["image"], My_door.color) : "";
-            boots_field[My_door.color][My_door.boots] ? edit_image("boots", boots_field[My_door.color][My_door.boots]["image"], My_door.color) : "";
-
-            if (["Ash White", "Buckwheat", "Caramel", "Pepper", "Pepper Black"].includes(My_door.color)) {
-                console.log("7%");
-                price = price + (price * 0.07);
-            }
-            My_door["price"] = price;
-            document.getElementById("price").innerHTML = price;
-
-            document.getElementById("shape_name").innerText = Collection.includes("Shpone")?Collection.replace("_Shpone","") : Collection;
-
-            for (const key in My_door) {
-                if (Object.hasOwnProperty.call(My_door, key)) {
-                    document.getElementById("set_" + key).setAttribute('value', My_door[key])
-                }
-            }   
-        }
-
-        function edit_image(obj, img, color) {
-
-            var newImage = new Image();
-            var mainImage = document.getElementById(obj + "_image");
-            mainImage.style.display = "none";
-
-            if(Collection.includes("Vision") && obj == "molding"){
-                // mainImage.style.opacity = "0.5";
-            }
-
-            newImage.onload = function () {
-                mainImage.src = newImage.src;
-                mainImage.style.display = "inline";
                 
-            };
-            
-            newImage.src = "/media/" + img;
+                const div = document.createElement("div");
+                div.textContent = name;
+                counter++;
+                button.appendChild(div);
+                document.getElementsByClassName("color_body")[0].appendChild(button)
+            }
 
-            if(Collection.includes("Vision") && obj == "molding"){
-                const element = document.getElementById(obj + "_mask");
-                if (!element) {
+            createButtons(shape_["Classic"]["White"], "shape")
+
+            let My_door = {
+                "type": "Classic",
+                "color": "White",
+                "color_name": "White",
+                "shape": shape_data[0]["name"],
+                "image": "/media/" + shape_data[0]["image"],
+                "icon":"/media/" + shape_data[0]["icon"],
+                "molding": null,
+                "grid":null,
+                "grid_bevel":null,
+                "portal":"Portal_1",
+                "podium":null,
+                "bevel": null,
+                "boots": null,
+                "socket": null,
+                "carnice": null,
+                "size": "SIZE1",
+                "price": 0
+
+            }
+
+            function FirstElement(el){
+                return Object.keys(el)[0];
+            }
+            function createForm() {
+                const form = document.getElementById("form");
+                for (const key in My_door) {
+                    if (Object.hasOwnProperty.call(My_door, key)) {
+                        const value = My_door[key];
+
+                        const input = document.createElement('input');
+                        input.setAttribute('type', 'hidden');
+                        input.setAttribute('name', key);
+                        input.setAttribute('value', value);
+                        input.setAttribute('id', "set_" + key);
+
+                        form.appendChild(input);
+                    }
+                }
+            }
+
+            function additional_data() {
+                
+                if (molding_data[0]) {
+                    additionals.add("molding");
+                    molding_data.forEach(item => {
+                        let sha = item.name.replace(Collection.toUpperCase()+"_","").split("_")[0];
+
+                        let name = item.name.replace(Collection.toUpperCase()+"_","").split("_")[1];
+                        item.color = item.color.replace("_",' ')
+                        molding_field[sha] = molding_field[sha] || {};
+                        molding_field[sha][name] = molding_field[sha][name] || {};
+                        molding_field[sha][name]["icon"] = item.icon;
+                        molding_field[sha][name]["image"] = item.image;
+                        molding_field[sha][name]["price"] = item.price;
+                    });
+                    My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")])[0];
+
+                }
+            }
+            additional_data();
+
+            var panelsData = [
+                { head: "Сапожки", id: "boots", data: boots_field[My_door.color]},
+                { head: "Розетки", id: "socket", data: socket_field[My_door.color]},
+                { head: "Карниз", id: "carnice", data: carnice_field[My_door.color]},
+            ];
+            
+            additionals.has("molding")? panelsData.splice(0, 0, { head: m_name, id: "molding", data: molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")]}):"";
+            
+            createForm();
+            
+            function createButtons(data, containerId) {
+
+                const container = document.getElementById(containerId);
+
+                if (!container || !data || Object.keys(data).length === 0) return;
+
+                Object.keys(data).forEach(key => {
+
+                    const item = data[key];
+                    
+                    const display = item.display ? item.display : key;
+
+                    const button = document.createElement("button");
+                    button.className = "block btn";
+                    button.setAttribute("value", key);
+                    button.setAttribute("type", containerId);
+
+                    const image = document.createElement("img");
+                    image.src = "/media/" + item.icon;
+                    image.alt = "";
+                    image.setAttribute("loading", "lazy")
+                    button.appendChild(image);
+
+                    const div = document.createElement("div");
+                    div.textContent = display;
+                    button.appendChild(div);
+
+                    button.addEventListener('click', function() {
+                        edit_conf(button);
+                    });
+
+
+                    container.appendChild(button);
+                });
+            }
+
+            function createPanels(panelData) {
+                if (panelData.data && Object.keys(panelData.data).length > 0) {
+                    const panelDiv = document.createElement("div");
+                    panelDiv.className = "panel";
+
+                    const panelHeadDiv = document.createElement("div");
+                    panelHeadDiv.className = "panel_head";
+                    panelHeadDiv.textContent = panelData.head;
+
+                    const panelBodyDiv = document.createElement("div");
+                    panelBodyDiv.className = "panel_body";
+                    panelBodyDiv.id = panelData.id;
+
+                    panelDiv.appendChild(panelHeadDiv);
+                    panelDiv.appendChild(panelBodyDiv);
+
+                    document.getElementById("Scroll_Panel").appendChild(panelDiv);
+
+                    createButtons(panelData.data, panelData.id);
+
+                }
+            }
+
+            function edit_color(obj) {
+                var pressedElements = document.querySelectorAll('.pressed[onclick="edit_color(this)"]');
+
+                pressedElements.forEach(function (element) {
+                    element.classList.remove('pressed');
+                });
+                obj.classList.add('pressed');
+                My_door.color = obj.innerText;
+                My_door.color_name = obj.innerText;
+                document.getElementById("d_color").innerHTML =  My_door.color_name;
+                edit_view();
+            }
+
+            function edit_conf(obj) {
+
+                document.querySelectorAll('.block[type="' + obj.attributes.type.value + '"]').forEach(element => {
+                    element.classList.remove("pressed");
+                })
+                obj.classList.add("pressed");
+
+                My_door[obj.attributes.type.value] = obj.value
+
+                if(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")] != undefined || molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")]  != null ){
+                    if(Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")]).length == 1){
+                        My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")])[0];
+                    }
+                }else{
+                    My_door.molding = null;
+                }
+                
+                if(obj.attributes.type.value=="shape"){
+                    My_door.icon = "/media/"+shape_[My_door.type][My_door.color][My_door.shape]['icon'];
+                }
+                
+                edit_view();
+            }
+
+            function button_update(id, data) {
+                document.getElementById(id).innerHTML = "";
+                createButtons(data, id);
+            }
+
+            function set_type(type, obj) {
+                document.querySelectorAll('.btn.fs-5').forEach(element => {
+                    element.classList.remove("bg-white", "text-dark",);
+                });
+                obj.classList.add("bg-white", "text-dark");
+                My_door.type = type;
+                button_update("shape", shape_[type][My_door.color]);
+                let myobj = document.createElement("button");
+                myobj.setAttribute("type", "shape");
+                myobj.setAttribute("value", Object.keys(shape_[type][My_door.color])[0]);
+                edit_conf(myobj);
+
+            }
+            function sellect() {
+
+                document.querySelector('#shape > button.block.btn').classList.add("pressed");
+                if (document.getElementById("bevel")) { document.querySelector('#bevel > button.block.btn').classList.add("pressed"); }
+                if (document.getElementById("molding")) { document.querySelector('#molding > button.block.btn').classList.add("pressed"); }
+                document.querySelector('#boots > button.block.btn').classList.add("pressed");
+                document.querySelector('#carnice > button.block.btn').classList.add("pressed");
+                document.querySelector('#socket > button.block.btn').classList.add("pressed");
+
+            }
+
+            function edit_view() {
+                document.getElementById("shadow").src = "/static/css/Constructor/" + My_door.size + ".png"
+                if(Collection.includes("Line")||(Collection.includes("Novara"))){
+                    document.getElementById("shadow").src = "/static/css/Constructor/" +"Line_"+ My_door.size + ".png"
+                }
+                document.getElementById("d_shape").innerHTML = My_door.shape.replace((Collection.toUpperCase() + "_"), "");
+                if (additionals.has("molding")&& Collection != "Modern"){
+                    document.getElementById("d_additional").innerHTML = My_door.molding.split(".")[0];
+                    document.getElementById("additional").innerText = "Багет";
+                }else{
+                    document.getElementById("d_additional").innerHTML = My_door.socket;
+                    document.getElementById("additional").innerText = "Розетки";
+                }
+                document.getElementById("d_podium").innerHTML = My_door.podium;
+
+                document.getElementById("d_carnice").innerHTML = My_door.carnice;
+
+                price = 0;
+
+                edit_image("door", shape_[My_door.type][My_door.color][My_door.shape]["image"], My_door.color);
+                edit_image("portal",shape_[My_door.type][My_door.color][My_door.shape]["portal"])
+                price += shape_[My_door.type][My_door.color][My_door.shape]["price"]
+
+                My_door.molding ? edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")][My_door.molding]["image"], "White") : "";
+
+                carnice_field[My_door.color][My_door.carnice] ? price += carnice_field[My_door.color][My_door.carnice]["price"] : "";
+                socket_field[My_door.color][My_door.socket] ? price += socket_field[My_door.color][My_door.socket]["price"] : "";
+                boots_field[My_door.color][My_door.boots] ? price += boots_field[My_door.color][My_door.boots]["price"] : "";
+
+                carnice_field[My_door.color][My_door.carnice] ? edit_image("carnice", carnice_field[My_door.color][My_door.carnice]["image"], My_door.color) : "";
+                socket_field[My_door.color][My_door.socket] ? edit_image("socket", socket_field[My_door.color][My_door.socket]["image"], My_door.color) : "";
+                boots_field[My_door.color][My_door.boots] ? edit_image("boots", boots_field[My_door.color][My_door.boots]["image"], My_door.color) : "";
+
+                if (["Ash White", "Buckwheat", "Caramel", "Pepper", "Pepper Black"].includes(My_door.color)) {
+                    console.log("7%");
+                    price = price + (price * 0.07);
+                }
+                My_door["price"] = price;
+                document.getElementById("price").innerHTML = price;
+
+                document.getElementById("shape_name").innerText = Collection.includes("Shpone")?Collection.replace("_Shpone","") : Collection;
+
+                for (const key in My_door) {
+                    if (Object.hasOwnProperty.call(My_door, key)) {
+                        document.getElementById("set_" + key).setAttribute('value', My_door[key])
+                    }
+                }   
+            }
+
+            function edit_image(obj, img, color) {
+
+                var newImage = new Image();
+                var mainImage = document.getElementById(obj + "_image");
+                mainImage.style.display = "none";
+
+  
+
+                newImage.onload = function () {
+                    mainImage.src = newImage.src;
+                    mainImage.style.display = "inline";
+                    
+                };
+                
+                newImage.src = "/media/" + img;
+
+                if(Collection.includes("Vision") && obj == "molding"){
+                    const element = document.getElementById(obj + "_mask");
+                    if (!element) {
+                        return;
+                    }
+                }
+
+            }
+
+            panelsData.forEach(createPanels);
+            edit_view();
+            sellect();
+            function checkAndRemovePanel(name) {
+
+                if(!document.getElementById(name)){
                     return;
                 }
-                // element.style.opacity = "0.5";
-            }
-
-        }
-
-        panelsData.forEach(createPanels);
-        edit_view();
-        sellect();
-        function checkAndRemovePanel(name) {
-
-            if(!document.getElementById(name)){
-                return;
-            }
-            var shape = document.getElementById(name);
+                var shape = document.getElementById(name);
 
 
-            var panel = shape.closest('.panel');
+                var panel = shape.closest('.panel');
 
-            if (shape.children.length < 2 && panel) {
-                panel.remove();
-            }
-            }
-            checkAndRemovePanel("shape");
-            checkAndRemovePanel("molding");
-
-        window.addEventListener('resize', moveElement);
-        document.addEventListener('DOMContentLoaded', moveElement);
-
-        function moveElement() {
-            const element = document.getElementById('fixed-element');
-            const div2 = document.querySelector('#place-1');
-            const div1 = document.querySelector('#door_bottom');
-
-            if (window.innerWidth >= 768) {
-                if (!div2.contains(element)) {
-                    div2.appendChild(element);
+                if (shape.children.length < 2 && panel) {
+                    panel.remove();
                 }
-            } else {
-                if (!div1.contains(element)) {
-                    element.style.margin = "1rem 0";
-                    div1.appendChild(element);
+                }
+                checkAndRemovePanel("shape");
+                checkAndRemovePanel("molding");
+
+            window.addEventListener('resize', moveElement);
+            document.addEventListener('DOMContentLoaded', moveElement);
+
+            function moveElement() {
+                const element = document.getElementById('fixed-element');
+                const div2 = document.querySelector('#place-1');
+                const div1 = document.querySelector('#door_bottom');
+
+                if (window.innerWidth >= 768) {
+                    if (!div2.contains(element)) {
+                        div2.appendChild(element);
+                    }
+                } else {
+                    if (!div1.contains(element)) {
+                        element.style.margin = "1rem 0";
+                        div1.appendChild(element);
+                    }
                 }
             }
-        }
+        })();
 
     </script>
     
