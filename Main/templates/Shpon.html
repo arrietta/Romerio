@@ -281,8 +281,8 @@
 
             let My_door = {
                 "type": "Classic",
-                "color": "White",
-                "color_name": "White",
+                "color": "Ash Grey",
+                "color_name": "Ash Grey",
                 "shape": shape_data[0]["name"],
                 "image": "/media/" + shape_data[0]["image"],
                 "icon":"/media/" + shape_data[0]["icon"],
@@ -300,6 +300,8 @@
                 "price": 0
 
             }
+
+            
 
             function FirstElement(el){
                 return Object.keys(el)[0];
@@ -330,14 +332,17 @@
 
                         let name = item.name.replace(Collection.toUpperCase()+"_","").split("_")[1];
                         item.color = item.color.replace("_",' ')
+                        let color = item.color != "none" ? item.color : "Ash Grey";
                         molding_field[sha] = molding_field[sha] || {};
-                        molding_field[sha][name] = molding_field[sha][name] || {};
-                        molding_field[sha][name]["icon"] = item.icon;
-                        molding_field[sha][name]["image"] = item.image;
-                        molding_field[sha][name]["price"] = item.price;
+                        molding_field[sha][color] = molding_field[sha] [color]|| {};
+                        molding_field[sha] [color][name] = molding_field[sha] [color][name] || {};
+                        molding_field[sha] [color][name]["icon"] = item.icon;
+                        molding_field[sha] [color][name]["image"] = item.image;
+                        molding_field[sha] [color][name]["price"] = item.price;
                     });
-                    My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")])[0];
-
+                    My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")]["Ash Grey"])[0];
+                    console.log(molding_field);
+                    console.log(molding_data);
                 }
             }
             additional_data();
@@ -348,7 +353,7 @@
                 { head: "Карниз", id: "carnice", data: carnice_field[My_door.color]},
             ];
             
-            additionals.has("molding")? panelsData.splice(0, 0, { head: m_name, id: "molding", data: molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")]}):"";
+            additionals.has("molding")? panelsData.splice(0, 0, { head: m_name, id: "molding", data: molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"")][My_door.color]}):"";
             
             createForm();
             
@@ -434,19 +439,31 @@
                 obj.classList.add("pressed");
 
                 My_door[obj.attributes.type.value] = obj.value
-
-                if(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")] != undefined || molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")]  != null ){
-                    if(Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")]).length == 1){
-                        My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")])[0];
+                if(additionals.has("molding")){
+                    if(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]][My_door.color] != undefined || molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]]["Ash Grey"]  != null ){
+                        if(Collection == "Classic_Shpone"){
+                            
+                            if(Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]][My_door.color]).length == 1){
+                                My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]][My_door.color])[0];
+                            }
+                        }
+                        else{
+                            if(Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]]["Ash Grey"] ).length == 1){
+                                My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]]["Ash Grey"] )[0];
+                            } 
+                        }
+                    }else{
+                        My_door.molding = null;
                     }
-                }else{
-                    My_door.molding = null;
+
+                    if(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]][My_door.color] == undefined && additionals.has("molding") && obj.attributes.type.value=="shape" && Collection == "Classic_Shpone"){
+                        My_door.molding = Object.keys(molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]][My_door.color])[0];
+                    }
                 }
-                
                 if(obj.attributes.type.value=="shape"){
                     My_door.icon = "/media/"+shape_[My_door.type][My_door.color][My_door.shape]['icon'];
                 }
-                
+                console.log(My_door);
                 edit_view();
             }
 
@@ -485,8 +502,8 @@
                     document.getElementById("shadow").src = "/static/css/Constructor/" +"Line_"+ My_door.size + ".png"
                 }
                 document.getElementById("d_shape").innerHTML = names[My_door.shape.replace((Collection.toUpperCase() + "_"), "")];
-                if (additionals.has("molding")&& Collection != "Modern"){
-                    document.getElementById("d_additional").innerHTML = names[My_door.molding.split(".")[0]] ? names[My_door.molding.split(".")[0]] : My_door.molding.split(".")[0];
+                if (additionals.has("molding")){
+                    document.getElementById("d_additional").innerHTML = names[My_door.molding] ? names[My_door.molding] : My_door.molding;
                     document.getElementById("additional").innerText = "Багет";
                 }else{
                     document.getElementById("d_additional").innerHTML = names[My_door.socket]? names[My_door.socket]:My_door.socket;
@@ -503,7 +520,16 @@
                 edit_image("portal",shape_[My_door.type][My_door.color][My_door.shape]["portal"])
                 price += shape_[My_door.type][My_door.color][My_door.shape]["price"]
 
-                My_door.molding ? edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")][My_door.molding]["image"], "White") : "";
+                if( My_door.molding){
+                    if(Collection == "Classic_Shpone"){
+                        edit_image("molding", molding_field[(My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0])][My_door.color][My_door.molding]["image"], "White") ;
+                        
+                    }
+                    else{
+                        edit_image("molding", molding_field[My_door.shape.replace((Collection.toUpperCase() + "_"),"").split("_")[0]]["Ash Grey"][My_door.molding]["image"], "White") ;
+                    }
+                }
+                 
 
                 carnice_field[My_door.color][My_door.carnice] ? price += carnice_field[My_door.color][My_door.carnice]["price"] : "";
                 socket_field[My_door.color][My_door.socket] ? price += socket_field[My_door.color][My_door.socket]["price"] : "";
