@@ -340,6 +340,7 @@
                 "icon":"/media/" + shape_data[0]["icon"],
                 "portal": portal_data[0]["name"],
                 "molding": null,
+                "molding_color":null,
                 "grid":null,
                 "grid_bevel":null,
                 "bevel": null,
@@ -804,7 +805,7 @@
 
 
                 for (const key in My_door) {
-                    if (Object.hasOwnProperty.call(My_door, key)&& key != "molding_color") {
+                    if (Object.hasOwnProperty.call(My_door, key)) {
                         document.getElementById("set_" + key).setAttribute('value', My_door[key])
                     }
                 }
@@ -816,7 +817,6 @@
                     if(!molding_field[My_door.shape.split("_")[1]]){
                         panel.style.display = "none";
                     }else{
-                        // button_update("molding",molding_field[My_door.shape.split("_")[1]])
                         panel.style.display = "block";
                     }
                 }

@@ -80,10 +80,12 @@ class UniqueKey(models.Model):
 class CartItem(models.Model):
     Key = models.CharField(max_length=128, null=True, blank=True)
     shape = models.CharField(max_length=128, null=True, blank=True)
+    type = models.CharField(max_length=128, null=True, blank=True)
     bevel = models.CharField(max_length=128, null=True, blank=True)
     grid = models.CharField(max_length=128, null=True, blank=True)
     grid_bevel = models.CharField(max_length=128, null=True, blank=True)
     molding = models.CharField(max_length=64, null=True, blank=True)
+    molding_color = models.CharField(max_length=64, null=True, blank=True)
     portal = models.CharField(max_length=64, null=True, blank=True)
     image = models.CharField(max_length=64, null=True, blank=True)
     icon = models.CharField(max_length=64, null=True, blank=True)
