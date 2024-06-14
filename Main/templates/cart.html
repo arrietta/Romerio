@@ -58,12 +58,12 @@
                     <input type="text" name="phone" id="phone" placeholder="Телефон*" required pattern="[0-9]{11}" title="Введите телефон в формате 7XXXXXXXXXX">
                     <div class="d-mdd-flex m-3 text-center">
                         <label class="custom-checkbox">
-                            <input type="checkbox" name="delivery" id="delivery" required>
+                            <input type="checkbox" name="delivery" id="delivery" >
                             <span class="checkmark"></span>
                             Доставка
                         </label>
                         <label class="custom-checkbox">
-                            <input type="checkbox" name="measurement" id="measurement" required>
+                            <input type="checkbox" name="measurement" id="measurement" >
                             <span class="checkmark"></span>
                             Бесплатный замер проемов
                         </label>
@@ -72,7 +72,7 @@
                             <span class="checkmark"></span>
                             Согласие на обработку персональных данных
                         </label>
-                        <div id="error-message" class="text-danger p-3" style="display: none;">Выберите все пункты</div>
+                        <div id="error-message" class="text-danger p-3" style="display: none;">Нужно согласие на обработку данных</div>
                     </div>
                     
                     
@@ -212,10 +212,9 @@
                 }
                 $(document).ready(function() {
                     $('#submitButton').click(function() {
-                        let deliveryCheckbox = $('#delivery');
-                        let measurementCheckbox = $('#measurement');
+                       
                         let privacy = $('#privacy')
-                        if (!deliveryCheckbox.is(':checked') || !measurementCheckbox.is(':checked')|| !privacy.is(':checked')) {
+                        if (!privacy.is(':checked')) {
                             $('#error-message').show();
                         } else {    
                             $('#error-message').hide();

@@ -29,64 +29,70 @@ def catalog(request):
 
 def cart(request):
     if request.method == 'POST':
-        Name = "Конечный заказчик: " + request.POST['name'] + '\n'
-        phone = "Контактный телефон: " + request.POST['phone'] + '\n'
-        delivery = "Доставка: " + ("Есть" if request.POST['delivery'] else "") + '\n'
-        sizeing = "Замеры: " + ("Есть" if request.POST['measurement'] else "") + '\n'
-
         id = identification(request)
-
-        with open('data.json', 'r', encoding='utf-8') as file:
-            data = json.load(file)
-
         Doors = CartItem.objects.filter(Key=id)
-        big_message = ""
-        total_price = 0
-        big_message += Name + phone + delivery + sizeing + "\n"
+        if(Doors):
+            Name = "Конечный заказчик: " + request.POST['name'] + '\n'
+            phone = "Контактный телефон: " + request.POST['phone'] + '\n'
+            delivery = ""
+            sizeing = ""
+            if 'delivery' in request.POST:
+                delivery = "Доставка: Есть \n"
+            if 'measurement' in request.POST:
+                sizeing = "Замеры: Есть \n"
 
-        for i in Doors:
-            coll = "- Коллекция: " + (
-                i.shape.split("_")[0] + " " + i.shape.split("_")[1] if i.shape.split("_")[1] == "SHPONE" else
-                i.shape.split("_")[0]) + "\n"
-            if (i.shape.split("_")[1] == "SHPONE"):
-                shape = "- Форма: " + (
-                    data[i.shape.split("_")[2]] if i.shape.split("_")[1] in data else i.shape.split("_")[2]) + "\n"
-            else:
-                shape = "- Форма: " + (
-                    data[i.shape.split("_")[1]] if i.shape.split("_")[1] in data else i.shape.split("_")[1]) + "\n"
-            type = "- Тип: " + (data[i.type] if i.type in data else i.type) + "\n"
-            portal = "- Портал: " + (data[i.portal] if i.portal in data else i.portal) + "\n"
-            color = "- Цвет: " + (data[i.color] if i.color in data else i.color) + "\n"
-            image = i.image
-            price = "- Цена: " + str(i.door_price * i.quantity) + "\n"
-            quantity = "- Количество: " + str(i.quantity) + "\n"
 
-            bevel = "- Фреза: " + (data[i.bevel] if i.bevel in data else i.bevel) + "\n" if i.bevel != "null" else ""
-            grid = "- Решётка: " + (data[i.grid] if i.grid in data else i.grid) + "\n" if i.grid != "null" else ""
-            grid_bevel = "- Фреза Решётки: " + (
-                data[i.grid_bevel] if i.grid_bevel in data else i.grid_bevel) + "\n" if i.grid_bevel != "null" else ""
-            molding = "- Багет/Вставка: " + (
-                data[i.molding] if i.molding in data else i.molding) + "\n" if i.molding != "null" else ""
-            molding_color = "- Цвет вставки: " + (data[
-                                                      i.molding_color] if i.molding_color in data else i.molding_color) + "\n" if i.molding_color != "null" else ""
-            carnice = "- Карниз: " + (
-                data[i.carnice] if i.carnice in data else i.carnice) + "\n" if i.carnice != "null" else ""
-            podium = "- Возвышение: " + (
-                data[i.podium] if i.podium in data else i.podium) + "\n" if i.podium != "null" else ""
-            socket = "- Розетка: " + (
-                data[i.socket] if i.socket in data else i.socket) + "\n" if i.socket != "null" else ""
-            boots = "- Сапожок: " + (data[i.boots] if i.boots in data else i.boots) + "\n" if i.boots != "null" else ""
+            with open('data.json', 'r', encoding='utf-8') as file:
+                data = json.load(file)
 
-            massage = ( coll + type + shape + grid + grid_bevel + color +
-                       bevel + molding + molding_color + portal + carnice +
-                       podium + socket + boots + price + quantity)
-            total_price+= float(i.door_price) * float(i.quantity)
-            big_message += massage + "\n"
 
-            i.delete()
+            big_message = ""
+            total_price = 0
+            big_message += Name + phone + delivery + sizeing + "\n"
 
-        big_message += "Итог: " + str(total_price) + "\n"
-        send_message_to_bot(big_message)
+            for i in Doors:
+                coll = "- Коллекция: " + (
+                    i.shape.split("_")[0] + " " + i.shape.split("_")[1] if i.shape.split("_")[1] == "SHPONE" else
+                    i.shape.split("_")[0]) + "\n"
+                if (i.shape.split("_")[1] == "SHPONE"):
+                    shape = "- Форма: " + (
+                        data[i.shape.split("_")[2]] if i.shape.split("_")[1] in data else i.shape.split("_")[2]) + "\n"
+                else:
+                    shape = "- Форма: " + (
+                        data[i.shape.split("_")[1]] if i.shape.split("_")[1] in data else i.shape.split("_")[1]) + "\n"
+                type = "- Тип: " + (data[i.type] if i.type in data else i.type) + "\n"
+                portal = "- Портал: " + (data[i.portal] if i.portal in data else i.portal) + "\n"
+                color = "- Цвет: " + (data[i.color] if i.color in data else i.color) + "\n"
+                image = i.image
+                price = "- Цена: " + str(i.door_price * i.quantity) + "\n"
+                quantity = "- Количество: " + str(i.quantity) + "\n"
+
+                bevel = "- Фреза: " + (data[i.bevel] if i.bevel in data else i.bevel) + "\n" if i.bevel != "null" else ""
+                grid = "- Решётка: " + (data[i.grid] if i.grid in data else i.grid) + "\n" if i.grid != "null" else ""
+                grid_bevel = "- Фреза Решётки: " + (
+                    data[i.grid_bevel] if i.grid_bevel in data else i.grid_bevel) + "\n" if i.grid_bevel != "null" else ""
+                molding = "- Багет/Вставка: " + (
+                    data[i.molding] if i.molding in data else i.molding) + "\n" if i.molding != "null" else ""
+                molding_color = "- Цвет вставки: " + (data[
+                                                          i.molding_color] if i.molding_color in data else i.molding_color) + "\n" if i.molding_color != "null" else ""
+                carnice = "- Карниз: " + (
+                    data[i.carnice] if i.carnice in data else i.carnice) + "\n" if i.carnice != "null" else ""
+                podium = "- Возвышение: " + (
+                    data[i.podium] if i.podium in data else i.podium) + "\n" if i.podium != "null" else ""
+                socket = "- Розетка: " + (
+                    data[i.socket] if i.socket in data else i.socket) + "\n" if i.socket != "null" else ""
+                boots = "- Сапожок: " + (data[i.boots] if i.boots in data else i.boots) + "\n" if i.boots != "null" else ""
+
+                massage = ( coll + type + shape + grid + grid_bevel + color +
+                           bevel + molding + molding_color + portal + carnice +
+                           podium + socket + boots + price + quantity)
+                total_price+= float(i.door_price) * float(i.quantity)
+                big_message += massage + "\n"
+
+                i.delete()
+
+            big_message += "Итог: " + str(total_price) + "\n"
+            send_message_to_bot(big_message)
 
     unique_id = identification(request)
     data = CartItem.objects.filter(Key=unique_id)
