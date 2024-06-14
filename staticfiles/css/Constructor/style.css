@@ -20,6 +20,9 @@
 .container-fluid{
     margin: auto;
 }
+#shadow{
+    z-index: 2;
+}
 
 *{
     color: #ffffff;
@@ -86,7 +89,7 @@ a:hover{
     position:absolute;
     width:100%;
     bottom:0;
-
+    z-index: 6;
 }
 
 
@@ -145,10 +148,20 @@ a:hover{
     padding: 0.5rem;
     font-size: 1.25rem;
 }
+
+
+
+
+
 .panel_body{
+    transition: 1s ease-in-out;
+    height:auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr ;
     grid-auto-rows: 180px;
+}
+.expanded{
+    overflow: hidden;
 }
 .color_body{
     display: grid;
@@ -180,6 +193,9 @@ a:hover{
     position: absolute;
     max-width:80%;
     top:20%;
+    object-fit: contain;
+    height: 5rem;
+
 }
 .pressed > div{
     background-color: #fff;
@@ -242,24 +258,33 @@ input.btn{
     padding: 0.5rem 1rem ;
     background-color: #0C9CE9;
 }
+img[src="/media/icon/none.png"]{
+     object-fit: cover;
+    height: calc(100% - 25px);
+    max-width: 100%;
+    top: 0;
+}
+
 @media (max-width: 1450px){
 
 }
 @media (max-width: 768px) {
     #door{
-
-
         width: 100%;
-
-
+    }
+    .panel{
+        width: auto;
     }
 
     #panel{
-
         width: 100%;
-
     }
 }
+@media (min-width: 768px) {
+    .w-md-75 {
+      width: 75% !important;
+    }
+  }
 
 
 

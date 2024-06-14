@@ -20,7 +20,12 @@
 .container-fluid{
     margin: auto;
 }
-
+.active{
+    font-weight: bold!important;
+}
+.text-secondary{
+    font-size: 0.9rem;
+}
 *{
     color: #ffffff;
     font-family: Manrope;
@@ -61,8 +66,11 @@ a:hover{
 .rightline{
     border-right: #fff solid 2px;
 }
-main{
-    min-height: 100vh;
+.rightline-md{
+    border-right: #fff solid 2px;
+}
+main > section{
+    height: calc(100vh );
 }
 section{
     position: relative;
@@ -74,7 +82,7 @@ section{
     padding: 0.5rem;
     padding-left: 30px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     margin-left: 1rem;
     margin-right: 1rem;
 }
@@ -115,7 +123,9 @@ section{
     border-width: 0 3px 3px 0;
     transform: rotate(45deg);
 }
-  
+form{
+    height: calc(100% - 120px);
+}
 .btns{
     align-self: center;
     height: 2rem;
@@ -150,10 +160,16 @@ input[type="text"]{
     font-size: 1.5rem;
     padding: 1.25rem;
 }
-.bottom{
+/* .bottom{
     position: absolute;
     width: 100%;
     bottom: 0;
+} */
+#list{
+    overflow-y: scroll;
+}
+#list > div{
+    height: 125px;
 }
 .btn-black{
     background-color: #0B0B0B;
@@ -177,6 +193,13 @@ input[type="text"]{
     
 }
 @media (max-width: 768px) {
+    .text-secondary {
+        font-size: 0.8rem;
+    }
+    .rightline-md{
+        border: none;
+        border-bottom: #fff solid 2px;
+    }
 }
 
 

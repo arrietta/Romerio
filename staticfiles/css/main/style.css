@@ -20,7 +20,9 @@
 .container-fluid{
     margin: auto;
 }
-
+.active{
+    font-weight: bold!important;
+}
 *{
     color: #ffffff;
     font-family: Manrope;
@@ -35,7 +37,7 @@ body, html {
     color: white;
 }
 nav{
-    background-color: black;
+    background-color: #0B0B0B;
 }
 
 a{
@@ -222,7 +224,7 @@ footer{
     .col-md-6 > .box{
 
         height: calc(100vh );
-        padding: 5rem;
+        padding: 4rem;
      }
      .col-md-4 > .box{
         height: calc(100vh  - 4rem);
