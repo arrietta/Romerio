@@ -6,11 +6,11 @@ from django.conf.urls.static import static
 
 urlpatterns = ([
                    path('', views.main, name='main'),
-                   path('Catalog', views.catalog, name='catalog'),
-                   path('Cart/', views.cart, name='cart'),
+                   path('catalog', views.catalog, name='catalog'),
+                   path('cart/', views.cart, name='cart'),
                    path('privacy/', views.privacy, name='privacy'),
-                   path('Constructor/<str:key>', views.constructor, name='constructor'),
-                   path('Shpon/<str:key>', views.Shpon, name='shpon'),
+                   path('constructor/<str:key>', views.constructor, name='constructor'),
+                   path('shpon/<str:key>', views.Shpon, name='shpon'),
                    path('api_add/', views.api_add, name='api_add'),
                    path('api_plus/', views.api_plus, name='api_plus'),
                    path('api_minus/', views.api_minus, name='api_minus'),

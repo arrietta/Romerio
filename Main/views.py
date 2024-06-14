@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 import json
 import uuid
 
-from Main.telegram_bot import send_photo_with_message_to_bot
+from Main.telegram_bot import send_photo_with_message_to_bot, send_message_to_bot
 
 
 def identification(request):
@@ -37,17 +37,23 @@ def cart(request):
         id = identification(request)
 
         with open('data.json', 'r', encoding='utf-8') as file:
-            # Load JSON data
             data = json.load(file)
 
         Doors = CartItem.objects.filter(Key=id)
+        big_message = ""
+        total_price = 0
+        big_message += Name + phone + delivery + sizeing + "\n"
 
         for i in Doors:
-            coll = "- Коллекция: " + (i.shape.split("_")[0] +" " + i.shape.split("_")[1] if i.shape.split("_")[1] == "SHPONE"  else i.shape.split("_")[0]) + "\n"
-            if(i.shape.split("_")[1] == "SHPONE"):
-                shape = "- Форма: " + (data[i.shape.split("_")[2]] if i.shape.split("_")[1] in data else i.shape.split("_")[2]) + "\n"
+            coll = "- Коллекция: " + (
+                i.shape.split("_")[0] + " " + i.shape.split("_")[1] if i.shape.split("_")[1] == "SHPONE" else
+                i.shape.split("_")[0]) + "\n"
+            if (i.shape.split("_")[1] == "SHPONE"):
+                shape = "- Форма: " + (
+                    data[i.shape.split("_")[2]] if i.shape.split("_")[1] in data else i.shape.split("_")[2]) + "\n"
             else:
-                shape = "- Форма: " + (data[i.shape.split("_")[1]] if i.shape.split("_")[1] in data else i.shape.split("_")[1]) + "\n"
+                shape = "- Форма: " + (
+                    data[i.shape.split("_")[1]] if i.shape.split("_")[1] in data else i.shape.split("_")[1]) + "\n"
             type = "- Тип: " + (data[i.type] if i.type in data else i.type) + "\n"
             portal = "- Портал: " + (data[i.portal] if i.portal in data else i.portal) + "\n"
             color = "- Цвет: " + (data[i.color] if i.color in data else i.color) + "\n"
@@ -61,8 +67,8 @@ def cart(request):
                 data[i.grid_bevel] if i.grid_bevel in data else i.grid_bevel) + "\n" if i.grid_bevel != "null" else ""
             molding = "- Багет/Вставка: " + (
                 data[i.molding] if i.molding in data else i.molding) + "\n" if i.molding != "null" else ""
-            molding_color = "- Цвет вставки: " + (
-                data[i.molding_color] if i.molding_color in data else i.molding_color) + "\n" if i.molding_color != "null" else ""
+            molding_color = "- Цвет вставки: " + (data[
+                                                      i.molding_color] if i.molding_color in data else i.molding_color) + "\n" if i.molding_color != "null" else ""
             carnice = "- Карниз: " + (
                 data[i.carnice] if i.carnice in data else i.carnice) + "\n" if i.carnice != "null" else ""
             podium = "- Возвышение: " + (
@@ -71,13 +77,17 @@ def cart(request):
                 data[i.socket] if i.socket in data else i.socket) + "\n" if i.socket != "null" else ""
             boots = "- Сапожок: " + (data[i.boots] if i.boots in data else i.boots) + "\n" if i.boots != "null" else ""
 
-            massage = (Name + phone + delivery + sizeing + coll + type +shape + grid + grid_bevel + color +
+            massage = ( coll + type + shape + grid + grid_bevel + color +
                        bevel + molding + molding_color + portal + carnice +
                        podium + socket + boots + price + quantity)
-
-            send_photo_with_message_to_bot(image, massage)
+            total_price+= float(i.door_price) * float(i.quantity)
+            big_message += massage + "\n"
 
             i.delete()
+
+        big_message += "Итог: " + str(total_price) + "\n"
+        send_message_to_bot(big_message)
+
     unique_id = identification(request)
     data = CartItem.objects.filter(Key=unique_id)
     return render(request, 'cart.html', {"data": Dump(data)})
@@ -134,7 +144,7 @@ def api_add(request):
         )
         cart_item.save()
 
-        return redirect("/Cart/")
+        return redirect("/cart/")
 
 
 def api_plus(request):
