@@ -287,6 +287,9 @@ img[src="/media/icon/none.png"]{
 
 }
 @media (max-width: 768px) {
+    body{
+        overflow:auto;
+    }
     #door{
         width: 100%;
     }

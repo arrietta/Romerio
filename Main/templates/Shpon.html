@@ -125,7 +125,7 @@
 
         loadJSON().then(() => {
         (function(){
-
+           
             const door = document.getElementById('door');
             const images = door.querySelectorAll('.zoom-image');
             const masks = door.querySelectorAll('.zoom-mask');
@@ -133,9 +133,8 @@
             const magnifier = document.getElementById('magnifier');
             const magnifierContent = document.getElementById('magnifierContent');
         
-                // Function to create magnified images
             function createMagnifiedImages() {
-                magnifierContent.innerHTML = ''; // Clear previous images
+                magnifierContent.innerHTML = '';
                 
                 let s1 , s2;
                 images.forEach(image => {
@@ -728,6 +727,7 @@
                     }
                 }
             }
+            moveElement();
         })();});
 
     </script>

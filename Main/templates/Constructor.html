@@ -32,7 +32,7 @@
             </div>
             <img src="/static/css/Constructor/Background.png" alt=""  class="zoom-image" >
 
-            <img src="" alt="" id="grid_image" class="zoom-mask">
+            <img src="" alt="" id="grid_image" class="zoom-image">
             
             <span id="grid_mask" class="mask zoom-mask"></span>
 
@@ -204,97 +204,6 @@
 
         (function start(){
 
-            const door = document.getElementById('door');
-            const images = door.querySelectorAll('.zoom-image');
-            const masks = door.querySelectorAll('.zoom-mask');
-
-            const magnifier = document.getElementById('magnifier');
-            const magnifierContent = document.getElementById('magnifierContent');
-        
-                // Function to create magnified images
-            function createMagnifiedImages() {
-                magnifierContent.innerHTML = ''; // Clear previous images
-                
-                let s1 , s2;
-                images.forEach(image => {
-                    const magnifiedImage = document.createElement('img');
-                    magnifiedImage.style.position = 'absolute';
-                    magnifiedImage.style.width = `${image.width * 2}px`;
-                    magnifiedImage.style.height = `${image.height * 2}px`;
-                    s1 = image.width * 2 > 0 ? `${image.width * 2}px`:"";
-                    s2 = image.height * 2 > 0 ? `${image.height * 2}px`:"";
-                    
-
-
-                    magnifierContent.appendChild(magnifiedImage);
-                    
-                });
-                masks.forEach(m =>{
-                    const mask = document.createElement('span')
-                    mask.style.position = 'absolute';
-                    mask.style.width = s1;
-                    mask.style.height = s2;
-                    mask.style.backgroundColor = m.style.backgroundColor;
-                    mask.style.mask = m.style.mask;
-                    mask.style.maskPosition = "50% 60%";
-                    mask.style.maskSize = s1 + " " + s2;
-                    mask.style.mixBlendMode = "multiply";
-
-                   
-
-                    magnifierContent.appendChild(mask);
-                })
-                
-                
-                
-            }
-        
-            createMagnifiedImages(); 
-        
-            
-            door.addEventListener('mousemove', (e) => {
-                createMagnifiedImages();
-            const rect = door.getBoundingClientRect();
-            const magnifierSize = 200;
-                    const halfMagnifierSize = magnifierSize / 2;
-        
-                    let x = e.clientX - rect.left;
-                    let y = e.clientY - rect.top;
-        
-                    // Check if the cursor is within the door
-                    if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-                        // Constrain the magnifier within the door
-                        x = Math.max(halfMagnifierSize, Math.min(x, rect.width - halfMagnifierSize));
-                        y = Math.max(halfMagnifierSize, Math.min(y, rect.height - halfMagnifierSize));
-        
-                        magnifier.style.display = 'block';
-                        magnifier.style.left = `${e.clientX - halfMagnifierSize}px`;
-                        magnifier.style.top = `${e.clientY - halfMagnifierSize}px`;
-        
-                        // Update magnified image based on the hovered image
-                        images.forEach((image, index) => {
-                            if (image.getBoundingClientRect().left <= e.clientX && image.getBoundingClientRect().right >= e.clientX &&
-                                image.getBoundingClientRect().top <= e.clientY && image.getBoundingClientRect().bottom >= e.clientY) {
-                                const magnifiedImage = magnifierContent.children[index];
-                                if(image.src != undefined){
-                                    magnifiedImage.src = image.src;
-                                }
-                                
-                            }
-                        });
-        
-                        magnifierContent.style.left = `${-x * 2 + halfMagnifierSize}px`;
-                        magnifierContent.style.top = `${-y * 2 + halfMagnifierSize - 80}px`;
-                    } else {
-                        magnifier.style.display = 'none';
-                    }
-                });
-        
-                door.addEventListener('mouseleave', () => {
-                    magnifier.style.display = 'none';
-                });
-
-
             document.getElementById("type_Classic").addEventListener('click', function() {
                 set_type('Classic',this)
             });
@@ -340,6 +249,107 @@
             // --------------------
 
             const Collection = shape_data[0]["collections_id"]
+
+            const isMobile = window.matchMedia("only screen and (max-width: 768px)").matches;
+            if(!isMobile){
+                const door = document.getElementById('door');
+                const images = door.querySelectorAll('.zoom-image');
+                const masks = door.querySelectorAll('.zoom-mask');
+
+                const magnifier = document.getElementById('magnifier');
+                const magnifierContent = document.getElementById('magnifierContent');
+            
+                function createMagnifiedImages() {
+                    magnifierContent.innerHTML = '';
+                    
+                    let s1 , s2;
+                    images.forEach(image => {
+                        const magnifiedImage = document.createElement('img');
+                        magnifiedImage.style.position = 'absolute';
+                        magnifiedImage.style.width = `${image.width * 2}px`;
+                        magnifiedImage.style.height = `${image.height * 2}px`;
+
+                        if(image.id == "molding_image" ){
+                            if(Collection == "Novara" || Collection == "Line"  ){
+                                magnifiedImage.style.zIndex = 1;        
+                            }
+                                            
+                        }
+                        if(image.id == "shadow"){
+                            magnifiedImage.style.zIndex = 2;                        
+                        }
+                        s1 = image.width * 2 > 0 ? `${image.width * 2}px`:"";
+                        s2 = image.height * 2 > 0 ? `${image.height * 2}px`:"";
+                        
+                        magnifierContent.appendChild(magnifiedImage);
+                        
+                    });
+                    masks.forEach(m =>{
+                        const mask = document.createElement('span')
+                        mask.style.position = 'absolute';
+                        mask.style.width = s1;
+                        mask.style.height = s2;
+                        mask.style.backgroundColor = m.style.backgroundColor;
+                        mask.style.mask = m.style.mask;
+                        mask.style.maskPosition = "50% 60%";
+                        mask.style.maskSize = s1 + " " + s2;
+                        mask.style.mixBlendMode = "multiply";
+
+                    
+
+                        magnifierContent.appendChild(mask);
+                    })
+                    
+                    
+                    
+                    
+                }
+            
+                createMagnifiedImages(); 
+            
+                
+                door.addEventListener('mousemove', (e) => {
+                    createMagnifiedImages();
+                const rect = door.getBoundingClientRect();
+                const magnifierSize = 200;
+                        const halfMagnifierSize = magnifierSize / 2;
+            
+                        let x = e.clientX - rect.left;
+                        let y = e.clientY - rect.top;
+            
+                        // Check if the cursor is within the door
+                        if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
+                            // Constrain the magnifier within the door
+                            x = Math.max(halfMagnifierSize, Math.min(x, rect.width - halfMagnifierSize));
+                            y = Math.max(halfMagnifierSize, Math.min(y, rect.height - halfMagnifierSize));
+            
+                            magnifier.style.display = 'block';
+                            magnifier.style.left = `${e.clientX - halfMagnifierSize}px`;
+                            magnifier.style.top = `${e.clientY - halfMagnifierSize}px`;
+            
+                            // Update magnified image based on the hovered image
+                            images.forEach((image, index) => {
+                                if (image.getBoundingClientRect().left <= e.clientX && image.getBoundingClientRect().right >= e.clientX &&
+                                    image.getBoundingClientRect().top <= e.clientY && image.getBoundingClientRect().bottom >= e.clientY) {
+                                    const magnifiedImage = magnifierContent.children[index];
+                                    if(image.src != undefined){
+                                        magnifiedImage.src = image.src;
+                                    }
+                                    
+                                }
+                            });
+            
+                            magnifierContent.style.left = `${-x * 2 + halfMagnifierSize}px`;
+                            magnifierContent.style.top = `${-y * 2 + halfMagnifierSize - 80}px`;
+                        } else {
+                            magnifier.style.display = 'none';
+                        }
+                    });
+            
+                    door.addEventListener('mouseleave', () => {
+                        magnifier.style.display = 'none';
+                    });
+            }
 
             m_name = "Багет";
 
@@ -1024,7 +1034,7 @@
                     }
                 }
             }
-
+            moveElement();
         })();});
     </script>
 
